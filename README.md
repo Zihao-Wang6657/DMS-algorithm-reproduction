@@ -85,7 +85,7 @@ powershell -ExecutionPolicy Bypass -File scripts/run_formal_device_separated_win
 
 ## 6. 实验结果
 
-### 6.1 大规模实验及停止原因
+### 6.1 20任务实验及放弃原因
 
 我们先后进行了两次 20-task 大规模实验，但都没有形成可用于三方法结论的完整对比。
 
@@ -97,6 +97,8 @@ powershell -ExecutionPolicy Bypass -File scripts/run_formal_device_separated_win
 第二次实验 64 次运行约耗时 2.57 小时，折合约 24.9 次/小时。300 次实验仅按这一速度就需约 12 小时，DMS 记忆操作、每轮设备恢复和基础设施重试还会继续增加时间。
 
 实验同时依赖本地模拟器、SSH 隧道、远程 GPU、vLLM 和长时间网络连接；实际运行中出现过 SSH 隧道上的keep-alive 连接失效、ADB/evaluator 异常和会话中断。
+
+我目前在上海，近两天受到台风影响，网络和供电也引起了一次实验中断，最终由于时间原因，我放弃了20任务的实验.
 
 前期实验暴露出三个最重要的问题：
 
@@ -137,11 +139,9 @@ powershell -ExecutionPolicy Bypass -File scripts/run_formal_device_separated_win
 | Baseline B | 6/25 | 24.00% | 45929.2 | 11.28 | 0 | 0 | 25 |
 | DMS | 5/25 | 20.00% | 39473.8 | 10.76 | 2 | 1 | 13 |
 
-从严格成功率看，DMS 的 20% 低于 Baseline A 的 28% 和 Baseline B 的 24%，因此本次 mini benchmark **没有验证 DMS 能提高任务成功率**。DMS 的优势体现在自调节效率：平均 Token 用量比 Baseline A 低 20.3%、比 Baseline B 低 14.1%，平均动作数分别低 4.9% 和 4.6%；25 次任务后仅保留 13 条记忆，而静态记忆保留 25 条。结果支持动态剪枝和上下文压缩机制有效，但不能把这种资源效率解释为整体任务能力提升。
+从严格成功率看，DMS 的 20% 低于 Baseline A 的 28% 和 Baseline B 的 24%，因此本次 mini benchmark 没有直接验证 DMS 能提高任务成功率，但是由于任务的成功带有随机性，我们选择的样本较小，所以这也是可能的。DMS 的优势体现在效率：平均 Token 用量比 Baseline A 低 20.3%、比 Baseline B 低 14.1%，平均动作数分别低 4.9% 和 4.6%；25 次任务后仅保留 13 条记忆，而静态记忆保留 25 条。结果支持动态剪枝和上下文压缩机制有效。
 
-本次共有 **2** 次基础设施重试；其中第二次仍异常并按失败计分的任务数为 **1**。
-Token 和 Step 均累计首次异常尝试与最终计分尝试的消耗。逐轮数值、原始 CSV 和
-严格统计定义见 [`fig/summary.md`](fig/summary.md)。
+Token 和 Step 均累计首次异常尝试与最终计分尝试的消耗。逐轮数值、原始 CSV 和严格统计定义见 [`fig/summary.md`](fig/summary.md)。
 
 ### 1. 三种算法的成功率随轮数变化
 

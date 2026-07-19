@@ -16,7 +16,7 @@
 DMS/
 ├── configs/                  # 三种方法、模型与运行环境配置
 ├── datasets/                 # AndroidWorld 测试集与正式五任务清单
-├── device_images/            # 金镜像和官方应用快照
+├── device_images/            # 标准镜像和官方应用快照
 ├── docs/                     # 机制对应与环境说明
 ├── fig/                      # 正式实验图表、汇总与逐任务结果
 ├── protocols/                # 正式实验冻结协议与 SHA256

@@ -102,9 +102,9 @@ powershell -ExecutionPolicy Bypass -File scripts/run_formal_device_separated_win
 
 前期实验暴露出三个最重要的问题：
 
-1. **虚假完成与重复循环。** LLM认为任务完成后，就会输出compete指令，但是LLM经常误判任务是否完成，比如在`CameraTakePhoto` 任务中，模型没有完成拍照，却连续输出`complete(success=True, reason="Photo taken successfully")`。`complete` 不改变设备状态，evaluator 始终为 0，最终耗尽 10-step 预算。根因是模型混淆了“打算执行”“已经执行”和“环境确认完成”，控制器也缺少状态变化检测。
-2. **权限弹窗与 open-app shortcut 冲突。** 大部分任务的第一步是打开某一个应用，为了优化这一部分的成功率，特别是降低格式问题带来的错误，一旦MLLM的返回中包含某个应用名，我们就自动匹配正确的格式打开该应用，但是，当启动后若出现系统权限申请弹窗(PermissionController)，会因前台包名不是 Contacts 而重复`start_app("contacts")`，既无法关闭弹窗又持续消耗预算。当前实现在系统弹窗覆盖目标App 时暂停 shortcut，把控制权交给 Actor；标准镜像只统一处理非任务相关的常规权限和onboarding，不加入任务专用点击脚本。但是弹窗问题依然会很大程度上消耗步数，影响成功率。
-3. **提示词过强(关键词分类)破坏动作语义。**在过去的提示词优化中，我们加入了关键词分类这种提示词，一旦遇到某种提示词就会将任务划分为特定的一类，一旦误判，就会出现问题。比如 `BrowserDraw` 的目标含有 “when prompted”，旧代码因为匹配宽泛关键词 `"when "`，把 GUI 任务误判为问答任务，将 `complete` 转换为
+1. **虚假完成与重复循环:** LLM认为任务完成后，就会输出compete指令，但是LLM经常误判任务是否完成，比如在`CameraTakePhoto` 任务中，模型没有完成拍照，却连续输出`complete(success=True, reason="Photo taken successfully")`。`complete` 不改变设备状态，evaluator 始终为 0，最终耗尽 10-step 预算。根因是模型混淆了“打算执行”“已经执行”和“环境确认完成”，控制器也缺少状态变化检测。
+2. **权限弹窗与 open-app shortcut 冲突:** 大部分任务的第一步是打开某一个应用，为了优化这一部分的成功率，特别是降低格式问题带来的错误，一旦MLLM的返回中包含某个应用名，我们就自动匹配正确的格式打开该应用，但是，当启动后若出现系统权限申请弹窗(PermissionController)，会因前台包名不是 Contacts 而重复`start_app("contacts")`，既无法关闭弹窗又持续消耗预算。当前实现在系统弹窗覆盖目标App 时暂停 shortcut，把控制权交给 Actor；标准镜像只统一处理非任务相关的常规权限和onboarding，不加入任务专用点击脚本。但是弹窗问题依然会很大程度上消耗步数，影响成功率。
+3. **提示词过强(关键词分类)破坏动作语义**: 在过去的提示词优化中，我们加入了关键词分类这种提示词，一旦遇到某种提示词就会将任务划分为特定的一类，一旦误判，就会出现问题。比如 `BrowserDraw` 的目标含有 “when prompted”，旧代码因为匹配宽泛关键词 `"when "`，把 GUI 任务误判为问答任务，将 `complete` 转换为
    `answer("chrome is already open")`，随后在 Chrome 首次启动页反复 `answer`，直至耗尽20-step 预算。可靠修复应由 Planner 输出 `gui_action`、`information_query`、`navigation` 等结构化类型，只有明确的信息查询才允许 `answer`，并依据当前 subtask校验动作。该结构化分类尚未进入本次已冻结的 75 次实验，因此作为已知限制和后续修复，
    不冒充已实现优化。
 

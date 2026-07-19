@@ -183,7 +183,6 @@ Token 和 Step 均累计首次异常尝试与最终计分尝试的消耗。逐�
 - 模型输出上限由 192 提高到 320 tokens，降低 CodeAct 截断概率；
 - 使用确定性解码、单图输入和简化 UI tree，减少动作格式漂移；
 - PermissionController 在前台时，open-app shortcut 让出控制权。
+- 前期实验还表明，后续应以 Planner 的结构化任务类型替代宽泛关键词分类，并按当前 subtask验证 `answer` 等动作。
 
-前期实验还表明，后续应以 Planner 的结构化任务类型替代宽泛关键词分类，并按当前 subtask验证 `answer` 等动作。本次正式实验开始前没有可靠完成这项改造，所以它被如实保留为 Gap，不在运行中修改冻结代码。
 
-这里的 Planner 上限 6 是本复现的工程参数，不是论文报告的固定值。所有调整对三种方法一致，不向模型泄露任务答案、evaluator reward 或成功判定逻辑。即使 DMS 在五任务实验中表现更好，结论也只能说明其机制在该 7B mini benchmark 上有效，不能直接等同于 72B 的完整 AndroidWorld 结果。

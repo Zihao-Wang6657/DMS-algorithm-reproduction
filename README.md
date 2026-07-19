@@ -111,7 +111,7 @@ powershell -ExecutionPolicy Bypass -File scripts/run_formal_device_separated_win
 这些现象说明低成功率不仅来自 7B 模型较弱，也来自完成验证、系统中断建模和动作语义约束不足。网络、SSH 隧道、ADB 和 evaluator 中断则单独作为基础设施有效性威胁统计，不与
 正常模型失败混为一类。因此两次大实验只用于诊断，不作为最终结果。
 
-### 6.2 平衡五任务实验
+### 6.2 五任务小规模实验
 
 正式小规模实验固定选择：
 

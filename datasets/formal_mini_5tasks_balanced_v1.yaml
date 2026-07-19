@@ -1,0 +1,22 @@
+name: formal_mini_5tasks_balanced_v1
+protocol_candidate: true
+description: >-
+  Balanced five-task mini benchmark frozen before formal scoring: two easy,
+  two medium, and one hard AndroidWorld task. Selection was informed by
+  abandoned diagnostic runs and therefore carries disclosed selection bias.
+source: AndroidWorld task registry; fixed task order and fixed seeds.
+difficulty_policy:
+  easy: complexity == 1.0
+  medium: 1.1 <= complexity <= 1.9
+  hard: complexity >= 2.0
+tasks:
+  - name: SystemWifiTurnOn
+    seed: 1047
+  - name: CameraTakePhoto
+    seed: 1032
+  - name: AudioRecorderRecordAudio
+    seed: 1030
+  - name: SimpleSmsSend
+    seed: 1046
+  - name: BrowserDraw
+    seed: 1033

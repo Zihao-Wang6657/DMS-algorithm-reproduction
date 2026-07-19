@@ -1,0 +1,72 @@
+[
+  {
+    "round": 1,
+    "tasks": 20,
+    "successful_tasks": 3,
+    "success_rate": 0.15,
+    "input_tokens": 1455865,
+    "output_tokens": 29051,
+    "total_tokens": 1484916,
+    "avg_total_tokens_per_task": 74245.8,
+    "total_steps": 275,
+    "avg_steps_per_task": 13.75,
+    "avg_memory_size_after_task": 0.0,
+    "end_memory_size": 0
+  },
+  {
+    "round": 2,
+    "tasks": 20,
+    "successful_tasks": 2,
+    "success_rate": 0.1,
+    "input_tokens": 1441541,
+    "output_tokens": 29771,
+    "total_tokens": 1471312,
+    "avg_total_tokens_per_task": 73565.6,
+    "total_steps": 286,
+    "avg_steps_per_task": 14.3,
+    "avg_memory_size_after_task": 0.0,
+    "end_memory_size": 0
+  },
+  {
+    "round": 3,
+    "tasks": 20,
+    "successful_tasks": 2,
+    "success_rate": 0.1,
+    "input_tokens": 1359453,
+    "output_tokens": 27430,
+    "total_tokens": 1386883,
+    "avg_total_tokens_per_task": 69344.15,
+    "total_steps": 281,
+    "avg_steps_per_task": 14.05,
+    "avg_memory_size_after_task": 0.0,
+    "end_memory_size": 0
+  },
+  {
+    "round": 4,
+    "tasks": 20,
+    "successful_tasks": 0,
+    "success_rate": 0.0,
+    "input_tokens": 1464948,
+    "output_tokens": 27884,
+    "total_tokens": 1492832,
+    "avg_total_tokens_per_task": 74641.6,
+    "total_steps": 295,
+    "avg_steps_per_task": 14.75,
+    "avg_memory_size_after_task": 0.0,
+    "end_memory_size": 0
+  },
+  {
+    "round": 5,
+    "tasks": 20,
+    "successful_tasks": 0,
+    "success_rate": 0.0,
+    "input_tokens": 1478898,
+    "output_tokens": 28507,
+    "total_tokens": 1507405,
+    "avg_total_tokens_per_task": 75370.25,
+    "total_steps": 295,
+    "avg_steps_per_task": 14.75,
+    "avg_memory_size_after_task": 0.0,
+    "end_memory_size": 0
+  }
+]

@@ -1,0 +1,569 @@
+{
+  "protocol_id": "formal_recovery_bd_20apps_v2",
+  "frozen_at": "2026-07-19T09:26:39.238511+08:00",
+  "workspace_root": "C:\\Users\\Administrator\\Desktop\\DMS",
+  "formal_run_root": "C:\\Users\\Administrator\\Desktop\\DMS\\runs\\formal_recovery_bd_20apps_5rounds_v2_20260719",
+  "frozen_inputs": {
+    "dataset": "datasets/formal_main_20apps_v1.yaml",
+    "config": "configs/eval_baselines.yaml",
+    "model_config": "configs/model_qwen25vl_7b_remote.yaml",
+    "runtime_config": "configs/runtime_windows.yaml"
+  },
+  "pilot_run_root_excluded": "C:\\Users\\Administrator\\Desktop\\DMS\\runs\\main_20apps_5rounds_20260718",
+  "rounds": 5,
+  "tasks_per_round": 20,
+  "method_order": [
+    "baseline_b_static_memory",
+    "dms_hierarchical_memory"
+  ],
+  "task_order_repeated_identically_each_round": true,
+  "tasks": [
+    {
+      "order": 1,
+      "name": "AudioRecorderRecordAudio",
+      "seed": 1030,
+      "param_overrides": {},
+      "goal": "Record an audio clip using Audio Recorder app and save it.",
+      "app_names": [
+        "audio recorder"
+      ],
+      "complexity": 1.2,
+      "official_step_budget": 12,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 2,
+      "name": "RecipeAddSingleRecipe",
+      "seed": 1031,
+      "param_overrides": {},
+      "goal": "Add the following recipes into the Broccoli app:\nRecipe: Sausage and Peppers Skillet\n description: An ideal recipe for experimenting with different flavors and ingredients.\n servings: 1 serving\n preparationTime: 10 mins\n ingredients: as needed\n directions: Sauté sliced sausage, bell peppers, and onions until browned. Serve with mustard or on a hoagie roll. Feel free to substitute with ingredients you have on hand.\n",
+      "app_names": [
+        "broccoli app"
+      ],
+      "complexity": 2.4,
+      "official_step_budget": 24,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 3,
+      "name": "CameraTakePhoto",
+      "seed": 1032,
+      "param_overrides": {},
+      "goal": "Take one photo.",
+      "app_names": [
+        "camera"
+      ],
+      "complexity": 1.0,
+      "official_step_budget": 10,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 4,
+      "name": "BrowserDraw",
+      "seed": 1033,
+      "param_overrides": {},
+      "goal": "Open the file task.html in Downloads in the file manager; when prompted open it with Chrome. Then create a drawing using the three colors shown at the top and hit submit.",
+      "app_names": [
+        "chrome"
+      ],
+      "complexity": 2.0,
+      "official_step_budget": 20,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 5,
+      "name": "ClockStopWatchRunning",
+      "seed": 1034,
+      "param_overrides": {},
+      "goal": "Run the stopwatch.",
+      "app_names": [
+        "clock"
+      ],
+      "complexity": 1.0,
+      "official_step_budget": 10,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 6,
+      "name": "ContactsAddContact",
+      "seed": 1035,
+      "param_overrides": {},
+      "goal": "Create a new contact for Luis da Silva. Their number is +12421060834.",
+      "app_names": [
+        "contacts"
+      ],
+      "complexity": 1.2,
+      "official_step_budget": 12,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 7,
+      "name": "FilesDeleteFile",
+      "seed": 1036,
+      "param_overrides": {},
+      "goal": "Delete the file backup_proud_unicorn.mp3 from the Android filesystem located in the Music folder within the sdk_gphone_x86_64 storage area.",
+      "app_names": [
+        "files"
+      ],
+      "complexity": 2.2,
+      "official_step_budget": 22,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 8,
+      "name": "NotesTodoItemCount",
+      "seed": 1037,
+      "param_overrides": {},
+      "goal": "How many to-dos do I have in the 'Work' folder in the Joplin app? Express your answer as just a single number.",
+      "app_names": [
+        "joplin"
+      ],
+      "complexity": 1.0,
+      "official_step_budget": 10,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 9,
+      "name": "MarkorCreateFolder",
+      "seed": 1038,
+      "param_overrides": {
+        "folder_name": "formal_markor_folder_seed_1038"
+      },
+      "goal": "Create a new folder in Markor named formal_markor_folder_seed_1038.",
+      "app_names": [
+        "markor"
+      ],
+      "complexity": 1.0,
+      "official_step_budget": 10,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 10,
+      "name": "SportsTrackerActivityDuration",
+      "seed": 1039,
+      "param_overrides": {},
+      "goal": "How long was my inline skating activity October 15 2023 in the OpenTracks app? Express your answer in minutes as a single integer.",
+      "app_names": [
+        "open tracks sports tracker"
+      ],
+      "complexity": 1.0,
+      "official_step_budget": 10,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 11,
+      "name": "OsmAndFavorite",
+      "seed": 1040,
+      "param_overrides": {},
+      "goal": "Add a favorite location marker for 47.1784977, 9.5450163 in the OsmAnd maps app.",
+      "app_names": [
+        "osmand"
+      ],
+      "complexity": 1.3,
+      "official_step_budget": 13,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 12,
+      "name": "ExpenseAddSingle",
+      "seed": 1041,
+      "param_overrides": {},
+      "goal": "Add the following expenses into the pro expense:\nname|amount_dollars|category_name|note\nSportswear|$15.96|Clothes|Urgent",
+      "app_names": [
+        "pro expense"
+      ],
+      "complexity": 1.2,
+      "official_step_budget": 12,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 13,
+      "name": "RetroCreatePlaylist",
+      "seed": 1042,
+      "param_overrides": {},
+      "goal": "Create a playlist in Retro Music titled \"Hip Hop Hits 256\" with the following songs, in order: Reflections, Lost in the Echo, Orbiting Stars, Serenity Now, Return to Paradise",
+      "app_names": [
+        "retro music"
+      ],
+      "complexity": 2.4,
+      "official_step_budget": 24,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 14,
+      "name": "SimpleCalendarDeleteOneEvent",
+      "seed": 1043,
+      "param_overrides": {},
+      "goal": "In Simple Calendar Pro, delete the calendar event on 2023-10-26 at 10h with the title 'Call with Marketing'",
+      "app_names": [
+        "simple calendar pro"
+      ],
+      "complexity": 1.2,
+      "official_step_budget": 12,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 15,
+      "name": "SimpleDrawProCreateDrawing",
+      "seed": 1044,
+      "param_overrides": {},
+      "goal": "Create a new drawing in Simple Draw Pro. Name it adipiscing_lively_cow_backup.png. Save it in the Pictures folder within the sdk_gphone_x86_64 storage area.",
+      "app_names": [
+        "simple draw pro"
+      ],
+      "complexity": 1.8,
+      "official_step_budget": 18,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 16,
+      "name": "SaveCopyOfReceiptTaskEval",
+      "seed": 1045,
+      "param_overrides": {},
+      "goal": "In Simple Gallery Pro, copy receipt_witty_island_0PGK.jpg in DCIM and save a copy with the same name in Download",
+      "app_names": [
+        "simple gallery pro"
+      ],
+      "complexity": 1.6,
+      "official_step_budget": 16,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 17,
+      "name": "SimpleSmsSend",
+      "seed": 1046,
+      "param_overrides": {},
+      "goal": "Send a text message using Simple SMS Messenger to +17971553202 with message: Parents' evening at school this Wednesday.",
+      "app_names": [
+        "simple sms messenger"
+      ],
+      "complexity": 1.2,
+      "official_step_budget": 12,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 18,
+      "name": "SystemWifiTurnOn",
+      "seed": 1047,
+      "param_overrides": {},
+      "goal": "Turn wifi on.",
+      "app_names": [
+        "settings"
+      ],
+      "complexity": 1.0,
+      "official_step_budget": 10,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 19,
+      "name": "TasksDueOnDate",
+      "seed": 1048,
+      "param_overrides": {},
+      "goal": "What tasks do I have due October 19 2023 in Tasks app? Answer with the titles only. If there are multiples titles, format your answer in a comma separated list.",
+      "app_names": [
+        "tasks"
+      ],
+      "complexity": 1.0,
+      "official_step_budget": 10,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    },
+    {
+      "order": 20,
+      "name": "VlcCreatePlaylist",
+      "seed": 1049,
+      "param_overrides": {},
+      "goal": "Create a playlist titled \"Travel Guide Ultimate Collection\" with the following files in VLC (located in Internal Memory/VLCVideos), in order: footage_43_raw_copy.mp4, clip_12__2023_03_02.mp4",
+      "app_names": [
+        "vlc"
+      ],
+      "complexity": 2.8,
+      "official_step_budget": 28,
+      "budget_source": "AndroidWorld int(10 * task.complexity)"
+    }
+  ],
+  "algorithm_config": {
+    "suite": {
+      "family": "android_world",
+      "rounds": 1,
+      "seed": 30,
+      "use_androidworld_step_budget": true
+    },
+    "model_config": "model_qwen25vl_7b.yaml",
+    "runtime_config": "runtime.yaml",
+    "pa_lite": {
+      "planner_max_subtasks": 5,
+      "actor_local_step_guard": 8,
+      "post_action_wait_seconds": 0.5,
+      "source_notes": {
+        "planner_max_subtasks": "DMS paper Section 3.2: k <= 5.",
+        "actor_local_step_guard": "Runtime guard for a single sub-task; paper names MaxA but does not give a value.",
+        "post_action_wait_seconds": "Local execution pacing only; does not change DMS logic."
+      }
+    },
+    "baseline_a_zero_shot": {
+      "memory": "none"
+    },
+    "baseline_b_static_memory": {
+      "memory": "chronological_append_only",
+      "max_context_entries": 12,
+      "source_notes": {
+        "memory": "Assignment Baseline B: append historical interaction trajectories in chronological order without pruning.",
+        "max_context_entries": "Prompt context window guard only; persisted static memory is never pruned."
+      }
+    },
+    "dms": {
+      "memory": "hierarchical_external_backend",
+      "memory_backend": "dms_repro.darwinian_memory:build_darwinian_memory_backend",
+      "memory_kwargs": {
+        "embedding_model_path": "../model_cache/modelscope/AI-ModelScope/all-MiniLM-L6-v2",
+        "epsilon": 0.1,
+        "novelty_bonus": 1.0,
+        "base_retention": 30.0,
+        "longevity_coefficient": 15.0,
+        "decay_steepness": 0.5,
+        "penalty_coefficient": 1.0,
+        "threshold_sensitivity": 0.3,
+        "verification_limit": 3,
+        "min_capacity": 24,
+        "max_capacity": 96,
+        "min_retrieval_score": 0.25,
+        "min_component_similarity": 0.35,
+        "min_goal_similarity": 0.55
+      },
+      "source_notes": {
+        "memory": "DMS path consumes the dedicated hierarchical memory backend and routes retrieval/replay/pruning through the native DMS control loop.",
+        "memory_backend": "Import path for the dedicated memory subsystem factory."
+      }
+    }
+  },
+  "model_config": {
+    "model": {
+      "name": "Qwen/Qwen2.5-VL-7B-Instruct",
+      "dtype": "bfloat16",
+      "attn_implementation": "sdpa",
+      "min_pixels": 200704,
+      "max_pixels": 1003520,
+      "max_new_tokens": 192,
+      "do_sample": false
+    },
+    "runtime": {
+      "backend": "openai_compatible",
+      "base_url": "http://127.0.0.1:8000/v1",
+      "request_timeout_seconds": 300,
+      "max_retries": 0,
+      "retry_backoff_seconds": 2,
+      "verify_tls": true,
+      "api_key_env": "DMS_MODEL_API_KEY",
+      "reported_peak_gpu_memory_gib": 0.0
+    },
+    "generation": {
+      "temperature": null,
+      "top_p": null
+    },
+    "source_notes": {
+      "model_choice": "Same Qwen2.5-VL-7B-Instruct model as the local reproduction config.",
+      "decoding": "Same deterministic decoding and 192-token output cap as the local client.",
+      "transport": "Infrastructure-only OpenAI-compatible transport over an SSH local forward."
+    }
+  },
+  "runtime_config": {
+    "paths": {
+      "workspace": "..",
+      "android_world_src": "../third_party/android_world",
+      "android_sdk": "%LOCALAPPDATA%/Android/Sdk",
+      "android_avd_home": "%USERPROFILE%/.android/avd",
+      "java_home": "C:/Program Files/Android/Android Studio/jbr",
+      "conda_env": "%USERPROFILE%/anaconda3/envs/android_world"
+    },
+    "android": {
+      "avd_name": "AndroidWorldAvd",
+      "a11y_method": "uiautomator",
+      "tmux_session": null,
+      "console_port": 5554,
+      "grpc_port": 8554,
+      "adb_path": "%LOCALAPPDATA%/Android/Sdk/platform-tools/adb.exe",
+      "emulator_path": "%LOCALAPPDATA%/Android/Sdk/emulator/emulator.exe",
+      "accessibility_forwarder_apk": "../downloads/accessibility_forwarder.apk"
+    },
+    "runtime": {
+      "cuda_visible_devices": "0",
+      "hf_home": "../model_cache/huggingface",
+      "offline": false,
+      "task_step_budget_source": "androidworld_complexity_times_10"
+    }
+  },
+  "prompt_source": "src/dms_repro/prompts.py",
+  "remote_inference_server": {
+    "software": "vLLM 0.10.2",
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "gpu": "NVIDIA GeForce RTX 4090 24 GiB",
+    "host": "127.0.0.1",
+    "port": 8000,
+    "dtype": "bfloat16",
+    "max_model_len": 32768,
+    "max_num_seqs": 1,
+    "gpu_memory_utilization": 0.92,
+    "limit_mm_per_prompt": {
+      "image": 1,
+      "video": 0
+    },
+    "min_pixels": 200704,
+    "max_pixels": 1003520,
+    "transport": "Windows localhost SSH forward to AutoDL localhost"
+  },
+  "androidworld_runtime": {
+    "mode": "Windows local Android emulator",
+    "avd": "AndroidWorldAvd",
+    "device": "emulator-5554",
+    "observation": "UIAutomator plus screenshot",
+    "grpc_port": 8554,
+    "official_app_snapshot_count": 24,
+    "official_app_snapshot_path": "/data/data/android_world/snapshots"
+  },
+  "open_app_shortcut": {
+    "enabled": true,
+    "source": "src/dms_repro/agent.py::_shortcut_open_app_action",
+    "effect": "Uses task app metadata to inject a legal start_app/open_app action, bypassing Actor model generation for that launch step and recording zero model tokens for the injected action.",
+    "disclosure": "Retained from the selected upstream implementation; it lowers app-launch difficulty and can inflate success on app-opening-heavy tasks."
+  },
+  "success_rule": {
+    "androidworld_reward": "success requires reward >= 1.0",
+    "step_budget": "scoring_attempt_steps < int(10 * task.complexity)",
+    "normal_failures_are_not_retried": true,
+    "normal_model_failure_examples": [
+      "wrong page",
+      "wrong click or text input",
+      "invalid action JSON",
+      "model cannot complete or declares failure",
+      "scoring attempt reaches or exceeds official step budget",
+      "AndroidWorld returns success=0 without an evaluator exception"
+    ]
+  },
+  "infrastructure_error_examples": [
+    "ADB or emulator disconnect",
+    "SSH tunnel or remote model API interruption",
+    "AndroidWorld evaluator exception",
+    "forest=None or otherwise unavailable success judgment",
+    "task initialization or cleanup exception",
+    "computer restart or formal runner process termination"
+  ],
+  "infrastructure_retry_rule": {
+    "max_retries_per_task": 1,
+    "model_client_hidden_request_retries": 0,
+    "same_task_seed_prompt_parameters": true,
+    "attempt_1_is_audited_but_not_scored": true,
+    "attempt_1_memory_state_is_rolled_back": true,
+    "attempt_2_is_final": true,
+    "attempt_2_infrastructure_error_category": "infrastructure_failure_after_retry",
+    "resource_accounting": "sum tokens and steps across both attempts",
+    "per_attempt_artifacts_retained": true
+  },
+  "contacts_selection": {
+    "task": "ContactsAddContact",
+    "reason": "Selected before freeze as an official Contacts representative with a database-based evaluator compatible with UIAutomator.",
+    "equivalence_claim": false,
+    "not_equivalent_to": "ContactsNewContactDraft"
+  },
+  "post_start_changes_forbidden": [
+    "task replacement",
+    "seed change",
+    "success evaluator change",
+    "step budget change",
+    "Prompt or model parameter change",
+    "task-specific action rule",
+    "unbounded retry",
+    "deletion of a normal failure"
+  ],
+  "preflight_summary": "runs/recovery_precheck_before_dms_20260719_091425/preflight_summary.json",
+  "sha256": {
+    "configs/eval_baselines.yaml": "416c6938aa892458807cfc82e9293310c8f1b2c676176a851b50516dd4fadfa8",
+    "configs/model_qwen25vl_7b_remote.yaml": "6c421147941c65b6a6808d3c9ea7c2981ca0c8ca162744a510fb8c9b340e03b6",
+    "configs/runtime_windows.yaml": "dc620efabe1b9d2a2557b004a70b9454bed5c9bf719626d6f9429e9a011475a9",
+    "datasets/formal_main_20apps_v1.yaml": "077640be2fdff6de64ba1e72c9efc77b59f4af1779fee0004e35593d2ca14748",
+    "runs/formal_main_20apps_5rounds_v1_20260718/baseline_a/attempt_results.jsonl": "c25e08b0218daaa16ce65fbef4aa8c847b7cab200af1a7a85c659271500108ff",
+    "runs/formal_main_20apps_5rounds_v1_20260718/baseline_a/metrics.json": "dd51aaac2f61c78f3336ec8e1e158fc23b097240b92f522428ea643abb06ff66",
+    "runs/formal_main_20apps_5rounds_v1_20260718/baseline_a/task_results.jsonl": "1676ee043f642a4d0904edd898b8b18f331afbbf4c34937e8069352e68d5dbc4",
+    "runs/preflight_formal_main_v1_final_20260718_174304/preflight_summary.json": "bb14adbbddbef5cbbc8c8c328ffc0efcc1ecbe4e5db6995b34d433462f434837",
+    "runs/recovery_precheck_before_dms_20260719_091425/preflight_summary.json": "9e9410478d56c60f775bf0f4ace8eda017128ecbc2ac5a21978742475dba8332",
+    "scripts/analyze_main_experiment.py": "1e14e55f8ca2b3307dfa4ae2a4e7bd5996aecec239d003dcedfbb5f0f0dfe29a",
+    "scripts/freeze_formal_protocol.py": "baca8463e314c2670654ab6a8c87211dcf9d4a30edb8e24af6d6f18b37f10d2c",
+    "scripts/freeze_recovery_bd_protocol.py": "122154668c752ae95fbaee7a3039bc6bb75416fa016af8a654c606fdf16bd8f7",
+    "scripts/preflight_formal_20apps.py": "96cac510730b57e1ede5120a42d982c8acfb054e2cf6a84ea1a83ec9127e79f6",
+    "scripts/remote/check_vllm_server.sh": "aa2ed12c88f34b6822bfaebabdac4a9a5de4461b26c53118c628d825dd8e469d",
+    "scripts/remote/serve_vllm_foreground.sh": "53d756d070cbc9676011f7f4a8585fa99de8c2e39d9d07e3595746923d6d7f42",
+    "scripts/remote/start_vllm_server.sh": "17539dea16f389d52aa3ab2d6aaeb3b038a988d724be603effe33e964e00ab76",
+    "scripts/run_formal_bd_recovery_windows.ps1": "e57b516459c97a0f2f88bdad825ec3475c8d55ee11e498da9b6055c588deb76c",
+    "scripts/run_formal_main_experiment_windows.ps1": "d255452b86211876966c03f53cf0c0f2e37030a894cf6123a390f9806b26db4c",
+    "scripts/start_local_androidworld.ps1": "a6598bb08166401dc3e12b0ccb08a2d006cecf0c741ca0585ff58662a60c310b",
+    "src/dms_repro/actions.py": "f67c08941c04394958197590d2af891cc06f0b419345d1e42f180c16833e73da",
+    "src/dms_repro/agent.py": "7bab2564007411febe74cb31c286e8389d9de1b10837b9d969ef76607e0eab52",
+    "src/dms_repro/android_tasks.py": "b02f2f9b68e8210d7a302d5a16add83dcfa49ca1ef53e5b1d72b653038019507",
+    "src/dms_repro/config.py": "4b021d870f3904132e23e363c58c03bdd6a6affa205439e5121efc4f3152a668",
+    "src/dms_repro/darwinian_memory.py": "ec8194378372985c0c035d76bb3bb50f4b0a08cf8c22cdc6638b6f791c95f567",
+    "src/dms_repro/formal_runner.py": "3e4d868b20a271d15860725d98de01593ed382f50bc0ea6c8c4c3714568f8f56",
+    "src/dms_repro/io_utils.py": "ef25075d49d3c9edd36f0ef8b05d632603b6cad1c4fc96e1057568c298ef0fc4",
+    "src/dms_repro/paper_tools.py": "37c39952906ebc18641c4ffe7d7737140760f373202d7cc452fe2dbd51905922",
+    "src/dms_repro/prompts.py": "9c853340a043ecd0a1be63f9bf822a445b8ffb50eecef9655c72ee83da33447c",
+    "src/dms_repro/runner.py": "fa1742aa96ba1de53027655c5249c413d18985af26e5eaf2a9409e01e18b7633",
+    "src/dms_repro/static_memory.py": "c201b4472c5d64d2114dca31637714f17636a187977d11d818d40bdee2f42066",
+    "src/env/androidworld_env.py": "583331d80b82c6ce17642ae7425db17a333ef9d9e63b79c03606328ec2f24bc0",
+    "src/model_client/contracts.py": "aac7b43cfd5b930a6d319d4d71b1d22b1fd83a42e54d9dcbcac2b921590e9ffd",
+    "src/model_client/remote_qwen_vl.py": "92f99f8410753aa20d038c838f9935996266e6814f1cc26915d579ba379bda12",
+    "third_party/android_world/android_world/env/setup_device/apps.py": "109e51edba6a3bf6b9451d084d6cd8ca2c06e0e1415db1eac441af63e83783f6",
+    "third_party/android_world/android_world/suite_utils.py": "caf4d3a8765c914a2b978d119921cc4c062176e5a362c20c53905d4d0dbe083b",
+    "third_party/android_world/android_world/task_evals/common_validators/contacts_validators.py": "54b610ed54d40f7d3bbf31ca5291482bd2debbfdf2d06615896f2c7e06850a87",
+    "third_party/android_world/android_world/task_evals/common_validators/sms_validators.py": "ca149d45611e6990b84291c0622ab08f22456d17c90e5b77b5ef7ef35d16ec82",
+    "third_party/android_world/android_world/task_evals/common_validators/sqlite_validators.py": "5c107b155910aafe590c88967f47ae069f5f68eb62319e7928ee7c5988dee1f5",
+    "third_party/android_world/android_world/task_evals/information_retrieval/information_retrieval.py": "c222532161018cc3523d9f481f1d8c1ce65c2aa7c44066ff2f51892284c4f75b",
+    "third_party/android_world/android_world/task_evals/single/audio_recorder.py": "8f0f48f51577a831ba5a7e52dc5e4b9ad1c90d41fbcb456c640e5a14add340cb",
+    "third_party/android_world/android_world/task_evals/single/browser.py": "bbc47cf333351b071984c00135fde8cd522a2e409e1a15cb4bb5e9feda95212b",
+    "third_party/android_world/android_world/task_evals/single/calendar/calendar.py": "0383b2b0646649c1b6d4f1ffec9b1aca5fb3a7f1ff83279177409e92c622824f",
+    "third_party/android_world/android_world/task_evals/single/camera.py": "9cbeb7c43adc42f5b4edadc280359371bda8759c392e41f20564f9dc741a7944",
+    "third_party/android_world/android_world/task_evals/single/clock.py": "8761bec39aeeea2bbc2e2924e965a50ce57d6d724c0b0e15806ca3e2d4b9be0d",
+    "third_party/android_world/android_world/task_evals/single/contacts.py": "bd8802eef0667f56449c1a769af00600d25862d9afa4200fe6ae960aeb435630",
+    "third_party/android_world/android_world/task_evals/single/expense.py": "facab47c4db013fdcf3630deb71efc1a119cbae472d02e573c0a8d57d02a7794",
+    "third_party/android_world/android_world/task_evals/single/files.py": "b763d38477cb88419b9c0153af8d78fea0b5468509f2868c44fb1765080f22a7",
+    "third_party/android_world/android_world/task_evals/single/markor.py": "148bf60ac0469641f47936bff44345315253e97a3231e2b94f0f5373c0a187dd",
+    "third_party/android_world/android_world/task_evals/single/osmand.py": "04d39ee7658e0c2f520f7d25475cd5e3d0a4e8fbcd45b52fb2764855bd4d0b19",
+    "third_party/android_world/android_world/task_evals/single/recipe.py": "3c3f389e510bef1f45ed192bbc1e57531dfd92fcb3fdec5f576091b434f21674",
+    "third_party/android_world/android_world/task_evals/single/retro_music.py": "6e886d452febd533253e24f1faee5d642982df92b35c5873e9af5e4805e791a0",
+    "third_party/android_world/android_world/task_evals/single/simple_draw_pro.py": "b23bda609a5933e5e22e90cc2af5bc6be58eb43346e9e360fae21abbf6ba990d",
+    "third_party/android_world/android_world/task_evals/single/simple_gallery_pro.py": "0d78ef0bafc615c6b7a34507b0243b2003eebfd2bc44a9d92beae9885b7cb0c5",
+    "third_party/android_world/android_world/task_evals/single/sms.py": "1510f9677cf3d959062ffdc43bb74d735b56b726dba35d739525417ad17cc2d9",
+    "third_party/android_world/android_world/task_evals/single/system.py": "cea0c735f61fd6a42d3cec6e9837218073b01ebf5ec9086c7981ad485f867e1c",
+    "third_party/android_world/android_world/task_evals/single/vlc.py": "9d5fe919e084c4e49406cca12ff52a045dab430f8fa1ca5ac939d5d350ff98fb",
+    "third_party/android_world/android_world/task_evals/task_eval.py": "e359e11f9f8874af9dc17311f58c11eb1169672826f43e582d91b95f205008eb",
+    "third_party/android_world/android_world/task_evals/utils/sqlite_utils.py": "61cab2a77135b47915843b4202b98be735af1cdd4220908f9f35da4265098c8a",
+    "third_party/android_world/android_world/task_evals/utils/user_data_generation.py": "11353199f41b9a8102f1ac434fdd2f1e0b30c1e84fbb84fb384166c5b362b7a0",
+    "third_party/android_world/android_world/utils/app_snapshot.py": "9689192d31ffd29298c3f740ac29783bb03294faebdd5c1964a2904fdb3bddd4"
+  },
+  "scored_record_count": 200,
+  "cross_run_design": {
+    "enabled": true,
+    "baseline_a_reused": true,
+    "baseline_a_run_root": "C:\\Users\\Administrator\\Desktop\\DMS\\runs\\formal_main_20apps_5rounds_v1_20260718",
+    "baseline_a_scored_records": 100,
+    "baseline_b_and_dms_run_root": "C:\\Users\\Administrator\\Desktop\\DMS\\runs\\formal_recovery_bd_20apps_5rounds_v2_20260719",
+    "disclosure": "Baseline A is reused from formal_main_20apps_v1. Baseline B and DMS are rerun from empty memory in this recovery RunRoot. Any three-method figure is therefore a disclosed cross-run comparison."
+  },
+  "excluded_prior_results": {
+    "baseline_b": "C:\\Users\\Administrator\\Desktop\\DMS\\runs\\formal_main_20apps_5rounds_v1_20260718\\baseline_b",
+    "reason": "AndroidWorld became persistently unavailable after r02_017; the final 62 Baseline B records were consecutive infrastructure failures."
+  },
+  "infrastructure_round_isolation": {
+    "emulator_cold_restart_before_each_round": true,
+    "formal_runner_process_isolated_per_round": true,
+    "round_limit_sequence": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "memory_persists_in_method_run_dir": true,
+    "task_retry_rule_unchanged": true,
+    "algorithm_prompt_model_budget_and_evaluator_unchanged": true,
+    "purpose": "Prevent recurrence of the long-lived AndroidWorld reset failure observed in the excluded Baseline B run."
+  },
+  "recovery_preflight_summary": "runs/recovery_precheck_before_dms_20260719_091425/preflight_summary.json"
+}

@@ -1,0 +1,87 @@
+name: mini_benchmark_20apps
+created_at: '2026-06-14T17:00:15.174817+08:00'
+description: Mini-benchmark covering the real AndroidWorld app scenarios with one
+  representative task per app scenario.
+source: AndroidWorld task registry. Parameters are generated with fixed seeds.
+app_coverage:
+  audio recorder:
+  - AudioRecorderRecordAudio
+  broccoli app:
+  - RecipeAddSingleRecipe
+  camera:
+  - CameraTakePhoto
+  chrome:
+  - BrowserDraw
+  clock:
+  - ClockStopWatchRunning
+  contacts:
+  - ContactsAddContact
+  files:
+  - FilesDeleteFile
+  joplin:
+  - NotesTodoItemCount
+  markor:
+  - MarkorCreateFolder
+  open tracks sports tracker:
+  - SportsTrackerActivityDuration
+  osmand:
+  - OsmAndFavorite
+  pro expense:
+  - ExpenseAddSingle
+  retro music:
+  - RetroCreatePlaylist
+  simple calendar pro:
+  - SimpleCalendarDeleteOneEvent
+  simple draw pro:
+  - SimpleDrawProCreateDrawing
+  simple gallery pro:
+  - SaveCopyOfReceiptTaskEval
+  simple sms messenger:
+  - SimpleSmsSend
+  settings:
+  - SystemWifiTurnOn
+  tasks:
+  - TasksDueOnDate
+  vlc:
+  - VlcCreatePlaylist
+tasks:
+- name: AudioRecorderRecordAudio
+  seed: 1030
+- name: RecipeAddSingleRecipe
+  seed: 1031
+- name: CameraTakePhoto
+  seed: 1032
+- name: BrowserDraw
+  seed: 1033
+- name: ClockStopWatchRunning
+  seed: 1034
+- name: ContactsAddContact
+  seed: 1035
+- name: FilesDeleteFile
+  seed: 1036
+- name: NotesTodoItemCount
+  seed: 1037
+- name: MarkorCreateFolder
+  seed: 1038
+- name: SportsTrackerActivityDuration
+  seed: 1039
+- name: OsmAndFavorite
+  seed: 1040
+- name: ExpenseAddSingle
+  seed: 1041
+- name: RetroCreatePlaylist
+  seed: 1042
+- name: SimpleCalendarDeleteOneEvent
+  seed: 1043
+- name: SimpleDrawProCreateDrawing
+  seed: 1044
+- name: SaveCopyOfReceiptTaskEval
+  seed: 1045
+- name: SimpleSmsSend
+  seed: 1046
+- name: SystemWifiTurnOn
+  seed: 1047
+- name: TasksDueOnDate
+  seed: 1048
+- name: VlcCreatePlaylist
+  seed: 1049

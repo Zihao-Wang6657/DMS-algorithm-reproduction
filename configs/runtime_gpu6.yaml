@@ -1,0 +1,22 @@
+paths:
+  workspace: ..
+  android_world_src: ../third_party/android_world
+  android_sdk: ../android_sdk
+  android_avd_home: ../android_avd
+  java_home: ../jdks/jdk17
+  conda_env: ../conda_envs/dms_py310
+
+android:
+  avd_name: AndroidWorldAvd
+  tmux_session: dms_androidworld
+  console_port: 5554
+  grpc_port: 8554
+  adb_path: ../android_sdk/platform-tools/adb
+  emulator_path: ../android_sdk/emulator/emulator
+  accessibility_forwarder_apk: ../downloads/accessibility_forwarder.apk
+
+runtime:
+  cuda_visible_devices: "6"
+  hf_home: ../model_cache/huggingface
+  offline: true
+  task_step_budget_source: androidworld_complexity_times_10

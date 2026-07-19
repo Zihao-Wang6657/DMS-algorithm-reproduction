@@ -1,0 +1,51 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local tooling
+.codex/
+.agents/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Environment / large local runtime assets
+conda_envs/
+model_cache/
+android_sdk/
+android_avd/
+jdks/
+downloads/
+logs/
+intermediate/
+tmp/
+
+# Android emulator images and app-state snapshots are several GiB and may
+# contain local application state. Keep only their reproducibility metadata.
+device_images/*
+!device_images/README.md
+!device_images/AndroidWorld_device_state_v3_manifest.json
+
+# Generated runtime outputs
+runs/
+
+# Generic generated artifacts
+*.log
+*.tmp
+*.temp
+*.pid
+*.bak
+*.bak_*

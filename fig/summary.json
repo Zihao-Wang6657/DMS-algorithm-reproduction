@@ -1,0 +1,836 @@
+{
+  "overall": {
+    "baseline_a": {
+      "method": "Baseline A",
+      "tasks": 25,
+      "strict_successes": 7,
+      "strict_success_rate": 0.28,
+      "total_tokens": 1238150,
+      "avg_tokens_per_task": 49526.0,
+      "total_steps": 283,
+      "avg_steps_per_task": 11.32,
+      "runtime_errors": 0,
+      "infrastructure_retries": 0,
+      "infrastructure_failure_after_retry": 0,
+      "final_memory_size": 0
+    },
+    "baseline_b": {
+      "method": "Baseline B",
+      "tasks": 25,
+      "strict_successes": 6,
+      "strict_success_rate": 0.24,
+      "total_tokens": 1148231,
+      "avg_tokens_per_task": 45929.24,
+      "total_steps": 282,
+      "avg_steps_per_task": 11.28,
+      "runtime_errors": 0,
+      "infrastructure_retries": 0,
+      "infrastructure_failure_after_retry": 0,
+      "final_memory_size": 25
+    },
+    "dms": {
+      "method": "DMS",
+      "tasks": 25,
+      "strict_successes": 5,
+      "strict_success_rate": 0.2,
+      "total_tokens": 986846,
+      "avg_tokens_per_task": 39473.84,
+      "total_steps": 269,
+      "avg_steps_per_task": 10.76,
+      "runtime_errors": 1,
+      "infrastructure_retries": 2,
+      "infrastructure_failure_after_retry": 1,
+      "final_memory_size": 13
+    }
+  },
+  "by_round": {
+    "baseline_a": [
+      {
+        "method": "Baseline A",
+        "round": 1,
+        "tasks": 5,
+        "strict_successes": 2,
+        "strict_success_rate": 0.4,
+        "input_tokens": 265258,
+        "output_tokens": 6052,
+        "total_tokens": 271310,
+        "avg_tokens_per_task": 54262.0,
+        "total_steps": 52,
+        "avg_steps_per_task": 10.4,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 2,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 261607,
+        "output_tokens": 5750,
+        "total_tokens": 267357,
+        "avg_tokens_per_task": 53471.4,
+        "total_steps": 58,
+        "avg_steps_per_task": 11.6,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 3,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 256011,
+        "output_tokens": 5684,
+        "total_tokens": 261695,
+        "avg_tokens_per_task": 52339.0,
+        "total_steps": 59,
+        "avg_steps_per_task": 11.8,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 4,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 224556,
+        "output_tokens": 4884,
+        "total_tokens": 229440,
+        "avg_tokens_per_task": 45888.0,
+        "total_steps": 59,
+        "avg_steps_per_task": 11.8,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 5,
+        "tasks": 5,
+        "strict_successes": 2,
+        "strict_success_rate": 0.4,
+        "input_tokens": 204480,
+        "output_tokens": 3868,
+        "total_tokens": 208348,
+        "avg_tokens_per_task": 41669.6,
+        "total_steps": 55,
+        "avg_steps_per_task": 11.0,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 0
+      }
+    ],
+    "baseline_b": [
+      {
+        "method": "Baseline B",
+        "round": 1,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 225024,
+        "output_tokens": 5131,
+        "total_tokens": 230155,
+        "avg_tokens_per_task": 46031.0,
+        "total_steps": 57,
+        "avg_steps_per_task": 11.4,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 5
+      },
+      {
+        "method": "Baseline B",
+        "round": 2,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 207474,
+        "output_tokens": 4422,
+        "total_tokens": 211896,
+        "avg_tokens_per_task": 42379.2,
+        "total_steps": 57,
+        "avg_steps_per_task": 11.4,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 10
+      },
+      {
+        "method": "Baseline B",
+        "round": 3,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 244721,
+        "output_tokens": 5464,
+        "total_tokens": 250185,
+        "avg_tokens_per_task": 50037.0,
+        "total_steps": 58,
+        "avg_steps_per_task": 11.6,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 15
+      },
+      {
+        "method": "Baseline B",
+        "round": 4,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 218873,
+        "output_tokens": 4709,
+        "total_tokens": 223582,
+        "avg_tokens_per_task": 44716.4,
+        "total_steps": 57,
+        "avg_steps_per_task": 11.4,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 20
+      },
+      {
+        "method": "Baseline B",
+        "round": 5,
+        "tasks": 5,
+        "strict_successes": 2,
+        "strict_success_rate": 0.4,
+        "input_tokens": 228003,
+        "output_tokens": 4410,
+        "total_tokens": 232413,
+        "avg_tokens_per_task": 46482.6,
+        "total_steps": 53,
+        "avg_steps_per_task": 10.6,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 25
+      }
+    ],
+    "dms": [
+      {
+        "method": "DMS",
+        "round": 1,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 247130,
+        "output_tokens": 5135,
+        "total_tokens": 252265,
+        "avg_tokens_per_task": 50453.0,
+        "total_steps": 67,
+        "avg_steps_per_task": 13.4,
+        "runtime_errors": 0,
+        "infrastructure_retries": 1,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 6
+      },
+      {
+        "method": "DMS",
+        "round": 2,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 187334,
+        "output_tokens": 3860,
+        "total_tokens": 191194,
+        "avg_tokens_per_task": 38238.8,
+        "total_steps": 58,
+        "avg_steps_per_task": 11.6,
+        "runtime_errors": 1,
+        "infrastructure_retries": 1,
+        "infrastructure_failure_after_retry": 1,
+        "end_memory_size": 9
+      },
+      {
+        "method": "DMS",
+        "round": 3,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 164618,
+        "output_tokens": 2648,
+        "total_tokens": 167266,
+        "avg_tokens_per_task": 33453.2,
+        "total_steps": 44,
+        "avg_steps_per_task": 8.8,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 11
+      },
+      {
+        "method": "DMS",
+        "round": 4,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 197445,
+        "output_tokens": 3722,
+        "total_tokens": 201167,
+        "avg_tokens_per_task": 40233.4,
+        "total_steps": 52,
+        "avg_steps_per_task": 10.4,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 12
+      },
+      {
+        "method": "DMS",
+        "round": 5,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 171652,
+        "output_tokens": 3302,
+        "total_tokens": 174954,
+        "avg_tokens_per_task": 34990.8,
+        "total_steps": 48,
+        "avg_steps_per_task": 9.6,
+        "runtime_errors": 0,
+        "infrastructure_retries": 0,
+        "infrastructure_failure_after_retry": 0,
+        "end_memory_size": 13
+      }
+    ]
+  },
+  "individual_task_success_by_round": [
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SystemWifiTurnOn",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SimpleSmsSend",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SystemWifiTurnOn",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SimpleSmsSend",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SystemWifiTurnOn",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SimpleSmsSend",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SystemWifiTurnOn",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SimpleSmsSend",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SystemWifiTurnOn",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "SimpleSmsSend",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SystemWifiTurnOn",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SimpleSmsSend",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SystemWifiTurnOn",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SimpleSmsSend",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SystemWifiTurnOn",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SimpleSmsSend",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SystemWifiTurnOn",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SimpleSmsSend",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SystemWifiTurnOn",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "SimpleSmsSend",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SystemWifiTurnOn",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SimpleSmsSend",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SystemWifiTurnOn",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SimpleSmsSend",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SystemWifiTurnOn",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SimpleSmsSend",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SystemWifiTurnOn",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SimpleSmsSend",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SystemWifiTurnOn",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "SimpleSmsSend",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 5,
+      "success": 0
+    }
+  ]
+}

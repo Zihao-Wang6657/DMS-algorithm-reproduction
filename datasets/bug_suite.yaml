@@ -1,0 +1,16 @@
+name: bug_suite
+created_at: '2026-06-14T17:00:15.174760+08:00'
+description: Small simple task set for debugging AndroidWorld, Qwen, and action execution
+  issues.
+source: AndroidWorld task registry; selected for low complexity.
+tasks:
+- name: OpenAppTaskEval
+  seed: 30
+  param_overrides:
+    app_name: settings
+- name: SystemWifiTurnOn
+  seed: 31
+  param_overrides: {}
+- name: ClockStopWatchPausedVerify
+  seed: 32
+  param_overrides: {}

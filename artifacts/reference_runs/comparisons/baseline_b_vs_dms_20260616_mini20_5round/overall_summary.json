@@ -1,0 +1,30 @@
+{
+  "Baseline B": {
+    "method": "Baseline B",
+    "tasks": 100,
+    "successful_tasks": 12,
+    "success_rate": 0.12,
+    "input_tokens": 6829078,
+    "output_tokens": 139854,
+    "total_tokens": 6968932,
+    "avg_total_tokens_per_task": 69689.32,
+    "total_steps": 1426,
+    "avg_steps_per_task": 14.26,
+    "final_memory_size": 100,
+    "rounds": 5
+  },
+  "DMS": {
+    "method": "DMS",
+    "tasks": 100,
+    "successful_tasks": 12,
+    "success_rate": 0.12,
+    "input_tokens": 6029020,
+    "output_tokens": 101837,
+    "total_tokens": 6130857,
+    "avg_total_tokens_per_task": 61308.57,
+    "total_steps": 1338,
+    "avg_steps_per_task": 13.38,
+    "final_memory_size": 20,
+    "rounds": 5
+  }
+}

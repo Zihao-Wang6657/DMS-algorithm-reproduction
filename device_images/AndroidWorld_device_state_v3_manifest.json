@@ -1,0 +1,1998 @@
+{
+  "format": "dms-device-image-manifest-v1",
+  "workspace_root": "C:\\Users\\Administrator\\Desktop\\DMS",
+  "asset_roots": [
+    "device_images/AndroidWorldAvd_clean_v3",
+    "device_images/AndroidWorldAppSnapshots_clean_v3"
+  ],
+  "file_count": 397,
+  "total_bytes": 5526041353,
+  "tree_sha256": "c3f5e028ef0925b05107e03b1723938034d00ad53ca3505b19f7ef9e72f571bd",
+  "files": [
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/AVD.conf",
+      "bytes": 192,
+      "sha256": "70baf88784650841e2f73469f25bb635f6bb6b77d3a26a6a588145bd16c4287c"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/bootcompleted.ini",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/cache.img",
+      "bytes": 69206016,
+      "sha256": "93219c83ba9245e347f23bd2e975a2458e29140041ea2ef6630d9168d2382cc6"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/cache.img.qcow2",
+      "bytes": 197120,
+      "sha256": "e61566b0b4ff850255148b85fd91d068a2150b93186bd010c67a6a6028ce814f"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/config.ini",
+      "bytes": 1328,
+      "sha256": "dc1c06204adca3ca46b912e83944ec1c6b8bd7d017d9059b08176e25a136d8d0"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/data/misc/pstore/pstore.bin",
+      "bytes": 65536,
+      "sha256": "ea60460a0b6c123c3e2f42314bda84242d919ee4bbf37fa928f85c2a0c2203fb"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/emu-launch-params.txt",
+      "bytes": 287,
+      "sha256": "3a90d59eec83caec78db2be4fc249289f5b2d3dcdc17901864a5583631547935"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/emulator-user.ini",
+      "bytes": 119,
+      "sha256": "c41b4bebad8e134f41b9a6bc7519c76e963963ba0c2e1dae80a6f1041ad1c644"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/encryptionkey.img",
+      "bytes": 18874368,
+      "sha256": "522bd0b6a2c92e37de465059bb9487bb9597a9aae032b469a8ebe0b38146d8c3"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/encryptionkey.img.qcow2",
+      "bytes": 1966080,
+      "sha256": "1c8837756e62dee834702f635c9dfdd438950c9fd5a0a602c803b5161d3658d7"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/hardware-qemu.ini",
+      "bytes": 4589,
+      "sha256": "04db12a8d3744e4119f812cb5d6369cbf863c69ef2f9f028d67fd2ed2bb84b8c"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/initrd",
+      "bytes": 1720996,
+      "sha256": "f2d2c6ead9f8a654e3aaa98d9e5fe97519b711b8630616deecd3b5251ae3928a"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/modem_simulator/etc/modem_simulator/files/numeric_operator.xml",
+      "bytes": 297,
+      "sha256": "c2557e604beea20b67642cdbb14ae7b792f804e4476b3f6cf47035690234f436"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/modem_simulator/iccprofile_for_carrierapitests.xml",
+      "bytes": 16537,
+      "sha256": "dc4b5f5344f084fc44f89250bbcf2b12e452eb98c104e4ef3ec115366eb6ce32"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/modem_simulator/iccprofile_for_sim0.xml",
+      "bytes": 14920,
+      "sha256": "6b6125f88516742766c137673d5f31d2535be79880cc525d33abc82207af27fb"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/modem_simulator/modem_nvram.json",
+      "bytes": 175,
+      "sha256": "6422d95b15ff4a550ded913b3b8df1447f1eefd1970e77fe0a5cbf05362bf795"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/multiinstance.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/netsim.ini",
+      "bytes": 38,
+      "sha256": "c8fd846ec31ee1d607fc06f150e841e8c5287eb803ab0b2abf23abff6f39a080"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/qemu-version.txt",
+      "bytes": 1,
+      "sha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/quickbootChoice.ini",
+      "bytes": 19,
+      "sha256": "549ad89a1d315629627fed29c30fffb1d8cade94dfb6edfb4c677c93139499b6"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/read-snapshot.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/sdcard.img",
+      "bytes": 536870912,
+      "sha256": "5f2d56e8dcd5f647175ea2ff9818471a0757f0bb28ec3959e658b99716abcd1a"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/sdcard.img.qcow2",
+      "bytes": 655360,
+      "sha256": "817489d67d465e106590b261f0c08db1e3292d21bb4868cdc57aaf067ae956a6"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/snapshots/default_boot/ram.img",
+      "bytes": 2147549184,
+      "sha256": "6f400f1ca55edb280824a50645e7034b5718eb7a4593e35a341ff20332d35d5f"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/tmpAdbCmds/adbcommand749347b7-076a-48c4-845a-f364e0491f3c",
+      "bytes": 181,
+      "sha256": "ac64b8416670d86bbb2508bd6e3a861425671373d87cdad95c79971d3b430b03"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/tmpAdbCmds/adbcommandb924c3c7-9559-4f54-b3bb-c142aec423f4",
+      "bytes": 181,
+      "sha256": "ac64b8416670d86bbb2508bd6e3a861425671373d87cdad95c79971d3b430b03"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/tmpAdbCmds/adbcommandddb1c411-3016-4eb4-9499-1f8553600ab0",
+      "bytes": 181,
+      "sha256": "ac64b8416670d86bbb2508bd6e3a861425671373d87cdad95c79971d3b430b03"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/tmpAdbCmds/adbcommande574b7b6-bf8d-4718-b846-93602b2807dc",
+      "bytes": 181,
+      "sha256": "ac64b8416670d86bbb2508bd6e3a861425671373d87cdad95c79971d3b430b03"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/user-settings.ini",
+      "bytes": 23,
+      "sha256": "1bc925d154f1e12bf128821dd2507cb086c93797101845f9dfac1276f5e1a553"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/userdata-qemu.img",
+      "bytes": 10289152,
+      "sha256": "3b6bbd62ed07951997a6771d64d06f23c2f265f14d40640d2ac35a9be242e630"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/userdata-qemu.img.qcow2",
+      "bytes": 2721513472,
+      "sha256": "8aa1af441adaa56a9d1aa239cb543648a9b0b8e0fa1abf10529c688bc2939b81"
+    },
+    {
+      "path": "device_images/AndroidWorldAvd_clean_v3/version_num.cache",
+      "bytes": 10,
+      "sha256": "7506f5fb9a16f5097365b35a69c60ecc5f02acd0eb01868d7849ee8a9c817e8d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/Default/Local Storage/leveldb/000003.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/Default/Local Storage/leveldb/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/Default/Local Storage/leveldb/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/Default/Local Storage/leveldb/LOG",
+      "bytes": 291,
+      "sha256": "ef9e879d3b58dcef8b0f3338ee51420a94456ac7ebba74b6acd21f17fa535088"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/Default/Local Storage/leveldb/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/Default/Web Data",
+      "bytes": 83968,
+      "sha256": "e6df50bcaf8daeda1f5783d93ebfd8f0c75760ec54039dbeb1798a76a6a089a2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/Default/Web Data-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/variations_seed_new",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/variations_stamp",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/app_webview/webview_data.lock",
+      "bytes": 33,
+      "sha256": "3dcac23c6287de4e364194c60a8edd31a73e476d2be57dda5b601be902c7a05a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/cache/playlist.db.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/cache/WebView/Default/HTTP Cache/Code Cache/js/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/cache/WebView/Default/HTTP Cache/Code Cache/js/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "4a22fabfb24074cba6d00ac3139bdcbbfa88e2dae9215e00f9006243535aaa84"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/cache/WebView/Default/HTTP Cache/Code Cache/wasm/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/cache/WebView/Default/HTTP Cache/Code Cache/wasm/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "961d6c7a86ac162e1d4a4fb7e0a1f2336bd266b4bdd8c394d99e88f34505ded3"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/cache/WebView/font_unique_name_table.pb",
+      "bytes": 24024,
+      "sha256": "1a0d09e152c750e6466ed007db34e70f4406a4d4cfaac54732187fa1af53b452"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/blacklist.db",
+      "bytes": 16384,
+      "sha256": "a5ba4055c064f28823bc126d822ceb6eeb86d8c1d95af5b0bd4d680596c1893a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/blacklist.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/history.db",
+      "bytes": 16384,
+      "sha256": "cd75f803f8783302a17a4fcf8e489e11c8897d26fb0b7bd4fa4aa141a17567ca"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/history.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/music_playback_state.db",
+      "bytes": 20480,
+      "sha256": "a16ded67395fa1931f69f87980b346a6fa5f5a54821a5990e75ac036130ce4af"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/music_playback_state.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/playlist.db",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/playlist.db-shm",
+      "bytes": 32768,
+      "sha256": "e3511e05ae9d82a99b8138569f1d2d10e9f95e48466a7eda073a3c11b91db6cb"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/playlist.db-wal",
+      "bytes": 53592,
+      "sha256": "cc43cbe3287ab677ea8f7ecf9edd20c688fad5aefd5c827bd9ebd00ef752196c"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/song_play_count.db",
+      "bytes": 20480,
+      "sha256": "59591c6c71eea7f3453e54530e378f1e83dca78f7de35c7259281c4192f89149"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/databases/song_play_count.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/shared_prefs/[[kabouzeid_app-theme-helper]].xml",
+      "bytes": 451,
+      "sha256": "c176c275b3f25475d749380f817364d3c2e9ce96497d261e3295ac999cac0294"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/shared_prefs/_has_set_default_values.xml",
+      "bytes": 130,
+      "sha256": "70b6eecd62c222a39f6a2f3d8164714dcfcc2e7afcfbf0a7e773887266230ce2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/shared_prefs/code.name.monkey.retromusic_preferences.xml",
+      "bytes": 967,
+      "sha256": "d09b8f0708a55a2b00ec8308c273aa50ea1e29326b9e5d9ede70f009f1165114"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/code.name.monkey.retromusic/shared_prefs/WebViewChromiumPrefs.xml",
+      "bytes": 127,
+      "sha256": "0c4e5675ee5803b5fd3a96601292f02ffe02cdd90bfc75a61a39b40707430a89"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.camera2/shared_prefs/com.android.camera2_preferences.xml",
+      "bytes": 1285,
+      "sha256": "1eb5cff73b51041ae96a162247989410f777e8906a5c5cc30287151a57b88059"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/BrowserMetrics-spare.pma",
+      "bytes": 4194304,
+      "sha256": "bb9f8df61474d25e71fa00722318cd387396ca1736605e1248821cc0de3d3af8"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Consent To Send Stats",
+      "bytes": 36,
+      "sha256": "6a255abd28292e195b1fd4889168e851de5365ce96541f073e14aadaac62aafa"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Account Web Data",
+      "bytes": 83968,
+      "sha256": "e6df50bcaf8daeda1f5783d93ebfd8f0c75760ec54039dbeb1798a76a6a089a2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Account Web Data-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Affiliation Database",
+      "bytes": 40960,
+      "sha256": "3b195f61e50c866298f12ac4f10f17f64d196aab7f883209b686ee630d40a885"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Affiliation Database-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/AutofillStrikeDatabase/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/AutofillStrikeDatabase/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/BudgetDatabase/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/BudgetDatabase/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/commerce_subscription_db/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/commerce_subscription_db/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Cookies",
+      "bytes": 24576,
+      "sha256": "898c02849b157053f2f93d8dcb7864e4e3ef86c9bef383aa111823a15a8b23f8"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Cookies-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/DawnCache/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/DawnCache/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "3652be90531d88018247dfd1531c1e0294f6077717f842e7f880041c2328a9a7"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/DeltaFileLevelDb/000003.log",
+      "bytes": 19,
+      "sha256": "ab5c71347d95f319781df230012713c7819ac0d69373e8c9a7302cae3f9a04b7"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/DeltaFileLevelDb/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/DeltaFileLevelDb/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/DeltaFileLevelDb/LOG",
+      "bytes": 261,
+      "sha256": "00d0dcbc7f09d1155cdf0912d9cbb8fcde9d212ec8bcfa3f3a255884d9eb8c93"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/DeltaFileLevelDb/MANIFEST-000001",
+      "bytes": 31,
+      "sha256": "7cea21f3feb9e7dd172012318d11f45b312f1e8559ea51da80d299e407fab71f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Download Service/EntryDB/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Download Service/EntryDB/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Favicons",
+      "bytes": 96256,
+      "sha256": "bdc1693a7cb04dbe4a9359e7ac0b83a5c39336144750910114d7eb5a565dad2f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Favicons-journal",
+      "bytes": 19968,
+      "sha256": "103c00bc6c88794337f5421993a9c34b855e00a1f5ea2308287c212b4cfccb24"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Feature Engagement Tracker/AvailabilityDB/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Feature Engagement Tracker/AvailabilityDB/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Feature Engagement Tracker/EventDB/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Feature Engagement Tracker/EventDB/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/feedv2/streamdb/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/feedv2/streamdb/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/GCM Store/Encryption/000003.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/GCM Store/Encryption/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/GCM Store/Encryption/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/GCM Store/Encryption/LOG",
+      "bytes": 269,
+      "sha256": "5ee4b2cd50554ba43587cd4e8ca63d860301086dddfe4271db34c45314d468a6"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/GCM Store/Encryption/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/GPUCache/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/GPUCache/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "3652be90531d88018247dfd1531c1e0294f6077717f842e7f880041c2328a9a7"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/heavy_ad_intervention_opt_out.db",
+      "bytes": 20480,
+      "sha256": "1bbaca4e4fc577712c13cb1a74113819e84c02090fa0e8c74e4cb104f156d70a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/heavy_ad_intervention_opt_out.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/History",
+      "bytes": 159744,
+      "sha256": "74142d6a201d91649e3dd590d49a5ca0b8a75a7a2f84b1a49273c48adc54aa68"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/History-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Local Storage/leveldb/000003.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Local Storage/leveldb/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Local Storage/leveldb/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Local Storage/leveldb/LOG",
+      "bytes": 271,
+      "sha256": "0ca6cfc8bac3032416cf6ff51559f01b511c901daf690efd0e9dc168c22d8069"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Local Storage/leveldb/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Login Data",
+      "bytes": 43008,
+      "sha256": "fe77eeb3597a9e0d5387ea74f123f747c3095d036f0e5f97723ca614d8aeb383"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Login Data-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Network Action Predictor",
+      "bytes": 40960,
+      "sha256": "31e8b6340b2a0ba5c12858b92c124b33ba4f377e09bbea064be1d09dde2674af"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Network Action Predictor-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Network Persistent State",
+      "bytes": 87,
+      "sha256": "2192ecf050099ab6f182ecff8c882b546c3227afe5df7a503a125abde6984564"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Offline Pages/metadata/OfflinePages.db",
+      "bytes": 24576,
+      "sha256": "dce4826b5220326baa56b9b98843a59106c7b7c47c1d2a37602d2fc310787a2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Offline Pages/metadata/OfflinePages.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Offline Pages/request_queue/RequestQueue.db",
+      "bytes": 12288,
+      "sha256": "a32042ba9608c3f2b5f1e7965ad90f3dcd95bee23b4c3e3b1a1aa336fbff3d2e"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Offline Pages/request_queue/RequestQueue.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/optimization_guide_hint_cache_store/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/optimization_guide_hint_cache_store/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/optimization_guide_model_metadata_store/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/optimization_guide_model_metadata_store/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/PersistentOriginTrials/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/PersistentOriginTrials/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Preferences",
+      "bytes": 2919,
+      "sha256": "d7440e5653f5e6a034c0476d8860c9ea81d031cb3ff1d1497cf5ca580faec8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/README",
+      "bytes": 180,
+      "sha256": "c43668eec4a8d88a5b3a06a84f8846853fe33e54293c2db56899a5a5dfb4d944"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Reporting and NEL",
+      "bytes": 40960,
+      "sha256": "90a2d21f97de96403a1551a52670749b9e7b08d92450f958c078c585c0a7a486"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Reporting and NEL-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Safe Browsing Cookies",
+      "bytes": 24576,
+      "sha256": "898c02849b157053f2f93d8dcb7864e4e3ef86c9bef383aa111823a15a8b23f8"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Safe Browsing Cookies-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Segmentation Platform/SegmentInfoDB/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Segmentation Platform/SegmentInfoDB/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Segmentation Platform/SignalDB/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Segmentation Platform/SignalDB/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Segmentation Platform/SignalStorageConfigDB/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Segmentation Platform/SignalStorageConfigDB/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Session Storage/000003.log",
+      "bytes": 42,
+      "sha256": "e770182f5dd8e8680dded4b15fa8ea859bbef7f2ecf8b3053446753a06c46470"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Session Storage/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Session Storage/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Session Storage/LOG",
+      "bytes": 259,
+      "sha256": "088d7ebaf7037d64a82a41879f718f21c8686cff7cdb4ae2d186119887d33280"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Session Storage/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/share_history/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/share_history/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/000003.log",
+      "bytes": 11623,
+      "sha256": "18d02e31b3fde73be4dfa4a36501ddde84a79b625e1ed8d0b3dfa828d68789bd"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/LOG",
+      "bytes": 259,
+      "sha256": "93cf47b1605ee89035cf99f4787dd6bf5334e5bbfc6851e6418b72aaca4907cd"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/metadata/000003.log",
+      "bytes": 1100,
+      "sha256": "5411cd18dde0cd3ff270edfc12513d9d156e3072e0eb0e1adf07403d18148bcf"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/metadata/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/metadata/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/metadata/LOG",
+      "bytes": 277,
+      "sha256": "3178887ecfc87c913925f241f73fb12cf3a855a4f6ae727b4891b09b35b23a6f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/shared_proto_db/metadata/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Shortcuts",
+      "bytes": 24576,
+      "sha256": "10825310e9ea0e7a8d97a99ca42441a9ba38a958d0e6c4441e8df9221c94533d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Shortcuts-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Sync Data/LevelDB/000003.log",
+      "bytes": 46,
+      "sha256": "a2ca52e34b6138624ac2dd20349cde28482143b837db40a7f0fbda023077c26a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Sync Data/LevelDB/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Sync Data/LevelDB/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Sync Data/LevelDB/LOG",
+      "bytes": 263,
+      "sha256": "667858d29413e303a21b29f767c225637ddcf0b105a1a51a6e4c64fb38ec67ea"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Sync Data/LevelDB/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Top Sites",
+      "bytes": 24576,
+      "sha256": "98d6db41dc20beb70bf97c9410ce5abc4f76997890bccbc3d30809d53c9c904f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Top Sites-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageReportsBuffer/000003.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageReportsBuffer/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageReportsBuffer/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageReportsBuffer/LOG",
+      "bytes": 265,
+      "sha256": "4bbbeda35f6130ff936b6ceac6a918bc9dbdc60f22a2b0890fc3531a8411b804"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageReportsBuffer/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageStats/Events/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageStats/Events/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageStats/Suspensions/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageStats/Suspensions/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageStats/Tokens/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/UsageStats/Tokens/LOG",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Visited Links",
+      "bytes": 131072,
+      "sha256": "7a8ac7476ea33b0c5c536ec6a68c591a5c9009e154c6f2215c337985cc8ad160"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Web Data",
+      "bytes": 104448,
+      "sha256": "8547abbd51072280ac026ee03093a782d15c37599de310ba06f579f004cf442b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Default/Web Data-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/GrShaderCache/76b440a7eb3e7851_0",
+      "bytes": 2831,
+      "sha256": "875fc7e901cba41a06428af8df611db12f51ab5e4f1848e096fb6a7bf5228c58"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/GrShaderCache/adffe63000adcea0_0",
+      "bytes": 2491,
+      "sha256": "bee9aee8ce3fdccbe0e1f520681e85552712ec0678c73817877ae1ab4a9d45af"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/GrShaderCache/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/GrShaderCache/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "4b7aec9c66deadfdcca41bb8a7e67720cd571e81bed2e536f1ddb299dfe23eba"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Local State",
+      "bytes": 190130,
+      "sha256": "e6d2f46338717a05cd739260cfe9c6b69dff1357622284d6d308be31621e316c"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/ShaderCache/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/ShaderCache/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "4b7aec9c66deadfdcca41bb8a7e67720cd571e81bed2e536f1ddb299dfe23eba"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_chrome/Variations",
+      "bytes": 86,
+      "sha256": "f7b24f2eb3d5eb0550527490395d2f61c3d2fe74bb9cb345197dad81b58b5fed"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_tabs/0/tab_state0",
+      "bytes": 49,
+      "sha256": "e8aa1848b3930e0a57a61037f8445c5515a0e79fec6ff17d816b17ab949ed1ae"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/app_top_sites/top_sites",
+      "bytes": 1110,
+      "sha256": "2870246a5baaf3b7c8e29d1603d369bb0afab64000811980a73b7b8ef2ea8303"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/03706d7df24e3218_0",
+      "bytes": 3448,
+      "sha256": "adb45d574d72a7d89ddadaa20dcb9ec19369d037a699197b2e04e0c1ab1b2abb"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/1088b7a5661d5372_0",
+      "bytes": 152,
+      "sha256": "1a7484c928e8f1fb9b3b723eacd8e087b579fa40db20cb71468f7d7bdfc60640"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/33ae3b79ef84ff77_0",
+      "bytes": 7992,
+      "sha256": "8874f63fad3108898e115fc872128efed9454f8577da2d1a98e2880e911b7f7a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/4665d123faf60640_0",
+      "bytes": 118,
+      "sha256": "ffddcef9eb847f3bf6ee7dc36ce5b34e48258ce9f17b8d648fba3ab8f0968b92"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/493388ad25ed6108_0",
+      "bytes": 7868,
+      "sha256": "1473411a2fead2af22b60de773357d87964986dccd96749f301e838abdf67e7e"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/648aef047eb6a168_0",
+      "bytes": 15002,
+      "sha256": "77e562e29ba58f07e60051f879c3ad10453667db9873f3aac6d6f63eb0c8ebe4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/73b147c70ee6d5d8_0",
+      "bytes": 3728,
+      "sha256": "146eb013a5ccd733432cc2dd1c75eaaa4bfea7c37815b867e54e73b4e841ccd7"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/746c9613f930a1af_0",
+      "bytes": 9390,
+      "sha256": "dc448cd026fffd29744417ca955e814abc9a816898a4d14775a40dfb32172152"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/94e0a7816f8f4b7a_0",
+      "bytes": 135,
+      "sha256": "3b58ad643efa0a9ede92cf7254d5202e8f29a113d6820a689962f462cab73c3f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/bbeffa3ddff06759_0",
+      "bytes": 110,
+      "sha256": "d0a3aff1b2029ce8b40e55a6ce269619438fd82e6a8d0b0be365e3bda1585c38"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/dcd231f370a5b5ed_0",
+      "bytes": 135,
+      "sha256": "eb87fba0fc7bf261a8c8077e7471917402e41e404990df319a6badf57f074538"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/de81ada87c7ef90d_0",
+      "bytes": 11126,
+      "sha256": "83b599664966af8005a5e6d5095db10cbae16dc5adbf6c6dc1c3d0ead3af8187"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/e00c8c9a60ecf8ec_0",
+      "bytes": 237,
+      "sha256": "16ae37cb8cf00b2629a3de418d0b0f4d7c2bd197f514bdc5848777c239edb398"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/f4db0adc8fc6ccd3_0",
+      "bytes": 9458,
+      "sha256": "8fe7b4d86ee6fd9fc769f2d5e4db680d958a32ae5ddc8afe7b1c625e74f70ac7"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/facf8b9c3b1b3fbb_0",
+      "bytes": 159,
+      "sha256": "f4141ea1ea74b2627153c55517a8718ade62d5128c82803551f0efc31b64d484"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Cache/Cache_Data/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "e5d8ecef9c2c2a5d7e4b3e02e3351b7b67b026a1b25b0092a8b4fccc6e7b6e2f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Code Cache/js/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Code Cache/js/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "397df6403ea575ba8bb3fd0b8fa53a1f4dbe5ff1ea2ac4d908b61e5bdedea2c2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Code Cache/wasm/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/Code Cache/wasm/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "397df6403ea575ba8bb3fd0b8fa53a1f4dbe5ff1ea2ac4d908b61e5bdedea2c2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/cache/font_unique_name_table.pb",
+      "bytes": 24024,
+      "sha256": "1a0d09e152c750e6466ed007db34e70f4406a4d4cfaac54732187fa1af53b452"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/shared_prefs/com.android.chrome_preferences.xml",
+      "bytes": 19121,
+      "sha256": "e5c497023e0fef2c435178a91ab29b8c9a6f866fc0a487701815be7664d6dadc"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/shared_prefs/com.google.android.apps.chrome.omaha.xml",
+      "bytes": 616,
+      "sha256": "6efc5fd6ee40f57b736a31e5078795fa1e8973f2894ae55ea68801b556ba1ad4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/shared_prefs/Components.Policy.xml",
+      "bytes": 65,
+      "sha256": "3325d2a819fdd8062c2cdc48a09b995c9b012915bcdf88b1cf9742a7f057c793"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/shared_prefs/org.chromium.chrome.browser.flags.SafeModeValues.xml",
+      "bytes": 3238,
+      "sha256": "3d4c530604099b51ff3d22e70cb7ae866326e98a862893540226c438f68b8f62"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/shared_prefs/org.chromium.components.background_task_scheduler.xml",
+      "bytes": 105,
+      "sha256": "ae264711524f2d7b9cdf0e990ede44e94c728bcf00760a42b468567d07ae2053"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.android.chrome/shared_prefs/webapp_registry.xml",
+      "bytes": 155,
+      "sha256": "d4b84fdd57e0328fc062076a9fc8e9199e42f14949541ba4f579a922542b6b87"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.arduia.expense/databases/accounting.db",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.arduia.expense/databases/accounting.db-shm",
+      "bytes": 32768,
+      "sha256": "b84f36a18550ea43005b0b6c07d540cc9efec54916b3f43cdfb27aa9ff529b07"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.arduia.expense/databases/accounting.db-wal",
+      "bytes": 41232,
+      "sha256": "831ed1c1b882950191f756c4fc7f2499257a6ea6a403074fb200dfdc3a461493"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.arduia.expense/no_backup/androidx.work.workdb",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.arduia.expense/no_backup/androidx.work.workdb-shm",
+      "bytes": 32768,
+      "sha256": "171ffcf7999ac34972a5c74baa202dd9058db8f79164f06a57c379769caadb1b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.arduia.expense/no_backup/androidx.work.workdb-wal",
+      "bytes": 226632,
+      "sha256": "39e7a9b01e5794669be2d3b9eccbca996173a5bcccde978b27bceb593c61a32e"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.arduia.expense/shared_prefs/com.arduia.expense_preferences.xml",
+      "bytes": 119,
+      "sha256": "1f67f8d20b3331a8ce06df9fbf9fa1f60f35fdb3a5453e64704887de47d63080"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.dimowner.audiorecorder/databases/records.db",
+      "bytes": 24576,
+      "sha256": "f4bd7533811f40b033b28c67d3e6946234d78832b17e09c1b70cd7d0c4a2ebd5"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.dimowner.audiorecorder/databases/records.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.dimowner.audiorecorder/shared_prefs/com.dimowner.audiorecorder.data.PrefsImpl.xml",
+      "bytes": 567,
+      "sha256": "10e92c09e5dab396c6cd04ec1af30aa4474733971ed41b9602bc547e4e872463"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.flauschcode.broccoli/cache/broccoli.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.flauschcode.broccoli/databases/broccoli",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.flauschcode.broccoli/databases/broccoli-shm",
+      "bytes": 32768,
+      "sha256": "391842e04ee202e8940af36a2fab15b270b6013d1088f3edd9a07f417eb4e740"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.flauschcode.broccoli/databases/broccoli-wal",
+      "bytes": 78312,
+      "sha256": "3d8926e219c625404564012c2eeef27cbb8d77a804efd413767cf051cd77684b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.google.android.contacts/cache/og_education.db.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.google.android.contacts/databases/og_education.db",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.google.android.contacts/databases/og_education.db-shm",
+      "bytes": 32768,
+      "sha256": "4e490d7fb4808526f2a787745076fac2a61b59126c52e49eaab8db5e11c07454"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.google.android.contacts/databases/og_education.db-wal",
+      "bytes": 74192,
+      "sha256": "5de69126cadc02e4de1c92f66261a0f5c69a48040ddbc4731568c4d987c8ba08"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.google.android.contacts/shared_prefs/com.google.android.contacts.xml",
+      "bytes": 584,
+      "sha256": "b1fa53234d2e09e9b950e625964c82a1118f7e193c0f170943fe2007456c6b64"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.google.android.contacts/shared_prefs/primes.xml",
+      "bytes": 608,
+      "sha256": "3afa54b47874f93d6bf060c7e4d12facdefad0112054467f8a1d37bcdfcaee1b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.google.android.deskclock/shared_prefs/primes.xml",
+      "bytes": 460,
+      "sha256": "b967a2cfefbffe8257c8510fc7046451151812b13e46bb6a745c87fb80e71cf2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.calendar.pro/cache/events.db.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.calendar.pro/databases/events.db",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.calendar.pro/databases/events.db-shm",
+      "bytes": 32768,
+      "sha256": "e03d66d4326cedcbac18758312f282d5482181270e39b0eb47173d75c4a3b9cf"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.calendar.pro/databases/events.db-wal",
+      "bytes": 78312,
+      "sha256": "fd5912aa534190d2745d820060fe226a5238124ae0ea271a5ba8c7d92be5944d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.calendar.pro/shared_prefs/Prefs.xml",
+      "bytes": 606,
+      "sha256": "eb6afc9861f4abe2b32330a36264d7b935d1cd64c5d748fcb8a342e3558cdd53"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.gallery.pro/cache/gallery.db.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.gallery.pro/databases/gallery.db",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.gallery.pro/databases/gallery.db-shm",
+      "bytes": 32768,
+      "sha256": "b61ef395853035fdee61150961901acef6632dea4eed30c41f0749ac8c85f1cd"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.gallery.pro/databases/gallery.db-wal",
+      "bytes": 74192,
+      "sha256": "e8dfdbe094eb166748dc94a2fcfe3b321ed10b8bc823e4f016036cfc6fb73319"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.gallery.pro/files/profileInstalled",
+      "bytes": 24,
+      "sha256": "fba37faf43c0e1450aa8b820a94da4e47a7d3195e47507b6c387ed32d150b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.gallery.pro/files/profileinstaller_profileWrittenFor_lastUpdateTime.dat",
+      "bytes": 8,
+      "sha256": "8657d2b13c887f7ed40f4a3c3ad5a7687fe7caae976e56b82c139a1c68a5d4db"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.gallery.pro/shared_prefs/Prefs.xml",
+      "bytes": 2351,
+      "sha256": "c8642c21827150ef9d274a9b7d3406b950f7e39fe444d94ccc52ab6d2f64428b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.smsmessenger/cache/conversations.db.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.smsmessenger/databases/conversations.db",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.smsmessenger/databases/conversations.db-shm",
+      "bytes": 32768,
+      "sha256": "bd25c9f38fdaa998a134d16800085fd3f60c494e1e720114d0b31afc018ce16b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.smsmessenger/databases/conversations.db-wal",
+      "bytes": 70072,
+      "sha256": "437e777fbb89a3687a356570edaaed3361ae12a11fcb6e198364c2941fc3752e"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.smsmessenger/files/profileInstalled",
+      "bytes": 24,
+      "sha256": "125efbdee9b4799d2abbe114f104475275097d53bcdf9bb0ab018ac8a5c19c4d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.smsmessenger/files/profileinstaller_profileWrittenFor_lastUpdateTime.dat",
+      "bytes": 8,
+      "sha256": "85a3a883b73ae2a157b0cf9bc63e5aacf0b90069a066319659f678bb6fd982d2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/com.simplemobiletools.smsmessenger/shared_prefs/Prefs.xml",
+      "bytes": 586,
+      "sha256": "ed47e979645cb46501616e0d5bbbd39afe9657bbfef1a160f12a407fcd91e403"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/de.dennisguse.opentracks/databases/database.db",
+      "bytes": 40960,
+      "sha256": "4670c87464b045c115d0d25667b8a1c286ea95107bdd21f3fa5eff52f915052d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/de.dennisguse.opentracks/databases/database.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/de.dennisguse.opentracks/shared_prefs/_has_set_default_values.xml",
+      "bytes": 130,
+      "sha256": "70b6eecd62c222a39f6a2f3d8164714dcfcc2e7afcfbf0a7e773887266230ce2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/de.dennisguse.opentracks/shared_prefs/de.dennisguse.opentracks_preferences.xml",
+      "bytes": 543,
+      "sha256": "53308a75924a69131d492e56f3d9d408745634a7da86b28c49538b7e34fc9471"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/databases/joplin.sqlite",
+      "bytes": 409600,
+      "sha256": "25893c402c995a37d7705baae77ea754701acded172cf4410bc77fd5b4c7446b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/16affb0b0f454cf58d087a798ae54c13.png",
+      "bytes": 8894,
+      "sha256": "12cfc8ca0c101aa4be33732d4817b0eeb0d2d7c118ed3448653d414dbd0cd11b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/afa2ee7c6a704c2bb0fd2383b1dc340f.png",
+      "bytes": 448800,
+      "sha256": "d8f7881835af1858f159a4018bf30c1988e2e9252f8db219099e8ee7af11d497"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/ead71942f27a4b908f869b496c4fa124.png",
+      "bytes": 4704,
+      "sha256": "b208ea31ebfe42e0c4faa45d998d84531c5b7b354a3f78ab2803a772cd926282"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/highlight.js/atom-one-dark-reasonable.css",
+      "bytes": 1596,
+      "sha256": "516066d69994ed24ece3f80319f1e85cf26086d051b7e9c6760b51c6be857750"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/highlight.js/atom-one-light.css",
+      "bytes": 1318,
+      "sha256": "58597393821b7d76f64862249d305ea5dea2c54f617fbe4bd9d6e62ad83bf8ad"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_AMS-Regular.woff2",
+      "bytes": 28076,
+      "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+      "bytes": 6912,
+      "sha256": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+      "bytes": 6908,
+      "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+      "bytes": 11348,
+      "sha256": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+      "bytes": 11316,
+      "sha256": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Main-Bold.woff2",
+      "bytes": 25324,
+      "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+      "bytes": 16780,
+      "sha256": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Main-Italic.woff2",
+      "bytes": 16988,
+      "sha256": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Main-Regular.woff2",
+      "bytes": 26272,
+      "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+      "bytes": 16400,
+      "sha256": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Math-Italic.woff2",
+      "bytes": 16440,
+      "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+      "bytes": 12216,
+      "sha256": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+      "bytes": 12028,
+      "sha256": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+      "bytes": 10344,
+      "sha256": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Script-Regular.woff2",
+      "bytes": 9644,
+      "sha256": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Size1-Regular.woff2",
+      "bytes": 5468,
+      "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Size2-Regular.woff2",
+      "bytes": 5208,
+      "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Size3-Regular.woff2",
+      "bytes": 3624,
+      "sha256": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Size4-Regular.woff2",
+      "bytes": 4928,
+      "sha256": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/fonts/KaTeX_Typewriter-Regular.woff2",
+      "bytes": 13568,
+      "sha256": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/katex/katex.css",
+      "bytes": 23196,
+      "sha256": "505d5f829022bb7b4f24dfee0aa1141cd7bba67afe411d1240335f820960b5c3"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/mermaid/mermaid.min.js",
+      "bytes": 2935756,
+      "sha256": "9a6dd17b7cbbc65be1fb2083fa5fd9b3577e3d4d0011a77ddcc916be58df9bfb"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/files/pluginAssets/mermaid/mermaid_render.js",
+      "bytes": 2088,
+      "sha256": "92c2b39b737a39f7a6ba47619c7df69c0b2ded91dafbf99021e8f183f94933a8"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/lib-main/dso_deps",
+      "bytes": 392,
+      "sha256": "8d265734390a0c941e6dfad3a137287a9e48071739b6c262ec940cacb163b086"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/lib-main/dso_instance_lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/lib-main/dso_lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/lib-main/dso_manifest",
+      "bytes": 5,
+      "sha256": "957b88b12730e646e0f33d3618b77dfa579e8231e3c59c7104be7165611c8027"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.cozic.joplin/lib-main/dso_state",
+      "bytes": 1,
+      "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/BrowserMetrics-spare.pma",
+      "bytes": 4194304,
+      "sha256": "bb9f8df61474d25e71fa00722318cd387396ca1736605e1248821cc0de3d3af8"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/Default/Local Storage/leveldb/000003.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/Default/Local Storage/leveldb/CURRENT",
+      "bytes": 16,
+      "sha256": "0f1bad70c7bd1e0a69562853ec529355462fcd0423263a3d39d6d0d70b780443"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/Default/Local Storage/leveldb/LOCK",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/Default/Local Storage/leveldb/LOG",
+      "bytes": 275,
+      "sha256": "9a06f93f8b5a616c7326be0f28a0921bf3ed22acec90abde7703da4c83e33fd1"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/Default/Local Storage/leveldb/MANIFEST-000001",
+      "bytes": 41,
+      "sha256": "f9d31b278e215eb0d0e9cd709edfa037e828f36214ab7906f612160fead4b2b4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/Default/Web Data",
+      "bytes": 83968,
+      "sha256": "e6df50bcaf8daeda1f5783d93ebfd8f0c75760ec54039dbeb1798a76a6a089a2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/Default/Web Data-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/pref_store",
+      "bytes": 187,
+      "sha256": "51879f73f339f3a8f585454484fe0cc57e0970de44375b7ba8cb7f911a5d2522"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/variations_seed_new",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/variations_stamp",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/app_webview/webview_data.lock",
+      "bytes": 25,
+      "sha256": "37b08ad5482e6deece4e237b197e2a021f701512fc29b4040ce7853d794297be"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/cache/WebView/Default/HTTP Cache/Code Cache/js/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/cache/WebView/Default/HTTP Cache/Code Cache/js/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "f89455e3860469a8c1e805353ae61e1ffb77c4d326893f74321f542170aeaf84"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/cache/WebView/Default/HTTP Cache/Code Cache/wasm/index",
+      "bytes": 24,
+      "sha256": "fbcfe23a2ecb82b7100c50811691dde0a33aa3da8d176be9882a9db485dc0f2d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/cache/WebView/Default/HTTP Cache/Code Cache/wasm/index-dir/the-real-index",
+      "bytes": 48,
+      "sha256": "f89455e3860469a8c1e805353ae61e1ffb77c4d326893f74321f542170aeaf84"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/cache/WebView/font_unique_name_table.pb",
+      "bytes": 24024,
+      "sha256": "1a0d09e152c750e6466ed007db34e70f4406a4d4cfaac54732187fa1af53b452"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/shared_prefs/app.xml",
+      "bytes": 510,
+      "sha256": "b61d5c675f8966f9000505f359da83d73151467441a2343f2d83c321e39b3012"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/shared_prefs/net.gsantner.markor_preferences.xml",
+      "bytes": 158,
+      "sha256": "0a1e293b7c11d797c68a04cd3020b11c0ca946b0b58ecb5dc5b39311ce331c76"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/shared_prefs/pirate.xml",
+      "bytes": 170,
+      "sha256": "d72befe53c195b969d6ab02e8e6d2cdff7a371c112b6acf31da4c1600de6b293"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.gsantner.markor/shared_prefs/WebViewChromiumPrefs.xml",
+      "bytes": 127,
+      "sha256": "0c4e5675ee5803b5fd3a96601292f02ffe02cdd90bfc75a61a39b40707430a89"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/cache/hillshade.cache",
+      "bytes": 16384,
+      "sha256": "5fc1a68ec2eb3ed48f9e2c610a88c3f2b610c9bbc2bdf675b2751ea119b3b9cc"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/cache/ind_core.cache",
+      "bytes": 270,
+      "sha256": "cc2b19f39ca56317987c06f0a16e569ab3d2be0f7cb3252ed0416aebc24e69c1"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/analytics",
+      "bytes": 16384,
+      "sha256": "ef506a3611a2a995dc1641fe60cf1a8b6a56005f6d07ea8d84a9edcaeb4b695d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/analytics-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/gpx_database",
+      "bytes": 20480,
+      "sha256": "5af97e1916c58f8a1a46f5c2ba6e4e3c7c8855fd100951d91cf0ebfba67b99a3"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/map_markers_db",
+      "bytes": 20480,
+      "sha256": "8fbb708dfc968561a04944cf5efbd06cfae5ca16212818fe63d2985d3ab0d4dd"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/map_markers_db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/poi_filters",
+      "bytes": 24576,
+      "sha256": "819122a8754d8fe2eaa0d1c00366de74a0d4ab2c84085aa486a7fc6618609640"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/poi_filters-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/tracks",
+      "bytes": 20480,
+      "sha256": "7f8cbefcb0bfeee84b867d873b30d4a200421eafb87638703de62958e3abbee9"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/databases/tracks-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.aircraft.xml",
+      "bytes": 238,
+      "sha256": "32ba37befdb26006c6709b733dde56c01aa4356a284dcb25add28f6290915be7"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.bicycle.xml",
+      "bytes": 237,
+      "sha256": "410d2e48313f9e75c6c835683737397957ca2c860684cd9d99a78c166f120fd1"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.boat.xml",
+      "bytes": 237,
+      "sha256": "c6361819d5417f4f16f3cc805916deaa9483b0a3498d13d3868c71d6bcdff3bc"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.car.xml",
+      "bytes": 237,
+      "sha256": "a7e0ad12de20cb0e7772a8d04e10889fd391282093096503905fc3398a8ea84c"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.default.xml",
+      "bytes": 545,
+      "sha256": "f99117b88f3b37222a02f2d1d0831d242829ee9502d7568b103bf46a86b2c139"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.horse.xml",
+      "bytes": 238,
+      "sha256": "d823aa20895722e4c1a77d32b62e5e11fe2d5b144f394a49c453d36500f8da23"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.moped.xml",
+      "bytes": 237,
+      "sha256": "e04d9a801747ec3ef2e7c5dc6907d8c79f57bc90ce9c19be3ed27af9f53c0415"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.motorcycle.xml",
+      "bytes": 237,
+      "sha256": "1cd84d418dd08775d79d1e7aaa301efd759bc645dcce1410bc02cd540d778ceb"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.pedestrian.xml",
+      "bytes": 237,
+      "sha256": "6e411320d5e358b370db5eaad4e6c1f0d68ab844fb26a7bbabcc6e4ee282c47d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.public_transport.xml",
+      "bytes": 237,
+      "sha256": "c0352cb05d99326c0345f3916497f263b697610c2b6d898727626d8316ff980f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.ski.xml",
+      "bytes": 238,
+      "sha256": "2f15d78e0d99c6c1eebfdcb446f8412fb86fe29d8134c7444b9a7c413b15aa59"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.train.xml",
+      "bytes": 237,
+      "sha256": "982707a4e6ad06d174c3c3cbc2e40bf854b669c7188e8333141925a2cac96ce5"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.truck.xml",
+      "bytes": 237,
+      "sha256": "69b2b85377a66652c9ebcdf09a2f1a10cce03fe0a83f4b4e7443e3a92d41c78b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/net.osmand.settings.xml",
+      "bytes": 1273,
+      "sha256": "682fb6cfba6976252655800d9b78238235ea541aff4f3eb5ecc5fb042b9931e6"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/net.osmand/shared_prefs/plus.activities.MapActivity.xml",
+      "bytes": 403,
+      "sha256": "9ea8abeaf412c5f127b906da9763a32fc1bd6f4ab24c202e1c317a1856d58457"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/cache/data/user/0/org.tasks/no_backup/androidx.work.workdb.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/cache/database.lck",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/databases/database",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/databases/database-shm",
+      "bytes": 32768,
+      "sha256": "d09c5afe568abc41f625415378d20a3bd1270e2207ea4ebabff2c29e95b77012"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/databases/database-wal",
+      "bytes": 168952,
+      "sha256": "a5f311240164fa36f0a2cb1d9798ff7a9526084a94547f26a937230c7d7bbbc6"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/databases/tasks.db",
+      "bytes": 139264,
+      "sha256": "143b29658a4ef9fb66da3a8a169c2286651163e02b16fa9ee5378e63c0844648"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/databases/tasks.db-journal",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/files/backup.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/no_backup/androidx.work.workdb",
+      "bytes": 102400,
+      "sha256": "4ca603deac914d8f85d971d5b2693deb2e97ef2cf7a9a3dc2193132fe5e8248e"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/no_backup/androidx.work.workdb-shm",
+      "bytes": 32768,
+      "sha256": "07aae89f85b1512c534b1279dfc1c7a2736f632886c8c2b7a300875b834b6838"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/no_backup/androidx.work.workdb-wal",
+      "bytes": 436752,
+      "sha256": "f6f447d08996ec2aaaa448e26eb4a5a30021be3c165e9a7483dd390636238b26"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/shared_prefs/_has_set_default_values.xml",
+      "bytes": 130,
+      "sha256": "70b6eecd62c222a39f6a2f3d8164714dcfcc2e7afcfbf0a7e773887266230ce2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/shared_prefs/org.dmfs.provider.tasks.xml",
+      "bytes": 163,
+      "sha256": "960eeb286eb7f6151edbb9901ab609bdabcfd4788061e02107056a6a89eb3ebb"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.tasks/shared_prefs/org.tasks_preferences.xml",
+      "bytes": 3204,
+      "sha256": "89dd534f3a3f1eee1472efcec41baa4d7d76db80cd319af3a26c2a0b4723581c"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_db/vlc_media.db",
+      "bytes": 540672,
+      "sha256": "e564f02e7f94727bb63c0255ad17f73d0608901bb01083969ecbd41756b7974d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/hrtfs/dodeca_and_7channel_3DSL_HRTF.sofa",
+      "bytes": 92388,
+      "sha256": "05ca927052cf83663b29546b06998b03ea7fbcd288f7c99e7af8b215ac77ec4e"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/meta/art/00_musicbrainz.lua",
+      "bytes": 3186,
+      "sha256": "9a215c78cb9610ad7303e81e24a0dca06a7fd8fe8d3471bbc8fd362aeb5f376d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/meta/art/01_googleimage.lua",
+      "bytes": 1758,
+      "sha256": "eec96b23dc5d06398416267120faf373ee24399092cc45976b03f83026e92f56"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/meta/art/02_frenchtv.lua",
+      "bytes": 4918,
+      "sha256": "1908d9c3f3d1d98ac4e92bae261842f75cc9989ec0542d74853535f45111f2f9"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/meta/art/03_lastfm.lua",
+      "bytes": 1974,
+      "sha256": "d6480b6eb49ad44b1a918a30d99148f2bc2c06462aa849c3adbbe4e6e66c0cfe"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/meta/reader/filename.lua",
+      "bytes": 1676,
+      "sha256": "9f6994f0d70fe6c2669cd1a0eebcb1462bb5aa242d20f964dcf9c343e93c2c3f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/modules/common.lua",
+      "bytes": 5917,
+      "sha256": "d7d75e53436388421503edfb3f69db421ab963be7ddff216855c24eed54112bc"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/modules/dkjson.lua",
+      "bytes": 25741,
+      "sha256": "c4f856860f3bcbbb249aa839c1412a26f6a2dd881f623404ad09296122622b5a"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/modules/sandbox.lua",
+      "bytes": 4500,
+      "sha256": "ee5624ed0678fdb557d19606183b6761b08b83b5f34036572169aa2720e72315"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/modules/simplexml.lua",
+      "bytes": 3867,
+      "sha256": "4fe5fd276c53f560b84e72e25a6c74287692fd05dedf0ead1022f674b1dfd9fb"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/anevia_streams.lua",
+      "bytes": 3660,
+      "sha256": "b1666080cd2be5d94128b851ba462871e82ae30a5a76dcb56e8f7810cb1ed660"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/anevia_xml.lua",
+      "bytes": 3618,
+      "sha256": "a3472f6990437879ea83bc5e3aa644fe5a37d59658a69305163adeb373b2d670"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/appletrailers.lua",
+      "bytes": 4229,
+      "sha256": "ceafcc751d0d4970650a35f7ec95db18aa41fe8d78580f5434b02ffddc860cb9"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/bbc_co_uk.lua",
+      "bytes": 1508,
+      "sha256": "2e2ed6ca2bc9315c8f2ea4851ed0376c8657291e820717dcfce5f3ebc6a0be45"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/break.lua",
+      "bytes": 1982,
+      "sha256": "3638c12d0b27a71c1e9a66955c8293597e44369735571c22b2847eff78205c44"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/cue.lua",
+      "bytes": 4381,
+      "sha256": "a37d69bb2a39afd60c2398df5415aa517fbec9bedbdf7ba3b1f0ded0d95a35bc"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/dailymotion.lua",
+      "bytes": 4285,
+      "sha256": "4734bad74164110eaff14b984eef493912480fd25b8cbecb3749681698959efa"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/extreme.lua",
+      "bytes": 3714,
+      "sha256": "32412bd8da2c0579901f997250567fcb514e83d2efe880199465732f7470300b"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/france2.lua",
+      "bytes": 2124,
+      "sha256": "dd8f32ac41e6d48f17d9059ac328c19e379150a7224e82149430cff45621722d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/jamendo.lua",
+      "bytes": 3127,
+      "sha256": "5a20a540bd3f43235e090d6b8a09b838bf11eb3bb26dc4060f8c3e657388d3b0"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/katsomo.lua",
+      "bytes": 2872,
+      "sha256": "e53242553f6db21f7ec568b980449f36c4a1369075c29d1f383fe219e50df469"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/koreus.lua",
+      "bytes": 3910,
+      "sha256": "3e8014e1d1cade8b18d0aa90b1e7305708bee39f35b1bbe1e3758f74dd7047d4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/lelombrik.lua",
+      "bytes": 2021,
+      "sha256": "0cac4d157eae559720cf8dc401a7b27b62f7fa029be44abf9ca5618219c55b79"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/liveleak.lua",
+      "bytes": 3003,
+      "sha256": "53eb0d987a6742403e941ea28b24e3206a7c23945a5a4a3a326249d569160369"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/metacafe.lua",
+      "bytes": 2191,
+      "sha256": "9cfe36933763bb7c633c7c96fa71b65cdafe98c48790b3091d6c01598d47127d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/mpora.lua",
+      "bytes": 2583,
+      "sha256": "52b43d9cec1810cf0e6afeeeabae8d9b909830440afd79e8bcf50851ffa4b04f"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/newgrounds.lua",
+      "bytes": 2562,
+      "sha256": "ea15ebf4e368ff0c816d55c5d7143380cb838a94937c503a95ffde3e6e463907"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/pinkbike.lua",
+      "bytes": 2117,
+      "sha256": "95677512bfb98962fccb9bce8854fa07bc6076b958f0766c031d9f913013ad74"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/rockbox_fm_presets.lua",
+      "bytes": 1445,
+      "sha256": "b92b9cbf68456a3792bfdb4fa75efae5b59be60efa2547985915c1042ca56d93"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/soundcloud.lua",
+      "bytes": 4465,
+      "sha256": "ba38d814dc6d75a0fa80f555fce132b86d8bb01fa3dced6f232e49f185931a3d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/twitch.lua",
+      "bytes": 6079,
+      "sha256": "51a1a1ad502cf313d1befce19040fff36889038b81a1d1fbb815e808cfdd34a2"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/vimeo.lua",
+      "bytes": 4144,
+      "sha256": "91d6a9bf01380ede2c29a0c1af3fae769bace9263284fbdc4e1e15830cf45a00"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/vocaroo.lua",
+      "bytes": 1762,
+      "sha256": "56a9dd230cffb2660c3661279c59ad962e89d3b42b47a83ba5ba632480f2806d"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/youtube.lua",
+      "bytes": 42705,
+      "sha256": "82e04252b200a5279d1c8fdd595680ba29810e25a9cd3cc39cd453632a178424"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/app_vlc/.share/lua/playlist/zapiks.lua",
+      "bytes": 3016,
+      "sha256": "63c3a07413a2de46aecf9741c23feb965a40b22ee1f317fbf8887d8599e80057"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/databases/vlc_database",
+      "bytes": 4096,
+      "sha256": "b9a8194b71a046e8c0eb30995827b582b4bea834f630a5df2483b778a7d7d8a4"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/databases/vlc_database-shm",
+      "bytes": 32768,
+      "sha256": "81622397922c1073be9dc1bcd796de8a985c7176104ad2add7b630bc9ca2f7ad"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/databases/vlc_database-wal",
+      "bytes": 115392,
+      "sha256": "d7898edbc69e992fd90116c5d0b34b94d728ef528cdfdfc32db2e3fff9459e82"
+    },
+    {
+      "path": "device_images/AndroidWorldAppSnapshots_clean_v3/org.videolan.vlc/shared_prefs/org.videolan.vlc_preferences.xml",
+      "bytes": 524,
+      "sha256": "9edff880a8c39774b16bcec6cb1f99ae7a0afbb43ea10367fa70da8c842987d6"
+    }
+  ]
+}

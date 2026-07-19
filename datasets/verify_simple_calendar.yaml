@@ -1,0 +1,8 @@
+name: verify_simple_calendar
+created_at: "2026-06-15T20:00:00+08:00"
+description: Single-task verification.
+source: extracted
+app_coverage: {}
+tasks:
+- name: SimpleCalendarDeleteOneEvent
+  seed: 1043

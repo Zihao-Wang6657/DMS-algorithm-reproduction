@@ -1,0 +1,25 @@
+# Python 3.10 compatibility requirements for AndroidWorld in this reproduction.
+# Based on official requirements.txt, with minimal pins for py310 and numpy 1.26 compatibility.
+absl-py==2.1.0
+android_env==1.2.3
+dm_env==1.6
+fuzzywuzzy==0.18.0
+google-generativeai
+grpcio-tools==1.71.0
+protobuf==5.29.5
+immutabledict==2.0.0
+IPython<9
+jsonschema==4.17.3
+matplotlib==3.6.1
+numpy==1.26.3
+opencv-python<4.12
+pandas==2.1.4
+pydub
+python-Levenshtein
+pytest
+requests
+tenacity
+termcolor
+fastapi
+uvicorn
+typing_extensions==4.15.0

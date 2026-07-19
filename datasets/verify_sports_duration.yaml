@@ -1,0 +1,8 @@
+name: verify_sports_duration
+created_at: "2026-06-15T20:00:00+08:00"
+description: Single-task verification.
+source: extracted
+app_coverage: {}
+tasks:
+- name: SportsTrackerActivityDuration
+  seed: 1039

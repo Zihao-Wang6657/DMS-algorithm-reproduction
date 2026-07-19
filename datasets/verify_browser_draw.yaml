@@ -1,0 +1,8 @@
+name: verify_browser_draw
+created_at: "2026-06-15T20:35:00+08:00"
+description: Single-task verification.
+source: extracted
+app_coverage: {}
+tasks:
+- name: BrowserDraw
+  seed: 1033

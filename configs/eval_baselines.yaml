@@ -1,0 +1,49 @@
+suite:
+  family: android_world
+  rounds: 1
+  seed: 30
+  use_androidworld_step_budget: true
+
+model_config: model_qwen25vl_7b.yaml
+runtime_config: runtime.yaml
+
+pa_lite:
+  planner_max_subtasks: 5
+  actor_local_step_guard: 8
+  post_action_wait_seconds: 0.5
+  source_notes:
+    planner_max_subtasks: "DMS paper Section 3.2: k <= 5."
+    actor_local_step_guard: "Runtime guard for a single sub-task; paper names MaxA but does not give a value."
+    post_action_wait_seconds: "Local execution pacing only; does not change DMS logic."
+
+baseline_a_zero_shot:
+  memory: none
+
+baseline_b_static_memory:
+  memory: chronological_append_only
+  max_context_entries: 12
+  source_notes:
+    memory: "Assignment Baseline B: append historical interaction trajectories in chronological order without pruning."
+    max_context_entries: "Prompt context window guard only; persisted static memory is never pruned."
+
+dms:
+  memory: hierarchical_external_backend
+  memory_backend: dms.darwinian_memory:build_darwinian_memory_backend
+  memory_kwargs:
+    embedding_model_path: ../model_cache/modelscope/AI-ModelScope/all-MiniLM-L6-v2
+    epsilon: 0.1
+    novelty_bonus: 1.0
+    base_retention: 30.0
+    longevity_coefficient: 15.0
+    decay_steepness: 0.5
+    penalty_coefficient: 1.0
+    threshold_sensitivity: 0.3
+    verification_limit: 3
+    min_capacity: 24
+    max_capacity: 96
+    min_retrieval_score: 0.25
+    min_component_similarity: 0.35
+    min_goal_similarity: 0.55
+  source_notes:
+    memory: "DMS path consumes the dedicated hierarchical memory backend and routes retrieval/replay/pruning through the native DMS control loop."
+    memory_backend: "Import path for the dedicated memory subsystem factory."

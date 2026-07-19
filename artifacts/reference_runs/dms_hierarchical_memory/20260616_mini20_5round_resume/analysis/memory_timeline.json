@@ -1,0 +1,702 @@
+[
+  {
+    "index": 1,
+    "round": 1,
+    "task_id": "r01_000_AudioRecorderRecordAudio",
+    "task_name": "AudioRecorderRecordAudio",
+    "memory_size_after": 0
+  },
+  {
+    "index": 2,
+    "round": 1,
+    "task_id": "r01_001_RecipeAddSingleRecipe",
+    "task_name": "RecipeAddSingleRecipe",
+    "memory_size_after": 1
+  },
+  {
+    "index": 3,
+    "round": 1,
+    "task_id": "r01_002_CameraTakePhoto",
+    "task_name": "CameraTakePhoto",
+    "memory_size_after": 1
+  },
+  {
+    "index": 4,
+    "round": 1,
+    "task_id": "r01_003_BrowserDraw",
+    "task_name": "BrowserDraw",
+    "memory_size_after": 1
+  },
+  {
+    "index": 5,
+    "round": 1,
+    "task_id": "r01_004_ClockStopWatchRunning",
+    "task_name": "ClockStopWatchRunning",
+    "memory_size_after": 2
+  },
+  {
+    "index": 6,
+    "round": 1,
+    "task_id": "r01_005_ContactsNewContactDraft",
+    "task_name": "ContactsNewContactDraft",
+    "memory_size_after": 2
+  },
+  {
+    "index": 7,
+    "round": 1,
+    "task_id": "r01_006_FilesDeleteFile",
+    "task_name": "FilesDeleteFile",
+    "memory_size_after": 2
+  },
+  {
+    "index": 8,
+    "round": 1,
+    "task_id": "r01_007_NotesTodoItemCount",
+    "task_name": "NotesTodoItemCount",
+    "memory_size_after": 2
+  },
+  {
+    "index": 9,
+    "round": 1,
+    "task_id": "r01_008_MarkorCreateFolder",
+    "task_name": "MarkorCreateFolder",
+    "memory_size_after": 2
+  },
+  {
+    "index": 10,
+    "round": 1,
+    "task_id": "r01_009_SportsTrackerActivityDuration",
+    "task_name": "SportsTrackerActivityDuration",
+    "memory_size_after": 2
+  },
+  {
+    "index": 11,
+    "round": 1,
+    "task_id": "r01_010_OsmAndFavorite",
+    "task_name": "OsmAndFavorite",
+    "memory_size_after": 6
+  },
+  {
+    "index": 12,
+    "round": 1,
+    "task_id": "r01_011_ExpenseAddSingle",
+    "task_name": "ExpenseAddSingle",
+    "memory_size_after": 6
+  },
+  {
+    "index": 13,
+    "round": 1,
+    "task_id": "r01_012_RetroCreatePlaylist",
+    "task_name": "RetroCreatePlaylist",
+    "memory_size_after": 8
+  },
+  {
+    "index": 14,
+    "round": 1,
+    "task_id": "r01_013_SimpleCalendarDeleteOneEvent",
+    "task_name": "SimpleCalendarDeleteOneEvent",
+    "memory_size_after": 8
+  },
+  {
+    "index": 15,
+    "round": 1,
+    "task_id": "r01_014_SimpleDrawProCreateDrawing",
+    "task_name": "SimpleDrawProCreateDrawing",
+    "memory_size_after": 8
+  },
+  {
+    "index": 16,
+    "round": 1,
+    "task_id": "r01_015_SaveCopyOfReceiptTaskEval",
+    "task_name": "SaveCopyOfReceiptTaskEval",
+    "memory_size_after": 9
+  },
+  {
+    "index": 17,
+    "round": 1,
+    "task_id": "r01_016_SimpleSmsSend",
+    "task_name": "SimpleSmsSend",
+    "memory_size_after": 10
+  },
+  {
+    "index": 18,
+    "round": 1,
+    "task_id": "r01_017_SystemWifiTurnOn",
+    "task_name": "SystemWifiTurnOn",
+    "memory_size_after": 10
+  },
+  {
+    "index": 19,
+    "round": 1,
+    "task_id": "r01_018_TasksDueOnDate",
+    "task_name": "TasksDueOnDate",
+    "memory_size_after": 10
+  },
+  {
+    "index": 20,
+    "round": 1,
+    "task_id": "r01_019_VlcCreatePlaylist",
+    "task_name": "VlcCreatePlaylist",
+    "memory_size_after": 10
+  },
+  {
+    "index": 21,
+    "round": 2,
+    "task_id": "r02_000_AudioRecorderRecordAudio",
+    "task_name": "AudioRecorderRecordAudio",
+    "memory_size_after": 11
+  },
+  {
+    "index": 22,
+    "round": 2,
+    "task_id": "r02_001_RecipeAddSingleRecipe",
+    "task_name": "RecipeAddSingleRecipe",
+    "memory_size_after": 12
+  },
+  {
+    "index": 23,
+    "round": 2,
+    "task_id": "r02_002_CameraTakePhoto",
+    "task_name": "CameraTakePhoto",
+    "memory_size_after": 13
+  },
+  {
+    "index": 24,
+    "round": 2,
+    "task_id": "r02_003_BrowserDraw",
+    "task_name": "BrowserDraw",
+    "memory_size_after": 13
+  },
+  {
+    "index": 25,
+    "round": 2,
+    "task_id": "r02_004_ClockStopWatchRunning",
+    "task_name": "ClockStopWatchRunning",
+    "memory_size_after": 14
+  },
+  {
+    "index": 26,
+    "round": 2,
+    "task_id": "r02_005_ContactsNewContactDraft",
+    "task_name": "ContactsNewContactDraft",
+    "memory_size_after": 15
+  },
+  {
+    "index": 27,
+    "round": 2,
+    "task_id": "r02_006_FilesDeleteFile",
+    "task_name": "FilesDeleteFile",
+    "memory_size_after": 16
+  },
+  {
+    "index": 28,
+    "round": 2,
+    "task_id": "r02_007_NotesTodoItemCount",
+    "task_name": "NotesTodoItemCount",
+    "memory_size_after": 16
+  },
+  {
+    "index": 29,
+    "round": 2,
+    "task_id": "r02_008_MarkorCreateFolder",
+    "task_name": "MarkorCreateFolder",
+    "memory_size_after": 17
+  },
+  {
+    "index": 30,
+    "round": 2,
+    "task_id": "r02_009_SportsTrackerActivityDuration",
+    "task_name": "SportsTrackerActivityDuration",
+    "memory_size_after": 17
+  },
+  {
+    "index": 31,
+    "round": 2,
+    "task_id": "r02_010_OsmAndFavorite",
+    "task_name": "OsmAndFavorite",
+    "memory_size_after": 19
+  },
+  {
+    "index": 32,
+    "round": 2,
+    "task_id": "r02_011_ExpenseAddSingle",
+    "task_name": "ExpenseAddSingle",
+    "memory_size_after": 20
+  },
+  {
+    "index": 33,
+    "round": 2,
+    "task_id": "r02_012_RetroCreatePlaylist",
+    "task_name": "RetroCreatePlaylist",
+    "memory_size_after": 22
+  },
+  {
+    "index": 34,
+    "round": 2,
+    "task_id": "r02_013_SimpleCalendarDeleteOneEvent",
+    "task_name": "SimpleCalendarDeleteOneEvent",
+    "memory_size_after": 23
+  },
+  {
+    "index": 35,
+    "round": 2,
+    "task_id": "r02_014_SimpleDrawProCreateDrawing",
+    "task_name": "SimpleDrawProCreateDrawing",
+    "memory_size_after": 11
+  },
+  {
+    "index": 36,
+    "round": 2,
+    "task_id": "r02_015_SaveCopyOfReceiptTaskEval",
+    "task_name": "SaveCopyOfReceiptTaskEval",
+    "memory_size_after": 14
+  },
+  {
+    "index": 37,
+    "round": 2,
+    "task_id": "r02_016_SimpleSmsSend",
+    "task_name": "SimpleSmsSend",
+    "memory_size_after": 15
+  },
+  {
+    "index": 38,
+    "round": 2,
+    "task_id": "r02_017_SystemWifiTurnOn",
+    "task_name": "SystemWifiTurnOn",
+    "memory_size_after": 18
+  },
+  {
+    "index": 39,
+    "round": 2,
+    "task_id": "r02_018_TasksDueOnDate",
+    "task_name": "TasksDueOnDate",
+    "memory_size_after": 18
+  },
+  {
+    "index": 40,
+    "round": 2,
+    "task_id": "r02_019_VlcCreatePlaylist",
+    "task_name": "VlcCreatePlaylist",
+    "memory_size_after": 18
+  },
+  {
+    "index": 41,
+    "round": 3,
+    "task_id": "r03_000_AudioRecorderRecordAudio",
+    "task_name": "AudioRecorderRecordAudio",
+    "memory_size_after": 18
+  },
+  {
+    "index": 42,
+    "round": 3,
+    "task_id": "r03_001_RecipeAddSingleRecipe",
+    "task_name": "RecipeAddSingleRecipe",
+    "memory_size_after": 18
+  },
+  {
+    "index": 43,
+    "round": 3,
+    "task_id": "r03_002_CameraTakePhoto",
+    "task_name": "CameraTakePhoto",
+    "memory_size_after": 18
+  },
+  {
+    "index": 44,
+    "round": 3,
+    "task_id": "r03_003_BrowserDraw",
+    "task_name": "BrowserDraw",
+    "memory_size_after": 18
+  },
+  {
+    "index": 45,
+    "round": 3,
+    "task_id": "r03_004_ClockStopWatchRunning",
+    "task_name": "ClockStopWatchRunning",
+    "memory_size_after": 19
+  },
+  {
+    "index": 46,
+    "round": 3,
+    "task_id": "r03_005_ContactsNewContactDraft",
+    "task_name": "ContactsNewContactDraft",
+    "memory_size_after": 19
+  },
+  {
+    "index": 47,
+    "round": 3,
+    "task_id": "r03_006_FilesDeleteFile",
+    "task_name": "FilesDeleteFile",
+    "memory_size_after": 19
+  },
+  {
+    "index": 48,
+    "round": 3,
+    "task_id": "r03_007_NotesTodoItemCount",
+    "task_name": "NotesTodoItemCount",
+    "memory_size_after": 19
+  },
+  {
+    "index": 49,
+    "round": 3,
+    "task_id": "r03_008_MarkorCreateFolder",
+    "task_name": "MarkorCreateFolder",
+    "memory_size_after": 20
+  },
+  {
+    "index": 50,
+    "round": 3,
+    "task_id": "r03_009_SportsTrackerActivityDuration",
+    "task_name": "SportsTrackerActivityDuration",
+    "memory_size_after": 20
+  },
+  {
+    "index": 51,
+    "round": 3,
+    "task_id": "r03_010_OsmAndFavorite",
+    "task_name": "OsmAndFavorite",
+    "memory_size_after": 20
+  },
+  {
+    "index": 52,
+    "round": 3,
+    "task_id": "r03_011_ExpenseAddSingle",
+    "task_name": "ExpenseAddSingle",
+    "memory_size_after": 20
+  },
+  {
+    "index": 53,
+    "round": 3,
+    "task_id": "r03_012_RetroCreatePlaylist",
+    "task_name": "RetroCreatePlaylist",
+    "memory_size_after": 21
+  },
+  {
+    "index": 54,
+    "round": 3,
+    "task_id": "r03_013_SimpleCalendarDeleteOneEvent",
+    "task_name": "SimpleCalendarDeleteOneEvent",
+    "memory_size_after": 22
+  },
+  {
+    "index": 55,
+    "round": 3,
+    "task_id": "r03_014_SimpleDrawProCreateDrawing",
+    "task_name": "SimpleDrawProCreateDrawing",
+    "memory_size_after": 22
+  },
+  {
+    "index": 56,
+    "round": 3,
+    "task_id": "r03_015_SaveCopyOfReceiptTaskEval",
+    "task_name": "SaveCopyOfReceiptTaskEval",
+    "memory_size_after": 23
+  },
+  {
+    "index": 57,
+    "round": 3,
+    "task_id": "r03_016_SimpleSmsSend",
+    "task_name": "SimpleSmsSend",
+    "memory_size_after": 11
+  },
+  {
+    "index": 58,
+    "round": 3,
+    "task_id": "r03_017_SystemWifiTurnOn",
+    "task_name": "SystemWifiTurnOn",
+    "memory_size_after": 11
+  },
+  {
+    "index": 59,
+    "round": 3,
+    "task_id": "r03_018_TasksDueOnDate",
+    "task_name": "TasksDueOnDate",
+    "memory_size_after": 11
+  },
+  {
+    "index": 60,
+    "round": 3,
+    "task_id": "r03_019_VlcCreatePlaylist",
+    "task_name": "VlcCreatePlaylist",
+    "memory_size_after": 12
+  },
+  {
+    "index": 61,
+    "round": 4,
+    "task_id": "r04_000_AudioRecorderRecordAudio",
+    "task_name": "AudioRecorderRecordAudio",
+    "memory_size_after": 14
+  },
+  {
+    "index": 62,
+    "round": 4,
+    "task_id": "r04_001_RecipeAddSingleRecipe",
+    "task_name": "RecipeAddSingleRecipe",
+    "memory_size_after": 15
+  },
+  {
+    "index": 63,
+    "round": 4,
+    "task_id": "r04_002_CameraTakePhoto",
+    "task_name": "CameraTakePhoto",
+    "memory_size_after": 16
+  },
+  {
+    "index": 64,
+    "round": 4,
+    "task_id": "r04_003_BrowserDraw",
+    "task_name": "BrowserDraw",
+    "memory_size_after": 16
+  },
+  {
+    "index": 65,
+    "round": 4,
+    "task_id": "r04_004_ClockStopWatchRunning",
+    "task_name": "ClockStopWatchRunning",
+    "memory_size_after": 17
+  },
+  {
+    "index": 66,
+    "round": 4,
+    "task_id": "r04_005_ContactsNewContactDraft",
+    "task_name": "ContactsNewContactDraft",
+    "memory_size_after": 18
+  },
+  {
+    "index": 67,
+    "round": 4,
+    "task_id": "r04_006_FilesDeleteFile",
+    "task_name": "FilesDeleteFile",
+    "memory_size_after": 18
+  },
+  {
+    "index": 68,
+    "round": 4,
+    "task_id": "r04_007_NotesTodoItemCount",
+    "task_name": "NotesTodoItemCount",
+    "memory_size_after": 18
+  },
+  {
+    "index": 69,
+    "round": 4,
+    "task_id": "r04_008_MarkorCreateFolder",
+    "task_name": "MarkorCreateFolder",
+    "memory_size_after": 19
+  },
+  {
+    "index": 70,
+    "round": 4,
+    "task_id": "r04_009_SportsTrackerActivityDuration",
+    "task_name": "SportsTrackerActivityDuration",
+    "memory_size_after": 19
+  },
+  {
+    "index": 71,
+    "round": 4,
+    "task_id": "r04_010_OsmAndFavorite",
+    "task_name": "OsmAndFavorite",
+    "memory_size_after": 20
+  },
+  {
+    "index": 72,
+    "round": 4,
+    "task_id": "r04_011_ExpenseAddSingle",
+    "task_name": "ExpenseAddSingle",
+    "memory_size_after": 20
+  },
+  {
+    "index": 73,
+    "round": 4,
+    "task_id": "r04_012_RetroCreatePlaylist",
+    "task_name": "RetroCreatePlaylist",
+    "memory_size_after": 20
+  },
+  {
+    "index": 74,
+    "round": 4,
+    "task_id": "r04_013_SimpleCalendarDeleteOneEvent",
+    "task_name": "SimpleCalendarDeleteOneEvent",
+    "memory_size_after": 21
+  },
+  {
+    "index": 75,
+    "round": 4,
+    "task_id": "r04_014_SimpleDrawProCreateDrawing",
+    "task_name": "SimpleDrawProCreateDrawing",
+    "memory_size_after": 21
+  },
+  {
+    "index": 76,
+    "round": 4,
+    "task_id": "r04_015_SaveCopyOfReceiptTaskEval",
+    "task_name": "SaveCopyOfReceiptTaskEval",
+    "memory_size_after": 22
+  },
+  {
+    "index": 77,
+    "round": 4,
+    "task_id": "r04_016_SimpleSmsSend",
+    "task_name": "SimpleSmsSend",
+    "memory_size_after": 23
+  },
+  {
+    "index": 78,
+    "round": 4,
+    "task_id": "r04_017_SystemWifiTurnOn",
+    "task_name": "SystemWifiTurnOn",
+    "memory_size_after": 23
+  },
+  {
+    "index": 79,
+    "round": 4,
+    "task_id": "r04_018_TasksDueOnDate",
+    "task_name": "TasksDueOnDate",
+    "memory_size_after": 23
+  },
+  {
+    "index": 80,
+    "round": 4,
+    "task_id": "r04_019_VlcCreatePlaylist",
+    "task_name": "VlcCreatePlaylist",
+    "memory_size_after": 9
+  },
+  {
+    "index": 81,
+    "round": 5,
+    "task_id": "r05_000_AudioRecorderRecordAudio",
+    "task_name": "AudioRecorderRecordAudio",
+    "memory_size_after": 10
+  },
+  {
+    "index": 82,
+    "round": 5,
+    "task_id": "r05_001_RecipeAddSingleRecipe",
+    "task_name": "RecipeAddSingleRecipe",
+    "memory_size_after": 11
+  },
+  {
+    "index": 83,
+    "round": 5,
+    "task_id": "r05_002_CameraTakePhoto",
+    "task_name": "CameraTakePhoto",
+    "memory_size_after": 12
+  },
+  {
+    "index": 84,
+    "round": 5,
+    "task_id": "r05_003_BrowserDraw",
+    "task_name": "BrowserDraw",
+    "memory_size_after": 12
+  },
+  {
+    "index": 85,
+    "round": 5,
+    "task_id": "r05_004_ClockStopWatchRunning",
+    "task_name": "ClockStopWatchRunning",
+    "memory_size_after": 13
+  },
+  {
+    "index": 86,
+    "round": 5,
+    "task_id": "r05_005_ContactsNewContactDraft",
+    "task_name": "ContactsNewContactDraft",
+    "memory_size_after": 14
+  },
+  {
+    "index": 87,
+    "round": 5,
+    "task_id": "r05_006_FilesDeleteFile",
+    "task_name": "FilesDeleteFile",
+    "memory_size_after": 15
+  },
+  {
+    "index": 88,
+    "round": 5,
+    "task_id": "r05_007_NotesTodoItemCount",
+    "task_name": "NotesTodoItemCount",
+    "memory_size_after": 15
+  },
+  {
+    "index": 89,
+    "round": 5,
+    "task_id": "r05_008_MarkorCreateFolder",
+    "task_name": "MarkorCreateFolder",
+    "memory_size_after": 17
+  },
+  {
+    "index": 90,
+    "round": 5,
+    "task_id": "r05_009_SportsTrackerActivityDuration",
+    "task_name": "SportsTrackerActivityDuration",
+    "memory_size_after": 17
+  },
+  {
+    "index": 91,
+    "round": 5,
+    "task_id": "r05_010_OsmAndFavorite",
+    "task_name": "OsmAndFavorite",
+    "memory_size_after": 18
+  },
+  {
+    "index": 92,
+    "round": 5,
+    "task_id": "r05_011_ExpenseAddSingle",
+    "task_name": "ExpenseAddSingle",
+    "memory_size_after": 18
+  },
+  {
+    "index": 93,
+    "round": 5,
+    "task_id": "r05_012_RetroCreatePlaylist",
+    "task_name": "RetroCreatePlaylist",
+    "memory_size_after": 18
+  },
+  {
+    "index": 94,
+    "round": 5,
+    "task_id": "r05_013_SimpleCalendarDeleteOneEvent",
+    "task_name": "SimpleCalendarDeleteOneEvent",
+    "memory_size_after": 19
+  },
+  {
+    "index": 95,
+    "round": 5,
+    "task_id": "r05_014_SimpleDrawProCreateDrawing",
+    "task_name": "SimpleDrawProCreateDrawing",
+    "memory_size_after": 19
+  },
+  {
+    "index": 96,
+    "round": 5,
+    "task_id": "r05_015_SaveCopyOfReceiptTaskEval",
+    "task_name": "SaveCopyOfReceiptTaskEval",
+    "memory_size_after": 19
+  },
+  {
+    "index": 97,
+    "round": 5,
+    "task_id": "r05_016_SimpleSmsSend",
+    "task_name": "SimpleSmsSend",
+    "memory_size_after": 20
+  },
+  {
+    "index": 98,
+    "round": 5,
+    "task_id": "r05_017_SystemWifiTurnOn",
+    "task_name": "SystemWifiTurnOn",
+    "memory_size_after": 20
+  },
+  {
+    "index": 99,
+    "round": 5,
+    "task_id": "r05_018_TasksDueOnDate",
+    "task_name": "TasksDueOnDate",
+    "memory_size_after": 20
+  },
+  {
+    "index": 100,
+    "round": 5,
+    "task_id": "r05_019_VlcCreatePlaylist",
+    "task_name": "VlcCreatePlaylist",
+    "memory_size_after": 20
+  }
+]

@@ -1,0 +1,46 @@
+# Python dependencies for the Darwinian reproduction workspace.
+# Target runtime: Python 3.10, aligned with `conda_envs/dms_py310`.
+#
+# Notes:
+# - This file covers Python packages only. Android SDK/JDK/AVD and local model
+#   weights are configured separately under the repository root.
+# - Our runs used CUDA 12.8 builds of torch/torchvision. The version pins below
+#   omit the local `+cu128` suffix so the file remains installable from a normal
+#   package index; if you use a different CUDA setup, install matching wheels.
+
+# AndroidWorld base dependencies
+absl-py==2.1.0
+android_env==1.2.3
+dm_env==1.6
+fuzzywuzzy==0.18.0
+google-generativeai==0.8.6
+grpcio-tools==1.71.0
+protobuf==5.29.5
+immutabledict==2.0.0
+ipython==8.39.0
+jsonschema==4.17.3
+matplotlib==3.6.1
+numpy==1.26.3
+opencv-python==4.11.0.86
+pandas==2.1.4
+pydub==0.25.1
+python-Levenshtein==0.27.3
+pytest==9.0.3
+requests==2.34.2
+tenacity==9.1.4
+termcolor==3.3.0
+fastapi==0.136.3
+uvicorn==0.49.0
+typing_extensions==4.15.0
+
+# Reproduction workspace extras
+Pillow==12.2.0
+PyYAML==6.0.3
+torch==2.7.1
+torchvision==0.22.1
+transformers==4.52.4
+huggingface-hub==0.36.2
+accelerate==1.7.0
+qwen-vl-utils==0.0.11
+sentence-transformers==5.5.1
+scipy==1.15.3

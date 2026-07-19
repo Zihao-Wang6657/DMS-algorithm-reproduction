@@ -1,0 +1,16 @@
+name: mini_benchmark_probe5
+created_at: '2026-06-15T17:05:00+08:00'
+description: Small cross-app probe sampled from the 20-app mini-benchmark for
+  quick abnormal-error detection.
+source: First five tasks from mini_benchmark_20apps.yaml.
+tasks:
+- name: AudioRecorderRecordAudio
+  seed: 1030
+- name: RecipeAddSingleRecipe
+  seed: 1031
+- name: CameraTakePhoto
+  seed: 1032
+- name: BrowserDraw
+  seed: 1033
+- name: ClockStopWatchRunning
+  seed: 1034

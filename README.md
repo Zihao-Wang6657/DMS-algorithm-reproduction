@@ -51,7 +51,7 @@ DMS/
 目录重构只改变源码组织和启动路径，没有修改算法、Prompt、实验配置或已生成结果。
 
 ## 3. 实验环境
-
+(由于AndroidWorld对windows环境的适配不佳，存在大量问题，我将项目整体迁移到了Linux环境)
 本地主机与 WSL：
 
 - Windows 10 Pro 64-bit 宿主机。
@@ -112,8 +112,7 @@ bash scripts/run/run_selected5_all_methods.sh
 ```
 
 脚本默认使用 `datasets/mini_benchmark_probe5.yaml`，按顺序运行 Baseline A、Baseline B 和
-DMS，每种方法执行 1 轮。运行前会验证数据集恰好包含 5 个任务，并检查模型服务、
-AndroidWorld 和 a11y。
+DMS，每种方法执行 1 轮。运行前会验证数据集恰好包含 5 个任务，并检查模型服务、AndroidWorld 和 a11y。
 
 运行正式 5 轮实验：
 
@@ -171,22 +170,26 @@ DMS 当前配置的初始容量为 24，最大容量为 96。动态剪枝只在 
 
 ## 6. 实验结果
 
-### 6.1 本版本相对旧版本的基础设施差异
+### 6.1 本版本相对旧版本改变的实验环境以及对应的问题
 
-早期实验曾出现 accessibility forwarder 崩溃、空 a11y tree 转 UIAutomator、ADB dump
-失败，以及模型把 forwarder 崩溃页面学习进 memory 的情况。这些运行只能证明 runner、
-远程模型、模拟器、evaluator 和 memory 存储链路能够执行，不能用于判断三种算法能力。
+上一版本实验曾出现 accessibility forwarder 崩溃、空 a11y tree 转 UIAutomator、ADB dump
+失败，以及模型把 forwarder 崩溃页面学习进 memory 的情况，在经过检查失败日志以及AndroidWorldg
+官方仓库的issue后我认为：算法本身的逻辑是正确的，但是对windows的环境适配存在问题(prompt以及一些
+优化机制也存在问题，但我认为是次要的原因)，因此我将项目整体迁移到了WSL/Linux上。
 
-(1) **运行平台从原生 Windows 改为 WSL2/Linux。** AndroidWorld 维护者曾说明 Windows
-路径当时没有经过官方测试；后续虽然合入了 Windows 支持，但仍有人遇到临时 APK 被提前删除、
-ADB 无法安装 accessibility forwarder 等 Windows 专有问题，参见官方 issue
+
+(1) **Windows环境下出现ADB 无法安装 accessibility forwarder 等问题** 在实验过程中遇到了
+大量混杂的报错，查阅AndroidWorld 发现AndroidWorld 在Windows路径没有经过官方测试；后续
+虽然合入了 Windows 支持，但仍有人遇到临时 APK 被提前删除、ADB 无法安装 accessibility forwarder 
+等 Windows 专有问题，参见官方 issue：
 [#117](https://github.com/google-research/android_world/issues/117) 和
-[#283](https://github.com/google-research/android_world/issues/283)。因此本版本把 Python
-runner、Android emulator、ADB、forwarder 和 evaluator 统一放入 WSL2/Linux，减少路径、
-临时文件、进程管理和端口转发的额外变量；远程 vLLM 服务及模型配置没有因此改变。
+[#283](https://github.com/google-research/android_world/issues/283)。因此本版本
+运行平台从原生 Windows 改为 WSL2/Linux。把 Pythonrunner、Android emulator、ADB、
+forwarder 和 evaluator 统一放入 WSL2/Linux，减少路径、临时文件、进程管理和端口转发的额外变量；
+远程 vLLM 服务及模型配置没有因此改变。
 
-(2) **把 `Could not get a11y tree` 从可忽略告警改为严格的基础设施错误。** 该错误并非本项目
-独有，AndroidWorld 官方 issue [#164](https://github.com/google-research/android_world/issues/164)
+(2) **迁移到Linux后，实验中出现大量 `Could not get a11y tree` 错误。** 查阅AndroidWorld官方issue后发现，
+[#164](https://github.com/google-research/android_world/issues/164)
 和 [#314](https://github.com/google-research/android_world/issues/314) 都报告了相同现象，
 维护者也在 #314 中说明相关实验链路存在已知稳定性问题。本版本在动作后等待 3 秒，并只在同一
 AndroidEnv 实例内进行有限的 a11y/transition 重试；只有非空、包含当前前台包或合法
@@ -194,12 +197,13 @@ PermissionController 的树才能成为 observation。若树持续为空、陈�
 `A11yInfrastructureError`，禁用 UIAutomator 回退，不保存污染 observation，也不允许 DMS
 把 forwarder 故障界面写入 memory。
 
-(3) **为 headless 模拟器的软件图形链路显式启用 Vulkan feature。** 旧版本在 Chrome 冷启动
+(3) **Chrome出现渲染失败问题，导致任务在开始时就失败，算法空转** 旧版本在 Chrome 冷启动
 和绘图页面上出现过 `CompositorGpuTh`、`libmonochrome`/`SIGSEGV` 等 native crash；这会让
-BrowserDraw 和其他 Chrome 任务在算法尚未行动前就失败。本版本保留 llvmpipe 软件渲染，同时以
-`-feature -Vulkan` 启动模拟器，在 Linux 中配合 `-gpu off` 避开不稳定的旧 compositor 路径。
-这里的 Vulkan feature 是模拟器的软件图形协议选择，并不依赖本地物理 GPU；若日志再次出现
-Chrome native crash，该次运行仍会按基础设施污染处理。
+BrowserDraw 和其他 Chrome 任务在算法尚未行动前就失败。本版本为 headless 模拟器的软件图形链路
+显式启用 Vulkan feature。保留 llvmpipe 软件渲染，同时以`-feature -Vulkan` 启动模拟器，
+在 Linux 中配合 `-gpu off` 避开不稳定的旧 compositor 路径。这里的 Vulkan feature 
+是模拟器的软件图形协议选择，并不依赖本地物理 GPU；若日志再次出现Chrome native crash，
+该次运行仍会按基础设施污染处理。
 
 此外，每个正式实验都创建全新 RunRoot，不覆盖、不拼接，也不续接受污染的旧结果。
 
@@ -274,6 +278,7 @@ DMS 的逐轮 memory size 为 `6 → 6 → 9 → 10 → 12`。由于 active memo
 #### 4. DMS 记忆库大小随任务时间变化
 
 横轴中的一个时间单位对应一个已经完成的 DMS 任务尝试；每 5 个时间单位为一轮。
+在本次实验中，由于任务轮数较少，memory bank尚未达到容量上限，因此没有触发剪枝。
 
 ![DMS memory size timeline](figs/dms_memory_size_timeline.png)
 
@@ -299,17 +304,19 @@ a11y 生命周期、Chrome/Files onboarding、动作目标校验、SSH 本地端
 OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 DMS 单独提供任务答案。
 
 为弥补 7B 模型在元素定位、任务类型判断和应用导航上的劣势，本版本加入了以下三项对三种
-方法完全一致的执行约束；它们不修改 AndroidWorld evaluator，也不向 DMS 注入任务答案：
+方法完全一致的优化机制；它们不修改 AndroidWorld evaluator，也不向 DMS 注入任务答案：
 
-(1) **`tap(index, expected_text)` 动作目标重绑定：** 7B 容易在界面刷新后沿用旧 index，因此 Actor 可以同时给出索引和它看到的精确文字。<br>
+(1) **优化tap函数匹配机制，增加 expected_text目标文字参数**:tap函数原本依赖UI index进行匹配， 7B 容易在界面刷新后沿用旧 index，因此修改 Actor 使其同时给出索引和它看到的精确文字。<br>
 **处理：** 若 index 对应元素的 `text`/`content_description` 不匹配，则在当前 a11y tree 中寻找唯一可见的精确文字匹配，并把动作重绑定到该元素中心坐标。<br>
 **边界：** 文字缺失、出现多个同名可见目标或目标不可见时直接拒绝动作，不猜测 index，也不退化为可能点击相邻控件的坐标。
 
-(2) **只为 `InformationRetrieval` 转换答案：** 旧版用 `"when"` 等宽泛关键词判断问答任务，`BrowserDraw` 的 “when prompted” 因而可能被误判并反复进入 `answer` 循环。<br>
+(2) **优化问答任务处理函数_task_requires_answer：** _task_requires_answer函数是用于区分问答问题的函数，旧版用 `"when"` 等宽泛关键词判断问答任务，`BrowserDraw` 的 “when prompted” 
+因而可能被误判并反复进入 `answer` 循环，我们把它从“根据任务文字猜测类型”改成了“根据 AndroidWorld 的真实任务类判断”。<br>
 **处理：** `_task_requires_answer` 现在检查真实 AndroidWorld 任务类，只有 `InformationRetrieval` 的 `complete(success=True, reason=...)` 才可把非空 reason 转成 `answer`。<br>
 **边界：** `BrowserDraw` 等 GUI/组合任务即使包含疑似问答关键词也不会转换，最终成功仍完全由其原生 evaluator 判断。
 
-(3) **扩展 Downloads shortcut：** 7B 往往把“打开 Downloads”理解成不存在的独立应用，或者无法把 Files/文件管理器映射到 Android 实际使用的 DocumentsUI。<br>
+(3) **扩展 shortcut 机制：** 对于打开app类的动作，为了降低模型在这类动作上的错误，降低浪费的步数，我们设计了shortcut机制，遇到这类动作时自动匹配，打开相应的app，面对20个应用之外的打开行为，例如 
+“打开 Downloads”7B 往往理解成不存在的独立应用，或者无法把 Files/文件管理器映射到 Android 实际使用的 DocumentsUI。<br>
 **处理：** 对只包含 Download(s) 与明确导航动词的简单子任务，shortcut 先启动 `files`，再唯一匹配可见的 `Downloads`/`Download`；检测到 `Files in Downloads` 时才确认导航完成。<br>
 **边界：** 含 `and`、`then`、`html`、`locate`、`chrome` 等组合语义或 Chrome 首次启动页时不触发 shortcut，后续文件查找和任务操作仍由 7B Planner–Actor 完成。
 
@@ -321,5 +328,4 @@ OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 D
 - 远程模型、模拟器启动时序和 GUI 状态可能造成运行间波动，不能保证逐动作完全一致。
 - 7B mini benchmark 的成功率不能直接等同于论文 72B 在完整 AndroidWorld 上的结果。
 
-因此，这次实验支持“在当前五任务设置下，DMS 的成功率和资源效率优于两个 baseline”，但
-不能外推为 DMS 在完整 AndroidWorld、其他模型规模或所有任务类型上都具有同样优势。
+

@@ -214,13 +214,16 @@ BrowserDraw 和其他 Chrome 任务在算法尚未行动前就失败。本版本
 
 正式任务固定为：
 
-| 任务 | Seed |
-| --- | ---: |
-| `AudioRecorderRecordAudio` | 1030 |
-| `RecipeAddSingleRecipe` | 1031 |
-| `CameraTakePhoto` | 1032 |
-| `BrowserDraw` | 1033 |
-| `ClockStopWatchRunning` | 1034 |
+| 任务 | 主要应用 | 操作概要 | 官方最优 Step | Seed |
+| --- | --- | --- | ---: | ---: |
+| `AudioRecorderRecordAudio` | Audio Recorder | 录制一段音频并保存 | 6 | 1030 |
+| `RecipeAddSingleRecipe` | Broccoli | 按给定内容填写并保存一份配方 | 12 | 1031 |
+| `CameraTakePhoto` | Camera | 拍摄一张照片 | 2 | 1032 |
+| `BrowserDraw` | Files、Chrome | 打开 Downloads 中的 `task.html`，按颜色要求绘图并提交 | 5 | 1033 |
+| `ClockStopWatchRunning` | Clock | 启动并保持秒表运行 | 3 | 1034 |
+
+“官方最优 Step”取自 AndroidWorld 的 `task_metadata.json`。表中同时列出主要应用和操作概要，
+用于说明五个任务所覆盖的交互类型与操作长度。
 
 结果来自：
 

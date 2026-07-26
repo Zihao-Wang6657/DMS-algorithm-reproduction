@@ -171,21 +171,37 @@ DMS 当前配置的初始容量为 24，最大容量为 96。动态剪枝只在 
 
 ## 6. 实验结果
 
-### 6.1 基础设施诊断与正式运行条件
+### 6.1 本版本相对旧版本的基础设施差异
 
 早期实验曾出现 accessibility forwarder 崩溃、空 a11y tree 转 UIAutomator、ADB dump
 失败，以及模型把 forwarder 崩溃页面学习进 memory 的情况。这些运行只能证明 runner、
 远程模型、模拟器、evaluator 和 memory 存储链路能够执行，不能用于判断三种算法能力。
 
-当前 WSL 运行链路完成了以下稳定化：
+(1) **运行平台从原生 Windows 改为 WSL2/Linux。** AndroidWorld 维护者曾说明 Windows
+路径当时没有经过官方测试；后续虽然合入了 Windows 支持，但仍有人遇到临时 APK 被提前删除、
+ADB 无法安装 accessibility forwarder 等 Windows 专有问题，参见官方 issue
+[#117](https://github.com/google-research/android_world/issues/117) 和
+[#283](https://github.com/google-research/android_world/issues/283)。因此本版本把 Python
+runner、Android emulator、ADB、forwarder 和 evaluator 统一放入 WSL2/Linux，减少路径、
+临时文件、进程管理和端口转发的额外变量；远程 vLLM 服务及模型配置没有因此改变。
 
-1. a11y 获取失败在严格协议下作为基础设施错误上抛，不再静默保存错误 observation。
-2. 模拟器启用 Vulkan feature 与软件图形后端，规避已观察到的 Chrome GPU native crash。
-3. Chrome 首次启动页面、DocumentsUI/Files 映射和 Downloads 导航由短路逻辑处理。
-4. `tap(index, expected_text)` 在 index 与文字不一致时只接受唯一可见文字匹配，避免索引漂移误点。
-5. 只有 AndroidWorld `InformationRetrieval` 任务允许把 `complete` 理由转换成答案，避免
-   `BrowserDraw` 因关键词误判进入 answer 循环。
-6. 每个正式实验使用新的 RunRoot，不拼接或续接受到污染的旧结果。
+(2) **把 `Could not get a11y tree` 从可忽略告警改为严格的基础设施错误。** 该错误并非本项目
+独有，AndroidWorld 官方 issue [#164](https://github.com/google-research/android_world/issues/164)
+和 [#314](https://github.com/google-research/android_world/issues/314) 都报告了相同现象，
+维护者也在 #314 中说明相关实验链路存在已知稳定性问题。本版本在动作后等待 3 秒，并只在同一
+AndroidEnv 实例内进行有限的 a11y/transition 重试；只有非空、包含当前前台包或合法
+PermissionController 的树才能成为 observation。若树持续为空、陈旧或再次出现该异常，则抛出
+`A11yInfrastructureError`，禁用 UIAutomator 回退，不保存污染 observation，也不允许 DMS
+把 forwarder 故障界面写入 memory。
+
+(3) **为 headless 模拟器的软件图形链路显式启用 Vulkan feature。** 旧版本在 Chrome 冷启动
+和绘图页面上出现过 `CompositorGpuTh`、`libmonochrome`/`SIGSEGV` 等 native crash；这会让
+BrowserDraw 和其他 Chrome 任务在算法尚未行动前就失败。本版本保留 llvmpipe 软件渲染，同时以
+`-feature -Vulkan` 启动模拟器，在 Linux 中配合 `-gpu off` 避开不稳定的旧 compositor 路径。
+这里的 Vulkan feature 是模拟器的软件图形协议选择，并不依赖本地物理 GPU；若日志再次出现
+Chrome native crash，该次运行仍会按基础设施污染处理。
+
+此外，每个正式实验都创建全新 RunRoot，不覆盖、不拼接，也不续接受污染的旧结果。
 
 最新 75 次正式运行没有记录 runtime error；日志审计未发现实际 UIAutomator 回退、
 新 forwarder 崩溃、Chrome native crash 或被保存的 systemui-only observation。
@@ -281,6 +297,21 @@ DMS 的逐轮 memory size 为 `6 → 6 → 9 → 10 → 12`。由于 active memo
 当前实现保留统一的 Planner–Actor 主骨架和核心 Prompt，并尽量把平台适配限制在运行层：
 a11y 生命周期、Chrome/Files onboarding、动作目标校验、SSH 本地端口转发和远程
 OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 DMS 单独提供任务答案。
+
+为弥补 7B 模型在元素定位、任务类型判断和应用导航上的劣势，本版本加入了以下三项对三种
+方法完全一致的执行约束；它们不修改 AndroidWorld evaluator，也不向 DMS 注入任务答案：
+
+(1) **`tap(index, expected_text)` 动作目标重绑定：** 7B 容易在界面刷新后沿用旧 index，因此 Actor 可以同时给出索引和它看到的精确文字。<br>
+**处理：** 若 index 对应元素的 `text`/`content_description` 不匹配，则在当前 a11y tree 中寻找唯一可见的精确文字匹配，并把动作重绑定到该元素中心坐标。<br>
+**边界：** 文字缺失、出现多个同名可见目标或目标不可见时直接拒绝动作，不猜测 index，也不退化为可能点击相邻控件的坐标。
+
+(2) **只为 `InformationRetrieval` 转换答案：** 旧版用 `"when"` 等宽泛关键词判断问答任务，`BrowserDraw` 的 “when prompted” 因而可能被误判并反复进入 `answer` 循环。<br>
+**处理：** `_task_requires_answer` 现在检查真实 AndroidWorld 任务类，只有 `InformationRetrieval` 的 `complete(success=True, reason=...)` 才可把非空 reason 转成 `answer`。<br>
+**边界：** `BrowserDraw` 等 GUI/组合任务即使包含疑似问答关键词也不会转换，最终成功仍完全由其原生 evaluator 判断。
+
+(3) **扩展 Downloads shortcut：** 7B 往往把“打开 Downloads”理解成不存在的独立应用，或者无法把 Files/文件管理器映射到 Android 实际使用的 DocumentsUI。<br>
+**处理：** 对只包含 Download(s) 与明确导航动词的简单子任务，shortcut 先启动 `files`，再唯一匹配可见的 `Downloads`/`Download`；检测到 `Files in Downloads` 时才确认导航完成。<br>
+**边界：** 含 `and`、`then`、`html`、`locate`、`chrome` 等组合语义或 Chrome 首次启动页时不触发 shortcut，后续文件查找和任务操作仍由 7B Planner–Actor 完成。
 
 当前结果仍有以下限制：
 

@@ -15,7 +15,7 @@ app_coverage:
   clock:
   - ClockStopWatchRunning
   contacts:
-  - ContactsAddContact
+  - ContactsNewContactDraft
   files:
   - FilesDeleteFile
   joplin:
@@ -55,7 +55,7 @@ tasks:
   seed: 1033
 - name: ClockStopWatchRunning
   seed: 1034
-- name: ContactsAddContact
+- name: ContactsNewContactDraft
   seed: 1035
 - name: FilesDeleteFile
   seed: 1036

@@ -2,188 +2,293 @@
 
 ## 1. 项目介绍
 
-本项目复现 Darwinian Memory System（DMS），并在 AndroidWorld GUI 任务上比较三种方法：
+本项目在 AndroidWorld 动态 GUI 环境中复现 Darwinian Memory System（DMS），并统一比较三种方法：
 
-无记忆的 Baseline A、静态历史记忆的 Baseline B，以及能够检索、反馈调节和动态剪枝的DMS。
+- Baseline A：不使用跨任务记忆的 PA-Lite Planner–Actor。
+- Baseline B：按时间顺序追加历史轨迹的静态记忆。
+- DMS：支持分层存储、双因子检索、轨迹回放、风险反馈、变异替换和动态剪枝的记忆系统。
 
-实验重点是观察记忆机制能否在多轮任务中提高成功率，同时降低无效动作、Token 消耗和重复失败。
+三种方法使用相同的 AndroidWorld evaluator、任务顺序、随机种子、动作预算和
+Qwen2.5-VL-7B-Instruct 模型。实验重点是观察跨轮记忆能否提高任务成功率，同时降低
+单任务 Token 和 Step 用量。
 
-当前正式实验采用 5 个固定任务、5 轮、3 种方法，共 75 次计分运行。
+当前已经完成的正式实验采用 5 个固定任务、5 轮、3 种方法，共 75 次计分运行。该运行通过
+了 a11y、ADB、forwarder、Chrome native crash 和保存 observation 的基础设施审计。
 
 ## 2. 仓库结构
 
 ```text
 DMS/
-├── configs/                  # 三种方法、模型与运行环境配置
-├── datasets/                 # AndroidWorld 测试集与正式五任务清单
-├── device_images/            # 金镜像和官方应用快照
-├── docs/                     # 机制对应与环境说明
-├── fig/                      # 正式实验图表、汇总与逐任务结果
-├── protocols/                # 正式实验冻结协议与 SHA256
-├── runs/                     # 预检、正式结果、轨迹与审计日志
-├── scripts/                  # 环境准备、自动运行和结果分析脚本
+├── README.md                 # 项目说明、运行方法、结果和限制
+├── pytest.ini                # 默认只收集本项目 tests/，排除 vendored AndroidWorld 测试
+├── configs/                  # 三种方法、远程模型与 AndroidWorld 运行配置
+├── datasets/                 # AndroidWorld 数据集与正式五任务清单
+├── docs/                     # 机制对应、环境和实验协议说明
+├── figs/                     # 经过确认的正式图表、CSV 和汇总
+├── runs/                     # 每次运行的轨迹、observation、日志和逐任务结果
+├── scripts/
+│   ├── common/               # 所有脚本共用的环境激活逻辑
+│   ├── setup/                # Python、AndroidWorld、模型与运行资源安装
+│   ├── run/                  # 单方法、三方法及模拟器启动入口
+│   ├── analysis/             # 结果汇总与绘图
+│   ├── monitor/              # AndroidWorld、a11y 与模型连通性检查
+│   └── data/                 # 数据集生成与校验
 ├── src/
-│   ├── dms/            # PA-Lite、静态记忆、DMS 与 Runner
-│   ├── env/                  # AndroidWorld 观测适配
-│   └── model_client/         # Qwen2.5-VL 推理客户端
-├── tests/                    # 单元与集成测试
-└── third_party/android_world/# AndroidWorld 运行时源码
+│   ├── dms/                  # PA-Lite、静态记忆、DMS 与 runner
+│   ├── env/                  # a11y、ADB、observation 和环境适配
+│   └── model_client/         # 本地及远程 Qwen-VL 客户端
+├── third_party/
+│   └── android_world/        # 固定版本的上游 AndroidWorld 源码
+├── tests/                    # 单元测试与集成测试
+└── requirements.txt          # Python 3.10 依赖版本
 ```
+
+`runs/<run_id>/figs/` 保存某一次实验自动生成的图；仓库根目录的 `figs/` 只保存经过审计、
+需要展示或写入报告的正式结果。`runs/`、模型权重、conda 环境、Android SDK、AVD 和日志等
+大型运行产物不提交到 Git。
+
+正式 Python 包名为 `dms`，上游 AndroidWorld 独立存放在 `third_party/android_world/`。
+目录重构只改变源码组织和启动路径，没有修改算法、Prompt、实验配置或已生成结果。
 
 ## 3. 实验环境
 
-本地端：
+本地主机与 WSL：
 
-- Windows 10 Pro 64-bit
-- AMD Ryzen 5 7500F，6 核 12 线程
-- 约 31.7 GiB RAM
-- Pixel 6 / Android API 33 / x86_64 模拟器
-- AVD：`AndroidWorldAvd`
-- ADB：`emulator-5554`
-- gRPC：8554
-- UIAutomator + screenshot
+- Windows 10 Pro 64-bit 宿主机。
+- WSL2，Ubuntu 24.04.3 LTS。
+- Python 3.10.18，项目环境位于 `conda_envs/dms_py310`。
+- AMD Ryzen 5 7500F，6 核 12 线程，约 31.7 GiB RAM。
+- Pixel 6 / Android API 33 / x86_64 模拟器。
+- AVD：`AndroidWorldAvd`。
+- ADB device：`emulator-5554`。
+- AndroidWorld gRPC：8554。
+- 模拟器以 headless 模式运行，启用 `-feature -Vulkan`，并使用 SwiftShader/llvmpipe
+  软件图形链路规避 Chrome GPU compositor 的 native crash。
+- 主 observation 来源是 accessibility forwarder 与 screenshot；正式运行采用严格 a11y
+  协议，实际 UIAutomator 回退或仅包含 SystemUI 的 observation 均视为基础设施污染。
 
 远程推理端：
 
-- Ubuntu 22.04.1 LTS
-- NVIDIA RTX 4090，24564 MiB
-- vLLM 0.10.2
-- Qwen/Qwen2.5-VL-7B-Instruct，bfloat16
-- `max_model_len=32768`，`max_num_seqs=1`
-- `gpu_memory_utilization=0.92`
+- Ubuntu 22.04.1 LTS。
+- NVIDIA RTX 4090，24564 MiB。
+- vLLM 0.10.2。
+- `Qwen/Qwen2.5-VL-7B-Instruct`，bfloat16。
+- `max_model_len=32768`，`max_num_seqs=1`。
+- `gpu_memory_utilization=0.92`。
+- OpenAI-compatible API 通过 SSH 本地转发暴露为
+  `http://127.0.0.1:8000/v1`。
+- `do_sample=false`，单次最大输出 192 tokens。
 
-Android 模拟器运行在本地，截图和 UI tree 经 Windows 客户端发送到远程模型；模型返回动作
-后，再由本地 ADB 执行。每种方法的每一轮都从同一金镜像恢复，跨轮只保留该方法应有的
-主机侧记忆和审计记录。
+Android emulator、ADB、accessibility forwarder 和 evaluator 全部由 WSL 工作区控制；截图和
+a11y tree 通过本地 SSH 转发发送给远程模型，模型返回结构化动作后再由 WSL 中的 AndroidWorld
+执行。远程服务只负责模型推理，不参与 memory 存储或 evaluator 判定。
+
+首次部署可在 WSL 项目根目录执行：
+
+```bash
+bash scripts/setup/bootstrap_clone_setup.sh
+```
+
+只需激活现有环境时执行：
+
+```bash
+source scripts/common/activate_env.sh
+```
 
 ## 4. 一键运行五任务实验
 
-完成模拟器、SSH 隧道和模型服务准备后，在项目根目录运行：
+运行前需要确保：
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/run_formal_device_separated_windows.ps1
+1. AndroidWorld 模拟器已经启动并完成 boot。
+2. accessibility forwarder 正常运行。
+3. SSH 隧道已经将远程 vLLM 映射到 WSL 的 `127.0.0.1:8000`。
+4. `GET http://127.0.0.1:8000/v1/models` 可以正常返回。
+
+在 WSL 项目根目录执行：
+
+```bash
+cd /path/to/DMS
+bash scripts/run/run_selected5_all_methods.sh
 ```
 
-脚本会依次运行 Baseline A、Baseline B 和 DMS。每种方法每轮执行同一组 5 个任务，并在
-控制台与 `runs/formal_mini_5tasks_balanced_v1_20260719/` 下持续写入执行日志、单任务结果、
-重试审计和运行状态。正式配置见
-[`configs/eval_baselines_mini_optimized.yaml`](configs/eval_baselines_mini_optimized.yaml)，
-任务清单见
-[`datasets/formal_mini_5tasks_balanced_v1.yaml`](datasets/formal_mini_5tasks_balanced_v1.yaml)。
+脚本默认使用 `datasets/mini_benchmark_probe5.yaml`，按顺序运行 Baseline A、Baseline B 和
+DMS，每种方法执行 1 轮。运行前会验证数据集恰好包含 5 个任务，并检查模型服务、
+AndroidWorld 和 a11y。
+
+运行正式 5 轮实验：
+
+```bash
+bash scripts/run/run_selected5_all_methods.sh --rounds 5
+```
+
+指定另一份五任务数据集：
+
+```bash
+bash scripts/run/run_selected5_all_methods.sh \
+  --rounds 5 \
+  --dataset datasets/my_selected_5tasks.yaml
+```
+
+只验证输入并打印将要执行的命令，不启动实验：
+
+```bash
+bash scripts/run/run_selected5_all_methods.sh --rounds 5 --dry-run
+```
+
+每次执行都会创建全新目录：
+
+```text
+runs/selected5_3methods_<rounds>rounds_<timestamp>/
+├── launcher.stdout.log
+├── current_method.txt
+├── baseline_a.stdout.log
+├── baseline_b.stdout.log
+├── dms.stdout.log
+├── baseline_a/
+├── baseline_b/
+└── dms/
+```
+
+终端会实时打印每个 step 的动作与结果，以及每个任务的 success、steps、tokens 和
+memory size。完整 observation、原始 JSONL、单任务轨迹、metrics 和 memory 审计仍保存在
+对应方法目录中。脚本拒绝覆盖或自动接续非空 RunRoot。
 
 ## 5. 三种对比方法
 
 | 方法 | 机制 | 主要文件 |
 | --- | --- | --- |
-| Baseline A | PA-Lite Planner-Actor；每个任务零记忆启动 | [`src/dms/agent.py`](src/dms/agent.py)、[`src/dms/prompts.py`](src/dms/prompts.py) |
-| Baseline B | 在 PA-Lite 上追加跨任务历史；按时间顺序注入，不检索、不剪枝 | [`src/dms/static_memory.py`](src/dms/static_memory.py)、[`src/dms/runner.py`](src/dms/runner.py) |
-| DMS | 分层记忆、双因子检索、风险反馈、变异替换和动态剪枝 | [`src/dms/darwinian_memory.py`](src/dms/darwinian_memory.py)、[`src/dms/agent.py`](src/dms/agent.py) |
+| Baseline A | PA-Lite Planner–Actor；每个任务不读取跨任务记忆 | `src/dms/agent.py`、`src/dms/prompts.py` |
+| Baseline B | 按时间顺序追加完整历史；不做检索、反馈调节或剪枝 | `src/dms/static_memory.py`、`src/dms/runner.py` |
+| DMS | 分层记忆、双因子检索、风险抑制、轨迹回放、变异替换和容量剪枝 | `src/dms/darwinian_memory.py`、`src/dms/agent.py` |
 
-三种方法共用同一 AndroidWorld evaluator、任务预算、模型和 Prompt。正式运行与基础设施重试由[`src/dms/formal_runner.py`](src/dms/formal_runner.py) 负责；只有实际传给
-`env.execute_action` 的 GUI 动作消耗官方 action budget，Planner、`complete`、`remember`
-和解析失败单独计入有上限的 control turns。
+三种方法由同一个 runner 启动，正式入口为 `python -m dms.runner`。DMS memory 使用
+`all-MiniLM-L6-v2` 生成检索 embedding；Qwen2.5-VL-7B-Instruct 负责 Planner 和 Actor
+决策。
+
+DMS 当前配置的初始容量为 24，最大容量为 96。动态剪枝只在 active memory 数量达到当前
+容量时计算 survival-value elbow；`failure_count` 影响 survival/risk 评分，而连续 replay
+验证失败达到 `verification_limit=3` 才触发风险删除。
 
 ## 6. 实验结果
 
-### 6.1 大规模实验及停止原因
+### 6.1 基础设施诊断与正式运行条件
 
-我们先后进行了两次 20-task 大规模实验，但都没有形成可用于三方法结论的完整对比。
+早期实验曾出现 accessibility forwarder 崩溃、空 a11y tree 转 UIAutomator、ADB dump
+失败，以及模型把 forwarder 崩溃页面学习进 memory 的情况。这些运行只能证明 runner、
+远程模型、模拟器、evaluator 和 memory 存储链路能够执行，不能用于判断三种算法能力。
 
-- 第一次：Baseline A 完成 100 次，成功 3 次、基础设施失败 22 次；Baseline B 完成
-  100 次，成功 2 次、基础设施失败 67 次；DMS 未完成。
-- 第二次：Baseline A 完成 64 次，成功 3 次、正常模型失败 58 次、基础设施失败 3 次；
-  Baseline B 和 DMS 尚未开始时终止。该运行已标记为不可恢复。
+当前 WSL 运行链路完成了以下稳定化：
 
-第二次实验 64 次运行约耗时 2.57 小时，折合约 24.9 次/小时。300 次实验仅按这一速度就需约 12 小时，DMS 记忆操作、每轮设备恢复和基础设施重试还会继续增加时间。
+1. a11y 获取失败在严格协议下作为基础设施错误上抛，不再静默保存错误 observation。
+2. 模拟器启用 Vulkan feature 与软件图形后端，规避已观察到的 Chrome GPU native crash。
+3. Chrome 首次启动页面、DocumentsUI/Files 映射和 Downloads 导航由短路逻辑处理。
+4. `tap(index, expected_text)` 在 index 与文字不一致时只接受唯一可见文字匹配，避免索引漂移误点。
+5. 只有 AndroidWorld `InformationRetrieval` 任务允许把 `complete` 理由转换成答案，避免
+   `BrowserDraw` 因关键词误判进入 answer 循环。
+6. 每个正式实验使用新的 RunRoot，不拼接或续接受到污染的旧结果。
 
-实验同时依赖本地模拟器、SSH 隧道、远程 GPU、vLLM 和长时间网络连接；实际运行中出现过 SSH 隧道上的keep-alive 连接失效、ADB/evaluator 异常和会话中断。
+最新 75 次正式运行没有记录 runtime error；日志审计未发现实际 UIAutomator 回退、
+新 forwarder 崩溃、Chrome native crash 或被保存的 systemui-only observation。
 
-前期实验暴露出三个最重要的问题：
+### 6.2 五任务五轮正式实验
 
-1. **虚假完成与重复循环。** LLM认为任务完成后，就会输出compete指令，但是LLM经常误判任务是否完成，比如在`CameraTakePhoto` 任务中，模型没有完成拍照，却连续输出`complete(success=True, reason="Photo taken successfully")`。`complete` 不改变设备状态，evaluator 始终为 0，最终耗尽 10-step 预算。根因是模型混淆了“打算执行”“已经执行”和“环境确认完成”，控制器也缺少状态变化检测。
-2. **权限弹窗与 open-app shortcut 冲突。** 大部分任务的第一步是打开某一个应用，为了优化这一部分的成功率，特别是降低格式问题带来的错误，一旦MLLM的返回中包含某个应用名，我们就自动匹配正确的格式打开该应用，但是，当启动后若出现系统权限申请弹窗(PermissionController)，会因前台包名不是 Contacts 而重复`start_app("contacts")`，既无法关闭弹窗又持续消耗预算。当前实现在系统弹窗覆盖目标App 时暂停 shortcut，把控制权交给 Actor；标准镜像只统一处理非任务相关的常规权限和onboarding，不加入任务专用点击脚本。但是弹窗问题依然会很大程度上消耗步数，影响成功率。
-3. **提示词过强(关键词分类)破坏动作语义。**在过去的提示词优化中，我们加入了关键词分类这种提示词，一旦遇到某种提示词就会将任务划分为特定的一类，一旦误判，就会出现问题。比如 `BrowserDraw` 的目标含有 “when prompted”，旧代码因为匹配宽泛关键词 `"when "`，把 GUI 任务误判为问答任务，将 `complete` 转换为
-   `answer("chrome is already open")`，随后在 Chrome 首次启动页反复 `answer`，直至耗尽20-step 预算。可靠修复应由 Planner 输出 `gui_action`、`information_query`、`navigation` 等结构化类型，只有明确的信息查询才允许 `answer`，并依据当前 subtask校验动作。该结构化分类尚未进入本次已冻结的 75 次实验，因此作为已知限制和后续修复，
-   不冒充已实现优化。
+正式任务固定为：
 
-这些现象说明低成功率不仅来自 7B 模型较弱，也来自完成验证、系统中断建模和动作语义约束不足。网络、SSH 隧道、ADB 和 evaluator 中断则单独作为基础设施有效性威胁统计，不与
-正常模型失败混为一类。因此两次大实验只用于诊断，不作为最终结果。
+| 任务 | Seed |
+| --- | ---: |
+| `AudioRecorderRecordAudio` | 1030 |
+| `RecipeAddSingleRecipe` | 1031 |
+| `CameraTakePhoto` | 1032 |
+| `BrowserDraw` | 1033 |
+| `ClockStopWatchRunning` | 1034 |
 
-### 6.2 平衡五任务实验
+结果来自：
 
-正式小规模实验固定选择：
+```text
+runs/main_3methods_5tasks_5rounds_vulkan_20260726_004730
+```
 
-| 难度 | 任务 | Seed | Action budget |
-| --- | --- | ---: | ---: |
-| Easy | `SystemWifiTurnOn` | 1047 | 10 |
-| Easy | `CameraTakePhoto` | 1032 | 10 |
-| Medium | `AudioRecorderRecordAudio` | 1030 | 12 |
-| Medium | `SimpleSmsSend` | 1046 | 12 |
-| Hard | `BrowserDraw` | 1033 | 20 |
+严格成功要求 AndroidWorld evaluator 判定成功，并在该任务官方
+`int(10 × complexity)` action budget 内完成。
 
-任务选择受到前期诊断结果启发，因此结论仅适用于这个 mini benchmark。正式运行开始后不更换任务、seed 或顺序，也不通过额外重试追求成功。
+| 方法 | 成功数 | 成功率 | 平均 Token/任务 | 平均 Step/任务 | Runtime Errors | 最终 Memory |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baseline A | 5/25 | 20.00% | 67,594.0 | 13.88 | 0 | 0 |
+| Baseline B | 9/25 | 36.00% | 80,411.1 | 13.44 | 0 | 25 |
+| DMS | 13/25 | 52.00% | 42,119.9 | 12.20 | 0 | 12 |
 
-<!-- MAIN_EXPERIMENT_RESULTS_START -->
-## 平衡 Mini Benchmark 结果（5 Tasks × 5 Rounds）
+DMS 在这个固定五任务 mini benchmark 上成功率最高。相较 Baseline A，DMS 平均单任务
+Token 少约 37.7%，Step 少约 12.1%；相较 Baseline B，Token 少约 47.6%，Step 少约
+9.2%。
 
-本节数据来自本机 AndroidWorld 模拟器与 AutoDL Qwen2.5-VL-7B-Instruct
-远程推理实验。每种方法运行 5 个固定任务，共 5 轮、25 次
-任务尝试；三种方法合计 75 次。成功率采用严格口径：AndroidWorld 判定成功且
-最终计分尝试的动作数严格小于该任务的官方 `int(10 × complexity)` 预算。
+逐轮成功数：
 
-| Method | Strict Successes | Success Rate | Avg Tokens/Task | Avg Steps/Task | Infra Retries | Infra Failure After Retry | Final Memory Size |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Baseline A | 7/25 | 28.00% | 49526.0 | 11.32 | 0 | 0 | 0 |
-| Baseline B | 6/25 | 24.00% | 45929.2 | 11.28 | 0 | 0 | 25 |
-| DMS | 5/25 | 20.00% | 39473.8 | 10.76 | 2 | 1 | 13 |
+| 方法 | Round 1 | Round 2 | Round 3 | Round 4 | Round 5 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Baseline A | 1/5 | 1/5 | 1/5 | 1/5 | 1/5 |
+| Baseline B | 1/5 | 2/5 | 1/5 | 2/5 | 3/5 |
+| DMS | 2/5 | 2/5 | 3/5 | 3/5 | 3/5 |
 
-从严格成功率看，DMS 的 20% 低于 Baseline A 的 28% 和 Baseline B 的 24%，因此本次 mini benchmark **没有验证 DMS 能提高任务成功率**。DMS 的优势体现在自调节效率：平均 Token 用量比 Baseline A 低 20.3%、比 Baseline B 低 14.1%，平均动作数分别低 4.9% 和 4.6%；25 次任务后仅保留 13 条记忆，而静态记忆保留 25 条。结果支持动态剪枝和上下文压缩机制有效，但不能把这种资源效率解释为整体任务能力提升。
+逐任务成功数：
 
-本次共有 **2** 次基础设施重试；其中第二次仍异常并按失败计分的任务数为 **1**。
-Token 和 Step 均累计首次异常尝试与最终计分尝试的消耗。逐轮数值、原始 CSV 和
-严格统计定义见 [`fig/summary.md`](fig/summary.md)。
+| 任务 | Baseline A | Baseline B | DMS |
+| --- | ---: | ---: | ---: |
+| `AudioRecorderRecordAudio` | 0/5 | 3/5 | 3/5 |
+| `RecipeAddSingleRecipe` | 0/5 | 0/5 | 0/5 |
+| `CameraTakePhoto` | 5/5 | 5/5 | 5/5 |
+| `BrowserDraw` | 0/5 | 0/5 | 0/5 |
+| `ClockStopWatchRunning` | 0/5 | 1/5 | 5/5 |
 
-### 1. 三种算法的成功率随轮数变化
+DMS 的逐轮 memory size 为 `6 → 6 → 9 → 10 → 12`。由于 active memory 从未达到
+`min_capacity=24`，本次运行没有触发容量剪枝；这不能解释为剪枝失效。要观察与容量相关的
+增长—下降过程，需要扩大任务数量，或者使用单独标记为非正式的低容量诊断配置。
 
-![Success rate by round](fig/success_rate_by_round.png)
+#### 1. 三种算法的成功率随轮数变化
 
-### 2. 三种算法的平均单任务 Token 用量随轮数变化
+![Success rate by round](figs/success_rate_by_round.png)
 
-![Average tokens per task by round](fig/avg_tokens_per_task_by_round.png)
+#### 2. 三种算法的平均单任务 Token 用量随轮数变化
 
-### 3. 三种算法的平均单任务 Step 数随轮数变化
+![Average tokens per task by round](figs/avg_tokens_per_task_by_round.png)
 
-![Average steps per task by round](fig/avg_steps_per_task_by_round.png)
+#### 3. 三种算法的平均单任务 Step 数随轮数变化
 
-### 4. DMS 记忆库大小随任务时间变化
+![Average steps per task by round](figs/avg_steps_per_task_by_round.png)
 
-横轴中的一个时间单位对应一个已经完成的任务尝试；每 5 个时间单位为一轮。
+#### 4. DMS 记忆库大小随任务时间变化
 
-![DMS memory size timeline](fig/dms_memory_size_timeline.png)
+横轴中的一个时间单位对应一个已经完成的 DMS 任务尝试；每 5 个时间单位为一轮。
 
-### 5. 五个单独任务的逐轮成功/失败（三种算法）
+![DMS memory size timeline](figs/dms_memory_size_timeline.png)
 
-![SystemWifiTurnOn success by round](fig/task_success_by_round/SystemWifiTurnOn_success_by_round.png)
-![CameraTakePhoto success by round](fig/task_success_by_round/CameraTakePhoto_success_by_round.png)
-![AudioRecorderRecordAudio success by round](fig/task_success_by_round/AudioRecorderRecordAudio_success_by_round.png)
-![SimpleSmsSend success by round](fig/task_success_by_round/SimpleSmsSend_success_by_round.png)
-![BrowserDraw success by round](fig/task_success_by_round/BrowserDraw_success_by_round.png)
+#### 5. 五个单独任务的逐轮成功/失败
 
-<!-- MAIN_EXPERIMENT_RESULTS_END -->
+![AudioRecorderRecordAudio success by round](figs/task_success_by_round/AudioRecorderRecordAudio_success_by_round.png)
+![RecipeAddSingleRecipe success by round](figs/task_success_by_round/RecipeAddSingleRecipe_success_by_round.png)
+![CameraTakePhoto success by round](figs/task_success_by_round/CameraTakePhoto_success_by_round.png)
+![BrowserDraw success by round](figs/task_success_by_round/BrowserDraw_success_by_round.png)
+![ClockStopWatchRunning success by round](figs/task_success_by_round/ClockStopWatchRunning_success_by_round.png)
+
+完整逐轮数值、逐任务 CSV 和基础设施错误审计位于 `figs/summary.md`、
+`figs/round_metrics.csv`、`figs/task_results.csv` 和 `figs/task_error_audit.json`。
 
 ## 7. Gap 分析：7B 与论文 72B
 
-论文实验使用的 72B 视觉语言模型在长程规划、细粒度定位、结构化动作生成和错误恢复上明显强于本复现的 7B 模型。我们观察到的差异包括：7B 更容易在相同画面重复 `complete`、输出不完整工具调用、误点相邻控件，并在权限页或首次启动页陷入循环；低 complexity 也不等于对 7B 简单，因为视觉定位、文本理解和恢复成本没有被该指标完整表示。
+论文实验使用的 72B 视觉语言模型，在长程规划、细粒度定位、结构化动作生成和错误恢复上
+明显强于当前复现使用的 7B 模型。7B 更容易误点相邻控件、输出不完整工具调用，或在任务状态
+已经变化后继续执行旧计划。
 
-为缩小差距，本实验采用通用而非任务专用的工程调整：
+当前实现保留统一的 Planner–Actor 主骨架和核心 Prompt，并尽量把平台适配限制在运行层：
+a11y 生命周期、Chrome/Files onboarding、动作目标校验、SSH 本地端口转发和远程
+OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 DMS 单独提供任务答案。
 
-- Prompt 要求先处理可见权限弹窗和 onboarding，并只在存在可见状态证据时声明完成；
-- 重复且无状态变化的完成声明记为 `unsupported_completion`，下一轮必须改变策略；
-- `planner_max_cycles=6`，`control_turn_limit=36`，避免无限免费推理；
-- 模型输出上限由 192 提高到 320 tokens，降低 CodeAct 截断概率；
-- 使用确定性解码、单图输入和简化 UI tree，减少动作格式漂移；
-- PermissionController 在前台时，open-app shortcut 让出控制权。
+当前结果仍有以下限制：
 
-前期实验还表明，后续应以 Planner 的结构化任务类型替代宽泛关键词分类，并按当前 subtask验证 `answer` 等动作。本次正式实验开始前没有可靠完成这项改造，所以它被如实保留为 Gap，不在运行中修改冻结代码。
+- 只覆盖 5 个固定任务和固定 seed，样本量较小。
+- `RecipeAddSingleRecipe` 和 `BrowserDraw` 三种方法均未成功，任务覆盖不均衡。
+- DMS memory 没有达到容量阈值，因此本次结果没有验证动态剪枝的端到端效果。
+- 远程模型、模拟器启动时序和 GUI 状态可能造成运行间波动，不能保证逐动作完全一致。
+- 7B mini benchmark 的成功率不能直接等同于论文 72B 在完整 AndroidWorld 上的结果。
 
-这里的 Planner 上限 6 是本复现的工程参数，不是论文报告的固定值。所有调整对三种方法一致，不向模型泄露任务答案、evaluator reward 或成功判定逻辑。即使 DMS 在五任务实验中表现更好，结论也只能说明其机制在该 7B mini benchmark 上有效，不能直接等同于 72B 的完整 AndroidWorld 结果。
+因此，这次实验支持“在当前五任务设置下，DMS 的成功率和资源效率优于两个 baseline”，但
+不能外推为 DMS 在完整 AndroidWorld、其他模型规模或所有任务类型上都具有同样优势。

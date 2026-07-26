@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import inspect
-import hashlib
 import json
-import os
 import time
 import traceback
 from dataclasses import asdict, dataclass, field
@@ -11,6 +9,9 @@ from functools import lru_cache
 from pathlib import Path
 import re
 from typing import Any
+
+from android_world.task_evals.information_retrieval import information_retrieval
+from android_world.task_evals.single import browser
 
 from dms.actions import to_json_action
 from dms.io_utils import append_jsonl
@@ -24,25 +25,11 @@ from dms.paper_tools import (
 from dms.prompts import ACTOR_SYSTEM_PROMPT, PLANNER_SYSTEM_PROMPT
 from dms.prompts import actor_prompt, planner_prompt
 from env import (
+    A11yInfrastructureError,
     AndroidWorldObservationStore,
     get_state_with_a11y_retries,
     reset_task_environment,
 )
-
-
-def _strict_infrastructure_protocol() -> bool:
-    return os.environ.get("DMS_STRICT_INFRA_PROTOCOL", "").strip() == "1"
-
-
-def _append_infrastructure_error(
-    existing: str | None,
-    *,
-    phase: str,
-    error: BaseException,
-) -> str:
-    rendered = "".join(traceback.format_exception(error))
-    entry = f"[infrastructure_phase={phase}]\n{rendered}"
-    return f"{existing.rstrip()}\n\n{entry}" if existing else entry
 
 
 def _history_for_prompt(trajectory: list[dict[str, Any]], limit: int | None = None) -> list[dict[str, Any]]:
@@ -85,9 +72,9 @@ def _try_refresh_prompt_state(
             step_id=step_id,
         )
         return next_state, next_observation, next_prompt_elements, next_image_path
+    except A11yInfrastructureError:
+        raise
     except Exception:
-        if _strict_infrastructure_protocol():
-            raise
         return state, observation, prompt_elements, image_path
 
 
@@ -121,11 +108,6 @@ class TaskRunResult:
     input_tokens: int
     output_tokens: int
     memory_size_after: int
-    planner_cycles: int = 0
-    unsupported_completions: int = 0
-    control_turns: int = 0
-    event_count: int = 0
-    control_turn_limit_reached: bool = False
     memory_stats: dict[str, Any] = field(default_factory=dict)
     trajectory: list[dict[str, Any]] = field(default_factory=list)
     error: str | None = None
@@ -500,7 +482,11 @@ def _normalize_app_name(app_name: str) -> str:
 _START_APP_NAME_ALIASES = {
     "file manager": "files",
     "files app": "files",
-    "file_manager": "files",
+    "filemanager": "files",
+    "documentsui": "files",
+    "documents ui": "files",
+    "com android filemanager": "files",
+    "com google android documentsui": "files",
     "simple calendar": "simple calendar pro",
     "simple.calendar.pro": "simple calendar pro",
     "com.simple.calendar.pro": "simple calendar pro",
@@ -579,10 +565,16 @@ def _task_app_scope(task: Any) -> list[str]:
             scoped.append(value.strip())
         elif isinstance(value, (list, tuple)):
             scoped.extend(str(item).strip() for item in value if str(item).strip())
-    if scoped:
-        return scoped
-    app_names = getattr(task, "app_names", ()) or ()
-    return [str(app_name).strip() for app_name in app_names if str(app_name).strip()]
+    if not scoped:
+        app_names = getattr(task, "app_names", ()) or ()
+        scoped = [
+            str(app_name).strip()
+            for app_name in app_names
+            if str(app_name).strip()
+        ]
+    if isinstance(task, browser.BrowserTask):
+        scoped = ["files", *scoped]
+    return list(dict.fromkeys(scoped))
 
 
 def _looks_like_open_app_request(
@@ -621,21 +613,36 @@ def _shortcut_open_app_action(
     subtask_goal: str,
     task_app_names: list[str],
     foreground_activity: str,
-    guard_system_dialogs: bool = False,
 ) -> dict[str, Any] | None:
-    if guard_system_dialogs and "permissioncontroller" in str(
-        foreground_activity
-    ).lower():
-        # Let the Actor handle the visible generic permission UI. Repeatedly
-        # injecting start_app cannot dismiss a system-owned dialog.
-        return None
     if not _looks_like_open_app_request(subtask_goal, task_app_names):
         return None
 
     chosen_app: str | None = None
     normalized_goal = _normalize_app_name(subtask_goal)
+    complex_markers = {
+        "downloads",
+        "folder",
+        "html",
+        "locate",
+        "navigate",
+        "task",
+        "then",
+        "when",
+    }
+    if (
+        "file manager app" not in normalized_goal
+        and complex_markers.intersection(normalized_goal.split())
+    ):
+        return None
     for app_name in task_app_names:
-        if _normalize_app_name(app_name) in normalized_goal:
+        normalized_app_name = _normalize_app_name(app_name)
+        app_goal_terms = [normalized_app_name]
+        app_goal_terms.extend(
+            alias
+            for alias, canonical in _START_APP_NAME_ALIASES.items()
+            if _normalize_app_name(canonical) == normalized_app_name
+        )
+        if any(term and term in normalized_goal for term in app_goal_terms):
             chosen_app = app_name
             break
     if chosen_app is None and len(task_app_names) == 1:
@@ -643,6 +650,11 @@ def _shortcut_open_app_action(
     if not chosen_app:
         return None
 
+    if (
+        _normalize_app_name(chosen_app) == "chrome"
+        and "firstrun" in str(foreground_activity).casefold()
+    ):
+        return None
     if _foreground_matches_task_scope(foreground_activity, [chosen_app]):
         return {
             "type": "complete",
@@ -652,48 +664,123 @@ def _shortcut_open_app_action(
     return {"type": "start_app", "package": chosen_app}
 
 
-def _completion_fingerprint(
+def _normalize_ui_text(value: Any) -> str:
+    return re.sub(r"\s+", " ", str(value or "")).strip().casefold()
+
+
+def _element_matches_text(element: dict[str, Any], expected_text: str) -> bool:
+    normalized_expected = _normalize_ui_text(expected_text)
+    if not normalized_expected:
+        return False
+    return any(
+        _normalize_ui_text(element.get(field)) == normalized_expected
+        for field in ("text", "content_description")
+    )
+
+
+def _unique_visible_text_match(
+    prompt_elements: list[dict[str, Any]],
+    expected_text: str,
+) -> int | None:
+    matches = [
+        index
+        for index, element in enumerate(prompt_elements)
+        if element.get("is_visible", False)
+        and _element_matches_text(element, expected_text)
+    ]
+    if len(matches) == 1:
+        return matches[0]
+    clickable_matches = [
+        index
+        for index in matches
+        if prompt_elements[index].get("is_clickable", False)
+    ]
+    if len(clickable_matches) == 1:
+        return clickable_matches[0]
+    return None
+
+
+def _shortcut_chrome_onboarding_action(
+    *,
+    foreground_activity: str,
+    prompt_elements: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    if (
+        _package_from_activity(foreground_activity) != "com.android.chrome"
+        or "firstrun" not in str(foreground_activity).casefold()
+    ):
+        return None
+    for expected_text in ("Accept & continue", "No thanks"):
+        index = _unique_visible_text_match(prompt_elements, expected_text)
+        if index is not None:
+            return {
+                "type": "tap",
+                "index": index,
+                "expected_text": expected_text,
+            }
+    return None
+
+
+def _shortcut_downloads_action(
     *,
     subtask_goal: str,
     foreground_activity: str,
-    observation: dict[str, Any],
-) -> str:
-    """Stable fingerprint for detecting completion claims on unchanged state."""
-    payload = {
-        "subtask_goal": str(subtask_goal).strip().lower(),
-        "foreground_activity": str(foreground_activity).strip().lower(),
-        "compact_ui_elements": observation.get("compact_ui_elements", []),
-    }
-    rendered = json.dumps(payload, ensure_ascii=False, sort_keys=True, default=str)
-    return hashlib.sha256(rendered.encode("utf-8")).hexdigest()
-
-
-def _task_requires_answer(goal: str) -> bool:
-    goal_lower = str(goal).lower()
-    return any(
-        marker in goal_lower
-        for marker in (
-            "answer with",
-            "express your answer",
-            "how many",
-            "what ",
-            "which ",
-            "when ",
-            "do i have",
-        )
+    prompt_elements: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    goal_words = set(_normalize_app_name(subtask_goal).split())
+    if not goal_words.intersection({"download", "downloads"}):
+        return None
+    if goal_words.intersection({"and", "chrome", "file", "html", "locate", "task", "then"}):
+        return None
+    navigation_verbs = {"access", "browse", "go", "navigate", "switch"}
+    opens_downloads_folder = (
+        "open" in goal_words
+        and "folder" in goal_words
     )
+    if not navigation_verbs.intersection(goal_words) and not opens_downloads_folder:
+        return None
+    if "firstrun" in str(foreground_activity).casefold():
+        return None
+    files_package = _expected_package_for_app_name("files")
+    if not files_package:
+        return None
+    if _package_from_activity(foreground_activity) != files_package:
+        return {"type": "start_app", "package": "files"}
+    if any(
+        element.get("is_visible", False)
+        and _element_matches_text(element, "Files in Downloads")
+        for element in prompt_elements
+    ):
+        return {
+            "type": "complete",
+            "success": True,
+            "reason": "Downloads is already open.",
+        }
+    for expected_text in ("Downloads", "Download"):
+        index = _unique_visible_text_match(prompt_elements, expected_text)
+        if index is not None:
+            return {
+                "type": "tap",
+                "index": index,
+                "expected_text": expected_text,
+            }
+    return None
+
+
+def _task_requires_answer(task: Any) -> bool:
+    return isinstance(task, information_retrieval.InformationRetrieval)
 
 
 def _fallback_answer_from_complete(
     *,
     action: dict[str, Any] | None,
-    task_goal: str,
+    task: Any,
 ) -> dict[str, Any] | None:
     if not action or action.get("type") != "complete":
         return None
     if not action.get("success", True):
         return None
-    if not _task_requires_answer(task_goal):
+    if not _task_requires_answer(task):
         return None
     reason = str(action.get("reason") or "").strip()
     if not reason:
@@ -709,23 +796,25 @@ def _normalize_start_app_action(
 ) -> dict[str, Any] | None:
     if not action or action.get("type") != "start_app":
         return action
+    requested = str(action.get("package") or action.get("app_name") or "").strip()
+    normalized_requested = _normalize_app_name(requested)
+    aliased_requested = _START_APP_NAME_ALIASES.get(
+        normalized_requested,
+        normalized_requested,
+    )
+    if requested and aliased_requested != normalized_requested:
+        return {"type": "start_app", "package": aliased_requested}
     if not _looks_like_open_app_request(subtask_goal, task_app_names):
         return action
     if len(task_app_names) != 1:
         return action
 
-    requested = str(action.get("package") or action.get("app_name") or "").strip()
     scoped = str(task_app_names[0]).strip()
     if not scoped:
         return action
     if not requested:
         return {"type": "start_app", "package": scoped}
 
-    normalized_requested = _normalize_app_name(requested)
-    aliased_requested = _START_APP_NAME_ALIASES.get(
-        normalized_requested,
-        normalized_requested,
-    )
     normalized_scoped = _normalize_app_name(scoped)
     if aliased_requested == normalized_scoped:
         return {"type": "start_app", "package": scoped}
@@ -735,8 +824,6 @@ def _normalize_start_app_action(
         if expected_package and requested_package == expected_package.lower():
             return {"type": "start_app", "package": scoped}
         return {"type": "start_app", "package": scoped}
-    if aliased_requested != normalized_requested:
-        return {"type": "start_app", "package": aliased_requested}
     return action
 
 
@@ -758,27 +845,17 @@ class PALiteAgent:
         actor_local_step_guard: int = 8,
         static_memory: Any | None = None,
         post_action_wait_seconds: float = 3.0,
-        engineering_optimization: bool = False,
-        planner_max_cycles: int | None = None,
-        control_turn_limit: int | None = None,
     ) -> None:
         if max_subtasks > 5:
             raise ValueError("Planner max_subtasks must stay <= 5 per paper.")
         if post_action_wait_seconds < 0:
             raise ValueError("post_action_wait_seconds must be non-negative.")
-        if planner_max_cycles is not None and planner_max_cycles < 1:
-            raise ValueError("planner_max_cycles must be positive when provided.")
-        if control_turn_limit is not None and control_turn_limit < 1:
-            raise ValueError("control_turn_limit must be positive when provided.")
         self.model = model
         self.run_dir = Path(run_dir)
         self.max_subtasks = max_subtasks
         self.actor_local_step_guard = actor_local_step_guard
         self.static_memory = static_memory
         self.post_action_wait_seconds = post_action_wait_seconds
-        self.engineering_optimization = engineering_optimization
-        self.planner_max_cycles = planner_max_cycles
-        self.control_turn_limit = control_turn_limit
         self.observations = AndroidWorldObservationStore(
             self.run_dir / "observations"
         )
@@ -939,6 +1016,26 @@ class PALiteAgent:
         index = action["index"]
         if isinstance(index, bool) or not isinstance(index, int):
             raise ValueError(f"tap index must be an integer, got {index!r}.")
+        expected_text = str(action.get("expected_text") or "").strip()
+        requested_index = index
+        if expected_text:
+            requested_matches = (
+                0 <= index < len(prompt_elements)
+                and prompt_elements[index].get("is_visible", False)
+                and _element_matches_text(prompt_elements[index], expected_text)
+            )
+            if not requested_matches:
+                resolved_index = _unique_visible_text_match(
+                    prompt_elements,
+                    expected_text,
+                )
+                if resolved_index is None:
+                    raise ValueError(
+                        f"tap index {requested_index} does not match "
+                        f"expected_text {expected_text!r}, and the text does not "
+                        "identify one unique visible UI element."
+                    )
+                index = resolved_index
         if index < 0 or index >= len(prompt_elements):
             raise ValueError(
                 f"tap index {index} is out of range for "
@@ -956,6 +1053,7 @@ class PALiteAgent:
 
         bound_action = dict(action)
         bound_action.pop("index", None)
+        bound_action.pop("expected_text", None)
         bound_action["x"] = int((bbox[0] + bbox[2]) / 2)
         bound_action["y"] = int((bbox[1] + bbox[3]) / 2)
         return bound_action
@@ -991,7 +1089,6 @@ class PALiteAgent:
                 max_subtasks=self.max_subtasks,
                 memory_context_title=self._planner_memory_context_title(),
                 dms_mode=self._dms_mode(),
-                engineering_optimization=self.engineering_optimization,
             ),
             system_prompt=PLANNER_SYSTEM_PROMPT,
             tools=PLANNER_TOOL_SPECS,
@@ -1033,7 +1130,6 @@ class PALiteAgent:
                 step_history=step_history,
                 memory_context=memory_context,
                 allow_remember=self._allow_remember(),
-                engineering_optimization=self.engineering_optimization,
             ),
             system_prompt=ACTOR_SYSTEM_PROMPT,
         )
@@ -1051,13 +1147,6 @@ class PALiteAgent:
         reward = 0.0
         success = False
         step_id = 0
-        env_steps = 0
-        control_turns = 0
-        planner_cycles = 0
-        unsupported_completions = 0
-        action_epoch = 0
-        last_completion_fingerprint: str | None = None
-        last_completion_action_epoch = -1
         task_app_names = _task_app_scope(task)
 
         try:
@@ -1067,15 +1156,6 @@ class PALiteAgent:
                 go_home=task.start_on_home_screen,
             )
             max_steps = int(10 * task.complexity)
-
-            def budget_steps() -> int:
-                return env_steps if self.engineering_optimization else step_id
-
-            def control_available() -> bool:
-                return (
-                    self.control_turn_limit is None
-                    or control_turns < self.control_turn_limit
-                )
             observation, prompt_elements, image_path = self._capture_for_prompt(
                 env=env,
                 state=state,
@@ -1085,7 +1165,7 @@ class PALiteAgent:
 
             def refresh_prompt_state() -> None:
                 nonlocal state, observation, prompt_elements, image_path
-                if budget_steps() >= max_steps:
+                if step_id >= max_steps:
                     return
                 state, observation, prompt_elements, image_path = _try_refresh_prompt_state(
                     env=env,
@@ -1098,12 +1178,7 @@ class PALiteAgent:
                     step_id=step_id,
                 )
 
-            while budget_steps() < max_steps and control_available() and (
-                self.planner_max_cycles is None
-                or planner_cycles < self.planner_max_cycles
-            ):
-                planner_cycles += 1
-                control_turns += 1
+            while step_id < max_steps:
                 plan, plan_in, plan_out = self._plan(
                     image_path=image_path,
                     task=task,
@@ -1126,20 +1201,26 @@ class PALiteAgent:
 
                 plan_failed = False
                 for subtask in sub_tasks:
-                    if budget_steps() >= max_steps or not control_available():
+                    if step_id >= max_steps:
                         break
                     local_steps = 0
-                    while (
-                        local_steps < self.actor_local_step_guard
-                        and budget_steps() < max_steps
-                        and control_available()
-                    ):
-                        shortcut_action = _shortcut_open_app_action(
-                            subtask_goal=str(subtask.get("goal", "")),
-                            task_app_names=task_app_names,
+                    while local_steps < self.actor_local_step_guard and step_id < max_steps:
+                        shortcut_action = _shortcut_chrome_onboarding_action(
                             foreground_activity=observation["foreground_activity"],
-                            guard_system_dialogs=self.engineering_optimization,
+                            prompt_elements=prompt_elements,
                         )
+                        if shortcut_action is None:
+                            shortcut_action = _shortcut_downloads_action(
+                                subtask_goal=str(subtask.get("goal", "")),
+                                foreground_activity=observation["foreground_activity"],
+                                prompt_elements=prompt_elements,
+                            )
+                        if shortcut_action is None:
+                            shortcut_action = _shortcut_open_app_action(
+                                subtask_goal=str(subtask.get("goal", "")),
+                                task_app_names=task_app_names,
+                                foreground_activity=observation["foreground_activity"],
+                            )
                         if shortcut_action is not None:
                             actor_output = CodeActExecutionResult(
                                 code="",
@@ -1166,10 +1247,12 @@ class PALiteAgent:
                             output_tokens += act_out
 
                         action = actor_output.action
-                        if action and action.get("type") == "complete" and _task_requires_answer(task.goal):
-                            reason = str(action.get("reason") or "").strip()
-                            if reason:
-                                action = {"type": "answer", "text": reason}
+                        fallback_answer = _fallback_answer_from_complete(
+                            action=action,
+                            task=task,
+                        )
+                        if fallback_answer is not None:
+                            action = fallback_answer
                         action = _normalize_start_app_action(
                             action=action,
                             subtask_goal=str(subtask.get("goal", "")),
@@ -1194,7 +1277,6 @@ class PALiteAgent:
                         )
 
                         if actor_output.error:
-                            control_turns += 1
                             record.result = "invalid_action"
                             record.error = actor_output.error
                             self._append_step_record(
@@ -1210,7 +1292,6 @@ class PALiteAgent:
                             break
 
                         if action is None:
-                            control_turns += 1
                             record.result = "invalid_action"
                             record.error = "Actor did not produce a valid paper tool call."
                             self._append_step_record(
@@ -1226,7 +1307,6 @@ class PALiteAgent:
                             break
 
                         if action.get("type") == "remember":
-                            control_turns += 1
                             try:
                                 self._remember_action(
                                     task=task,
@@ -1256,32 +1336,7 @@ class PALiteAgent:
                             break
 
                         if action.get("type") == "complete":
-                            control_turns += 1
                             completion_success = bool(action.get("success", True))
-                            completion_fingerprint = _completion_fingerprint(
-                                subtask_goal=str(subtask.get("goal", "")),
-                                foreground_activity=observation["foreground_activity"],
-                                observation=observation,
-                            )
-                            repeated_unsupported_completion = (
-                                self.engineering_optimization
-                                and completion_success
-                                and completion_fingerprint
-                                == last_completion_fingerprint
-                                and action_epoch == last_completion_action_epoch
-                            )
-                            if repeated_unsupported_completion:
-                                completion_success = False
-                                unsupported_completions += 1
-                                record.result = "unsupported_completion"
-                                record.error = (
-                                    "Repeated completion claim on unchanged device state; "
-                                    "the next plan must use a visibly different recovery."
-                                )
-                                plan_failed = True
-                            else:
-                                last_completion_fingerprint = completion_fingerprint
-                                last_completion_action_epoch = action_epoch
                             if completion_success and _looks_like_open_app_request(
                                 str(subtask.get("goal", ""))
                             ):
@@ -1303,12 +1358,11 @@ class PALiteAgent:
                                         f"expected_packages={expected_packages!r}"
                                     )
                                     plan_failed = True
-                            if record.result != "unsupported_completion":
-                                record.result = (
-                                    "subtask_complete"
-                                    if completion_success
-                                    else "subtask_failed"
-                                )
+                            record.result = (
+                                "subtask_complete"
+                                if completion_success
+                                else "subtask_failed"
+                            )
                             self._append_step_record(
                                 trajectory=trajectory,
                                 record=record,
@@ -1333,7 +1387,6 @@ class PALiteAgent:
                                 task_app_names=task_app_names,
                             )
                             if fallback_action is None:
-                                control_turns += 1
                                 record.result = "invalid_action"
                                 record.error = str(exc)
                                 self._append_step_record(
@@ -1350,7 +1403,6 @@ class PALiteAgent:
                             executed_action = fallback_action
                             json_action = to_json_action(executed_action)
                         if json_action is None:
-                            control_turns += 1
                             record.result = "invalid_action"
                             record.error = f"Unsupported paper action: {action}"
                             self._append_step_record(
@@ -1367,9 +1419,7 @@ class PALiteAgent:
 
                         record.executed_action = executed_action
                         try:
-                            env_steps += 1
                             env.execute_action(json_action)
-                            action_epoch += 1
                             if self.post_action_wait_seconds:
                                 time.sleep(self.post_action_wait_seconds)
                             record.result = "executed"
@@ -1390,7 +1440,7 @@ class PALiteAgent:
                                 wait_to_stabilize=False,
                             )
                         except Exception as exc:  # Environment dependent.
-                            if _strict_infrastructure_protocol():
+                            if isinstance(exc, A11yInfrastructureError):
                                 raise
                             record.result = "execution_error"
                             record.error = str(exc)
@@ -1405,7 +1455,7 @@ class PALiteAgent:
                         local_steps += 1
                         if plan_failed:
                             break
-                        if budget_steps() < max_steps and control_available():
+                        if step_id < max_steps:
                             observation, prompt_elements, image_path = self._capture_for_prompt(
                                 env=env,
                                 state=state,
@@ -1420,33 +1470,25 @@ class PALiteAgent:
                     success = True
                     break
         except Exception as exc:  # Environment dependent.
+            if isinstance(exc, A11yInfrastructureError):
+                raise
             task_error = "".join(traceback.format_exception(exc))
         finally:
             try:
                 reward = float(task.is_successful(env))
                 success = reward >= 1.0
-            except Exception as exc:
-                if _strict_infrastructure_protocol():
-                    task_error = _append_infrastructure_error(
-                        task_error,
-                        phase="final_success_evaluation",
-                        error=exc,
-                    )
+            except Exception:
+                pass
             try:
                 task.tear_down(env)
-            except Exception as exc:
-                if _strict_infrastructure_protocol():
-                    task_error = _append_infrastructure_error(
-                        task_error,
-                        phase="task_cleanup",
-                        error=exc,
-                    )
+            except Exception:
+                pass
 
         self._finalize_task_memory(
             task=task,
             task_id=task_id,
             success=success,
-            steps=budget_steps() if "budget_steps" in locals() else step_id,
+            steps=step_id,
             trajectory=trajectory,
         )
         return TaskRunResult(
@@ -1455,18 +1497,10 @@ class PALiteAgent:
             goal=task.goal,
             success=success,
             reward=reward,
-            steps=budget_steps() if "budget_steps" in locals() else step_id,
+            steps=step_id,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             memory_size_after=self._memory_size_after(),
-            planner_cycles=planner_cycles,
-            unsupported_completions=unsupported_completions,
-            control_turns=control_turns,
-            event_count=step_id,
-            control_turn_limit_reached=(
-                self.control_turn_limit is not None
-                and control_turns >= self.control_turn_limit
-            ),
             memory_stats=self._memory_stats(),
             trajectory=trajectory,
             error=task_error,
@@ -1485,9 +1519,6 @@ class DMSAgent(PALiteAgent):
         max_subtasks: int = 5,
         actor_local_step_guard: int = 8,
         post_action_wait_seconds: float = 3.0,
-        engineering_optimization: bool = False,
-        planner_max_cycles: int | None = None,
-        control_turn_limit: int | None = None,
     ) -> None:
         super().__init__(
             model=model,
@@ -1496,9 +1527,6 @@ class DMSAgent(PALiteAgent):
             actor_local_step_guard=actor_local_step_guard,
             static_memory=None,
             post_action_wait_seconds=post_action_wait_seconds,
-            engineering_optimization=engineering_optimization,
-            planner_max_cycles=planner_max_cycles,
-            control_turn_limit=control_turn_limit,
         )
         self.dms_memory = (
             dms_memory
@@ -1625,16 +1653,9 @@ class DMSAgent(PALiteAgent):
         reward = 0.0
         success = False
         step_id = 0
-        env_steps = 0
-        control_turns = 0
         task_app_names = _task_app_scope(task)
         active_memory_ids: list[str] = []
         created_memory_ids: list[str] = []
-        planner_cycles = 0
-        unsupported_completions = 0
-        action_epoch = 0
-        last_completion_fingerprint: str | None = None
-        last_completion_action_epoch = -1
 
         try:
             task.initialize_task(env)
@@ -1643,15 +1664,6 @@ class DMSAgent(PALiteAgent):
                 go_home=task.start_on_home_screen,
             )
             max_steps = int(10 * task.complexity)
-
-            def budget_steps() -> int:
-                return env_steps if self.engineering_optimization else step_id
-
-            def control_available() -> bool:
-                return (
-                    self.control_turn_limit is None
-                    or control_turns < self.control_turn_limit
-                )
             observation, prompt_elements, image_path = self._capture_for_prompt(
                 env=env,
                 state=state,
@@ -1661,7 +1673,7 @@ class DMSAgent(PALiteAgent):
 
             def refresh_prompt_state() -> None:
                 nonlocal state, observation, prompt_elements, image_path
-                if budget_steps() >= max_steps:
+                if step_id >= max_steps:
                     return
                 state, observation, prompt_elements, image_path = _try_refresh_prompt_state(
                     env=env,
@@ -1674,12 +1686,7 @@ class DMSAgent(PALiteAgent):
                     step_id=step_id,
                 )
 
-            while budget_steps() < max_steps and control_available() and (
-                self.planner_max_cycles is None
-                or planner_cycles < self.planner_max_cycles
-            ):
-                planner_cycles += 1
-                control_turns += 1
+            while step_id < max_steps:
                 plan, plan_in, plan_out = self._plan(
                     image_path=image_path,
                     task=task,
@@ -1702,7 +1709,7 @@ class DMSAgent(PALiteAgent):
 
                 plan_failed = False
                 for subtask in sub_tasks:
-                    if budget_steps() >= max_steps or not control_available():
+                    if step_id >= max_steps:
                         break
                     retrieval = self.dms_memory.backend.retrieve(
                         subtask=subtask,
@@ -1722,9 +1729,6 @@ class DMSAgent(PALiteAgent):
                         replay_failed = False
                         replay_subtask_completed = False
                         for replay_step in replay_trajectory:
-                            if budget_steps() >= max_steps or not control_available():
-                                replay_failed = True
-                                break
                             replay_action = dict(
                                 replay_step.get("action")
                                 or replay_step.get("executed_action")
@@ -1748,31 +1752,9 @@ class DMSAgent(PALiteAgent):
                                 output_tokens=0,
                             )
                             if replay_action.get("type") == "complete":
-                                control_turns += 1
                                 completion_success = bool(
                                     replay_action.get("success", True)
                                 )
-                                completion_fingerprint = _completion_fingerprint(
-                                    subtask_goal=str(subtask.get("goal", "")),
-                                    foreground_activity=observation["foreground_activity"],
-                                    observation=observation,
-                                )
-                                if (
-                                    self.engineering_optimization
-                                    and completion_success
-                                    and completion_fingerprint
-                                    == last_completion_fingerprint
-                                    and action_epoch == last_completion_action_epoch
-                                ):
-                                    completion_success = False
-                                    unsupported_completions += 1
-                                    replay_record.result = "unsupported_completion"
-                                    replay_record.error = (
-                                        "Repeated replay completion on unchanged device state."
-                                    )
-                                else:
-                                    last_completion_fingerprint = completion_fingerprint
-                                    last_completion_action_epoch = action_epoch
                                 if completion_success and _looks_like_open_app_request(
                                     str(subtask.get("goal", "")),
                                     task_app_names,
@@ -1787,20 +1769,17 @@ class DMSAgent(PALiteAgent):
                                             "but the foreground activity did not match "
                                             f"the task scope: {observation['foreground_activity']!r}"
                                         )
-                                if replay_record.result != "unsupported_completion":
-                                    replay_record.result = (
-                                        "subtask_complete"
-                                        if completion_success
-                                        else "subtask_failed"
-                                    )
+                                replay_record.result = (
+                                    "subtask_complete"
+                                    if completion_success
+                                    else "subtask_failed"
+                                )
                                 replay_subtask_completed = completion_success
                                 replay_failed = not completion_success
                             elif replay_action.get("type") == "remember":
-                                control_turns += 1
                                 replay_record.result = "remembered"
                                 replay_record.executed_action = dict(replay_action)
                             else:
-                                execute_attempted = False
                                 try:
                                     executed_action = self._bind_action_to_state(
                                         replay_action,
@@ -1819,10 +1798,7 @@ class DMSAgent(PALiteAgent):
                                             f"Unsupported replay action: {replay_action}"
                                         )
                                     replay_record.executed_action = executed_action
-                                    env_steps += 1
-                                    execute_attempted = True
                                     env.execute_action(json_action)
-                                    action_epoch += 1
                                     if self.post_action_wait_seconds:
                                         time.sleep(self.post_action_wait_seconds)
                                     replay_record.result = "replayed"
@@ -1837,10 +1813,6 @@ class DMSAgent(PALiteAgent):
                                             wait_to_stabilize=False,
                                         )
                                 except Exception as exc:
-                                    if execute_attempted and _strict_infrastructure_protocol():
-                                        raise
-                                    if not execute_attempted:
-                                        control_turns += 1
                                     replay_record.result = "replay_failed"
                                     replay_record.error = str(exc)
                                     replay_failed = True
@@ -1871,7 +1843,7 @@ class DMSAgent(PALiteAgent):
                                 break
                             if replay_subtask_completed:
                                 break
-                            if budget_steps() < max_steps and control_available():
+                            if step_id < max_steps:
                                 observation, prompt_elements, image_path = self._capture_for_prompt(
                                     env=env,
                                     state=state,
@@ -1897,17 +1869,23 @@ class DMSAgent(PALiteAgent):
                         getattr(retrieval, "selected_memory_id", "") or ""
                     )
                     subtask_completed = False
-                    while (
-                        local_steps < self.actor_local_step_guard
-                        and budget_steps() < max_steps
-                        and control_available()
-                    ):
-                        shortcut_action = _shortcut_open_app_action(
-                            subtask_goal=str(subtask.get("goal", "")),
-                            task_app_names=task_app_names,
+                    while local_steps < self.actor_local_step_guard and step_id < max_steps:
+                        shortcut_action = _shortcut_chrome_onboarding_action(
                             foreground_activity=observation["foreground_activity"],
-                            guard_system_dialogs=self.engineering_optimization,
+                            prompt_elements=prompt_elements,
                         )
+                        if shortcut_action is None:
+                            shortcut_action = _shortcut_downloads_action(
+                                subtask_goal=str(subtask.get("goal", "")),
+                                foreground_activity=observation["foreground_activity"],
+                                prompt_elements=prompt_elements,
+                            )
+                        if shortcut_action is None:
+                            shortcut_action = _shortcut_open_app_action(
+                                subtask_goal=str(subtask.get("goal", "")),
+                                task_app_names=task_app_names,
+                                foreground_activity=observation["foreground_activity"],
+                            )
                         if shortcut_action is not None:
                             actor_output = CodeActExecutionResult(
                                 code="",
@@ -1934,10 +1912,12 @@ class DMSAgent(PALiteAgent):
                             output_tokens += act_out
 
                         action = actor_output.action
-                        if action and action.get("type") == "complete" and _task_requires_answer(task.goal):
-                            reason = str(action.get("reason") or "").strip()
-                            if reason:
-                                action = {"type": "answer", "text": reason}
+                        fallback_answer = _fallback_answer_from_complete(
+                            action=action,
+                            task=task,
+                        )
+                        if fallback_answer is not None:
+                            action = fallback_answer
                         action = _normalize_start_app_action(
                             action=action,
                             subtask_goal=str(subtask.get("goal", "")),
@@ -1962,7 +1942,6 @@ class DMSAgent(PALiteAgent):
                         )
 
                         if actor_output.error:
-                            control_turns += 1
                             record.result = "invalid_action"
                             record.error = actor_output.error
                             self._append_step_record(
@@ -1978,7 +1957,6 @@ class DMSAgent(PALiteAgent):
                             break
 
                         if action is None:
-                            control_turns += 1
                             record.result = "invalid_action"
                             record.error = "Actor did not produce a valid paper tool call."
                             self._append_step_record(
@@ -1994,7 +1972,6 @@ class DMSAgent(PALiteAgent):
                             break
 
                         if action.get("type") == "remember":
-                            control_turns += 1
                             self.dms_memory.backend.remember(
                                 information=str(action.get("information") or ""),
                                 task_id=task_id,
@@ -2016,32 +1993,7 @@ class DMSAgent(PALiteAgent):
                             break
 
                         if action.get("type") == "complete":
-                            control_turns += 1
                             completion_success = bool(action.get("success", True))
-                            completion_fingerprint = _completion_fingerprint(
-                                subtask_goal=str(subtask.get("goal", "")),
-                                foreground_activity=observation["foreground_activity"],
-                                observation=observation,
-                            )
-                            repeated_unsupported_completion = (
-                                self.engineering_optimization
-                                and completion_success
-                                and completion_fingerprint
-                                == last_completion_fingerprint
-                                and action_epoch == last_completion_action_epoch
-                            )
-                            if repeated_unsupported_completion:
-                                completion_success = False
-                                unsupported_completions += 1
-                                record.result = "unsupported_completion"
-                                record.error = (
-                                    "Repeated completion claim on unchanged device state; "
-                                    "the next plan must use a visibly different recovery."
-                                )
-                                plan_failed = True
-                            else:
-                                last_completion_fingerprint = completion_fingerprint
-                                last_completion_action_epoch = action_epoch
                             if completion_success and _looks_like_open_app_request(
                                 str(subtask.get("goal", "")),
                                 task_app_names,
@@ -2064,12 +2016,11 @@ class DMSAgent(PALiteAgent):
                                         f"expected_packages={expected_packages!r}"
                                     )
                                     plan_failed = True
-                            if record.result != "unsupported_completion":
-                                record.result = (
-                                    "subtask_complete"
-                                    if completion_success
-                                    else "subtask_failed"
-                                )
+                            record.result = (
+                                "subtask_complete"
+                                if completion_success
+                                else "subtask_failed"
+                            )
                             self._append_step_record(
                                 trajectory=trajectory,
                                 record=record,
@@ -2090,7 +2041,6 @@ class DMSAgent(PALiteAgent):
                             )
                             json_action = to_json_action(executed_action)
                         except (TypeError, ValueError) as exc:
-                            control_turns += 1
                             record.result = "invalid_action"
                             record.error = str(exc)
                             self._append_step_record(
@@ -2105,7 +2055,6 @@ class DMSAgent(PALiteAgent):
                             plan_failed = True
                             break
                         if json_action is None:
-                            control_turns += 1
                             record.result = "invalid_action"
                             record.error = f"Unsupported paper action: {action}"
                             self._append_step_record(
@@ -2129,9 +2078,7 @@ class DMSAgent(PALiteAgent):
                                         subtask=subtask,
                                     )
                                 executed_action = executed_action
-                            env_steps += 1
                             env.execute_action(json_action)
-                            action_epoch += 1
                             if self.post_action_wait_seconds:
                                 time.sleep(self.post_action_wait_seconds)
                             record.result = "executed"
@@ -2154,7 +2101,7 @@ class DMSAgent(PALiteAgent):
                                 wait_to_stabilize=False,
                             )
                         except Exception as exc:
-                            if _strict_infrastructure_protocol():
+                            if isinstance(exc, A11yInfrastructureError):
                                 raise
                             record.result = "execution_error"
                             record.error = str(exc)
@@ -2169,7 +2116,7 @@ class DMSAgent(PALiteAgent):
                         local_steps += 1
                         if plan_failed:
                             break
-                        if budget_steps() < max_steps and control_available():
+                        if step_id < max_steps:
                             observation, prompt_elements, image_path = self._capture_for_prompt(
                                 env=env,
                                 state=state,
@@ -2210,27 +2157,19 @@ class DMSAgent(PALiteAgent):
                     success = True
                     break
         except Exception as exc:
+            if isinstance(exc, A11yInfrastructureError):
+                raise
             task_error = "".join(traceback.format_exception(exc))
         finally:
             try:
                 reward = float(task.is_successful(env))
                 success = reward >= 1.0
-            except Exception as exc:
-                if _strict_infrastructure_protocol():
-                    task_error = _append_infrastructure_error(
-                        task_error,
-                        phase="final_success_evaluation",
-                        error=exc,
-                    )
+            except Exception:
+                pass
             try:
                 task.tear_down(env)
-            except Exception as exc:
-                if _strict_infrastructure_protocol():
-                    task_error = _append_infrastructure_error(
-                        task_error,
-                        phase="task_cleanup",
-                        error=exc,
-                    )
+            except Exception:
+                pass
 
         if hasattr(self.dms_memory.backend, "finalize_task"):
             self.dms_memory.backend.finalize_task(
@@ -2239,7 +2178,7 @@ class DMSAgent(PALiteAgent):
                 task_name=task.name,
                 goal=task.goal,
                 success=success,
-                steps=budget_steps() if "budget_steps" in locals() else step_id,
+                steps=step_id,
                 trajectory=trajectory,
                 active_memory_ids=active_memory_ids,
             )
@@ -2249,18 +2188,10 @@ class DMSAgent(PALiteAgent):
             goal=task.goal,
             success=success,
             reward=reward,
-            steps=budget_steps() if "budget_steps" in locals() else step_id,
+            steps=step_id,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             memory_size_after=self._memory_size_after(),
-            planner_cycles=planner_cycles,
-            unsupported_completions=unsupported_completions,
-            control_turns=control_turns,
-            event_count=step_id,
-            control_turn_limit_reached=(
-                self.control_turn_limit is not None
-                and control_turns >= self.control_turn_limit
-            ),
             memory_stats=self._memory_stats(),
             trajectory=trajectory,
             error=task_error,

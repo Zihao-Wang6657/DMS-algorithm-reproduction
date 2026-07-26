@@ -4,7 +4,7 @@ suite:
   seed: 30
   use_androidworld_step_budget: true
 
-model_config: model_qwen25vl_7b.yaml
+model_config: model_qwen25vl_7b_remote.yaml
 runtime_config: runtime.yaml
 
 pa_lite:

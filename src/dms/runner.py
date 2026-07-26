@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime
 import importlib
+import os
 from pathlib import Path
 from typing import Any
 
@@ -69,22 +70,6 @@ def _build_agent(
     post_action_wait_seconds = float(
         config.get("pa_lite", {}).get("post_action_wait_seconds", 3.0)
     )
-    pa_config = config.get("pa_lite", {})
-    common_agent_kwargs = {
-        "engineering_optimization": bool(
-            pa_config.get("engineering_optimization", False)
-        ),
-        "planner_max_cycles": (
-            int(pa_config["planner_max_cycles"])
-            if pa_config.get("planner_max_cycles") is not None
-            else None
-        ),
-        "control_turn_limit": (
-            int(pa_config["control_turn_limit"])
-            if pa_config.get("control_turn_limit") is not None
-            else None
-        ),
-    }
     if args.method == "baseline_a_zero_shot":
         return (
             PALiteAgent(
@@ -93,7 +78,6 @@ def _build_agent(
                 max_subtasks=int(config["pa_lite"]["planner_max_subtasks"]),
                 actor_local_step_guard=int(config["pa_lite"]["actor_local_step_guard"]),
                 post_action_wait_seconds=post_action_wait_seconds,
-                **common_agent_kwargs,
             ),
             None,
         )
@@ -112,7 +96,6 @@ def _build_agent(
                 actor_local_step_guard=int(config["pa_lite"]["actor_local_step_guard"]),
                 static_memory=memory,
                 post_action_wait_seconds=post_action_wait_seconds,
-                **common_agent_kwargs,
             ),
             memory,
         )
@@ -127,7 +110,6 @@ def _build_agent(
                 max_subtasks=int(config["pa_lite"]["planner_max_subtasks"]),
                 actor_local_step_guard=int(config["pa_lite"]["actor_local_step_guard"]),
                 post_action_wait_seconds=post_action_wait_seconds,
-                **common_agent_kwargs,
             ),
             memory,
         )
@@ -170,30 +152,18 @@ def loads_json_line(line: str) -> dict[str, Any]:
 def run_baseline(args: argparse.Namespace) -> dict[str, Any]:
     from android_world.env import env_launcher
     from dms.android_tasks import instantiate_task
-    from env.androidworld_env import configure_windows_adb_stability
+    from env import close_androidworld_env, verify_live_accessibility
     from model_client import QwenVLClient
 
     config_path = Path(args.config).resolve()
     config = load_yaml(config_path)
     config_base_dir = config_path.parent
-    model_config_override = getattr(args, "model_config", None)
-    runtime_config_override = getattr(args, "runtime_config", None)
-    model_config_path = (
-        resolve_path(model_config_override)
-        if model_config_override
-        else resolve_path(config["model_config"], base_dir=config_base_dir)
-    )
-    runtime_config_path = (
-        resolve_path(runtime_config_override)
-        if runtime_config_override
-        else resolve_path(config["runtime_config"], base_dir=config_base_dir)
-    )
+    model_config_path = resolve_path(config["model_config"], base_dir=config_base_dir)
+    runtime_config_path = resolve_path(config["runtime_config"], base_dir=config_base_dir)
 
     runtime_config = load_yaml(runtime_config_path)
     apply_runtime_environment(runtime_config)
-    configure_windows_adb_stability(
-        a11y_method=runtime_config.get("android", {}).get("a11y_method")
-    )
+    os.environ["DMS_STRICT_A11Y_PROTOCOL"] = "1"
     run_dir = _make_run_dir(args.method, args.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -212,15 +182,19 @@ def run_baseline(args: argparse.Namespace) -> dict[str, Any]:
         adb_path=runtime_config["android"]["adb_path"],
         grpc_port=int(runtime_config["android"]["grpc_port"]),
     )
+    try:
+        a11y_health = verify_live_accessibility(env)
+    except Exception:
+        close_androidworld_env(env)
+        raise
     run_config = {
         "timestamp": now_iso(),
         "method": args.method,
         "config": str(Path(args.config).resolve()),
-        "model_config": str(model_config_path),
-        "runtime_config": str(runtime_config_path),
         "dataset": str(Path(args.dataset).resolve()),
         "run_dir": str(run_dir.resolve()),
         "task_specs": [spec.to_dict() for spec in task_specs],
+        "a11y_health": a11y_health,
     }
     write_json(run_dir / "run_config.json", run_config)
     incremental_results_path = run_dir / "task_results.jsonl"
@@ -249,7 +223,7 @@ def run_baseline(args: argparse.Namespace) -> dict[str, Any]:
                 append_jsonl(incremental_results_path, record)
                 write_json(run_dir / "latest_result.json", record)
     finally:
-        env.close()
+        close_androidworld_env(env)
 
     successful = sum(1 for item in results if item["success"])
     metrics = {
@@ -288,14 +262,6 @@ def main() -> None:
     parser.add_argument(
         "--config",
         default=str(workspace_path("configs", "eval_baselines.yaml")),
-    )
-    parser.add_argument(
-        "--model-config",
-        help="Optional infrastructure override for the model transport config.",
-    )
-    parser.add_argument(
-        "--runtime-config",
-        help="Optional infrastructure override for the Android/runtime config.",
     )
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--rounds", type=int, default=1)

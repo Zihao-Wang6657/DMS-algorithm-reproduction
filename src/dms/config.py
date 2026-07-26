@@ -20,8 +20,7 @@ def resolve_path(
     *,
     base_dir: str | Path | None = None,
 ) -> Path:
-    expanded = os.path.expandvars(os.path.expanduser(str(value)))
-    candidate = Path(expanded)
+    candidate = Path(value)
     if candidate.is_absolute():
         return candidate.resolve()
     if base_dir is not None:
@@ -83,18 +82,9 @@ def apply_runtime_environment(runtime_config: dict[str, Any]) -> None:
         Path(paths["android_sdk"]) / "platform-tools",
         Path(paths["android_sdk"]) / "emulator",
         Path(paths["android_sdk"]) / "cmdline-tools" / "latest" / "bin",
+        Path(paths["conda_env"]) / "bin",
     ]
-    if os.name == "nt":
-        path_entries.extend(
-            [
-                Path(paths["conda_env"]),
-                Path(paths["conda_env"]) / "Scripts",
-                Path(paths["conda_env"]) / "Library" / "bin",
-            ]
-        )
-    else:
-        path_entries.append(Path(paths["conda_env"]) / "bin")
     current = os.environ.get("PATH", "")
-    os.environ["PATH"] = os.pathsep.join(str(item) for item in path_entries) + (
-        f"{os.pathsep}{current}" if current else ""
+    os.environ["PATH"] = ":".join(str(item) for item in path_entries) + (
+        f":{current}" if current else ""
     )

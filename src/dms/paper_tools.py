@@ -54,6 +54,8 @@ _PLANNER_TOOL_NAME_ALIASES = {
 
 _ARGUMENT_NAME_ALIASES = {
     "index": "index",
+    "expectedtext": "expected_text",
+    "targettext": "expected_text",
     "x": "x",
     "y": "y",
     "text": "text",
@@ -334,17 +336,25 @@ def _tool_call_to_action(
         index = _pick(kwargs, "index")
         x = _pick(kwargs, "x")
         y = _pick(kwargs, "y")
+        expected_text = _pick(kwargs, "expected_text", "text")
         duration_ms = _pick(kwargs, "duration_ms", "durationms")
         if index is None and (x is None or y is None):
             raise ValueError("tap requires index or both x/y coordinates.")
         if index is not None and (x is not None or y is not None):
             raise ValueError("tap cannot mix index with x/y coordinates.")
+        if expected_text is not None and index is None:
+            raise ValueError("tap expected_text requires index.")
         action: dict[str, Any] = {"type": "tap"}
         if index is not None:
             action["index"] = int(index)
         else:
             action["x"] = int(x)
             action["y"] = int(y)
+        if expected_text is not None:
+            normalized_expected_text = str(expected_text).strip()
+            if not normalized_expected_text:
+                raise ValueError("tap expected_text must not be empty.")
+            action["expected_text"] = normalized_expected_text
         if duration_ms is not None:
             action["duration_ms"] = int(duration_ms)
         return action

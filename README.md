@@ -51,7 +51,7 @@ DMS/
 目录重构只改变源码组织和启动路径，没有修改算法、Prompt、实验配置或已生成结果。
 
 ## 3. 实验环境
-(由于AndroidWorld对windows环境的适配不佳，存在大量问题，我将项目整体迁移到了Linux环境)
+(由于AndroidWorld对windows环境的适配不佳，存在大量问题，我将项目整体迁移到了Linux环境)  
 本地主机与 WSL：
 
 - Windows 10 Pro 64-bit 宿主机。
@@ -178,7 +178,7 @@ DMS 当前配置的初始容量为 24，最大容量为 96。动态剪枝只在 
 优化机制也存在问题，但我认为是次要的原因)，因此我将项目整体迁移到了WSL/Linux上。
 
 
-(1) **Windows环境下出现ADB 无法安装 accessibility forwarder 等问题** 在实验过程中遇到了
+(1) **Windows环境下出现ADB 无法安装 accessibility forwarder 等问题。** 在实验过程中遇到了
 大量混杂的报错，查阅AndroidWorld 发现AndroidWorld 在Windows路径没有经过官方测试；后续
 虽然合入了 Windows 支持，但仍有人遇到临时 APK 被提前删除、ADB 无法安装 accessibility forwarder 
 等 Windows 专有问题，参见官方 issue：
@@ -197,7 +197,7 @@ PermissionController 的树才能成为 observation。若树持续为空、陈�
 `A11yInfrastructureError`，禁用 UIAutomator 回退，不保存污染 observation，也不允许 DMS
 把 forwarder 故障界面写入 memory。
 
-(3) **Chrome出现渲染失败问题，导致任务在开始时就失败，算法空转** 旧版本在 Chrome 冷启动
+(3) **Chrome出现渲染失败问题，导致任务在开始时就失败，算法空转。** 旧版本在 Chrome 冷启动
 和绘图页面上出现过 `CompositorGpuTh`、`libmonochrome`/`SIGSEGV` 等 native crash；这会让
 BrowserDraw 和其他 Chrome 任务在算法尚未行动前就失败。本版本为 headless 模拟器的软件图形链路
 显式启用 Vulkan feature。保留 llvmpipe 软件渲染，同时以`-feature -Vulkan` 启动模拟器，

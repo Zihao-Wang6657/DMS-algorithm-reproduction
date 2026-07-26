@@ -104,53 +104,68 @@ source scripts/common/activate_env.sh
 3. SSH 隧道已经将远程 vLLM 映射到 WSL 的 `127.0.0.1:8000`。
 4. `GET http://127.0.0.1:8000/v1/models` 可以正常返回。
 
-在 WSL 项目根目录执行：
+在已经进入 WSL 项目根目录的前提下，只需执行一条指令：
 
 ```bash
-cd /path/to/DMS
 bash scripts/run/run_selected5_all_methods.sh
 ```
 
 脚本默认使用 `datasets/mini_benchmark_probe5.yaml`，按顺序运行 Baseline A、Baseline B 和
-DMS，每种方法执行 1 轮。运行前会验证数据集恰好包含 5 个任务，并检查模型服务、AndroidWorld 和 a11y。
+DMS，每种方法执行 5 轮，共完成 75 次计分运行。运行前会验证数据集恰好包含 5 个任务，
+并检查模型服务、ADB boot、accessibility forwarder、Vulkan feature、AndroidWorld 和 a11y。
+三种方法全部成功结束后，脚本自动生成汇总、CSV、错误审计和 9 张正式图像，无需再执行单独
+的分析或绘图命令。
 
-运行正式 5 轮实验：
-
-```bash
-bash scripts/run/run_selected5_all_methods.sh --rounds 5
-```
+每次执行都会创建新的 `runs/selected5_3methods_5rounds_<timestamp>/`，其中三种方法的原始
+结果分别保存在 `baseline_a/`、`baseline_b/` 和 `dms/`，自动生成的图像与汇总保存在
+`figs/`。已有非空 RunRoot 会被拒绝，不会续接或覆盖历史结果。
 
 指定另一份五任务数据集：
 
 ```bash
 bash scripts/run/run_selected5_all_methods.sh \
-  --rounds 5 \
   --dataset datasets/my_selected_5tasks.yaml
 ```
 
 只验证输入并打印将要执行的命令，不启动实验：
 
 ```bash
-bash scripts/run/run_selected5_all_methods.sh --rounds 5 --dry-run
+bash scripts/run/run_selected5_all_methods.sh --dry-run
 ```
 
-每次执行都会创建全新目录：
+如需快速检查调用链，可显式使用 `--rounds 1`；正式结果默认始终为 5 轮。
+
+完整目录结构如下：
 
 ```text
 runs/selected5_3methods_<rounds>rounds_<timestamp>/
 ├── launcher.stdout.log
 ├── current_method.txt
+├── analysis_status.txt
+├── analysis.stdout.log
 ├── baseline_a.stdout.log
 ├── baseline_b.stdout.log
 ├── dms.stdout.log
 ├── baseline_a/
 ├── baseline_b/
-└── dms/
+├── dms/
+└── figs/
+    ├── summary.json
+    ├── summary.md
+    ├── round_metrics.csv
+    ├── task_results.csv
+    ├── dms_memory_timeline.csv
+    ├── task_error_audit.json
+    ├── success_rate_by_round.png
+    ├── avg_tokens_per_task_by_round.png
+    ├── avg_steps_per_task_by_round.png
+    ├── dms_memory_size_timeline.png
+    └── task_success_by_round/    # 五张单任务逐轮成功/失败图
 ```
 
 终端会实时打印每个 step 的动作与结果，以及每个任务的 success、steps、tokens 和
 memory size。完整 observation、原始 JSONL、单任务轨迹、metrics 和 memory 审计仍保存在
-对应方法目录中。脚本拒绝覆盖或自动接续非空 RunRoot。
+对应方法目录中。
 
 ## 5. 三种对比方法
 
@@ -191,7 +206,7 @@ forwarder 和 evaluator 统一放入 WSL2/Linux，减少路径、临时文件、
 (2) **迁移到Linux后，实验中出现大量 `Could not get a11y tree` 错误。** 查阅AndroidWorld官方issue后发现，
 [#164](https://github.com/google-research/android_world/issues/164)
 和 [#314](https://github.com/google-research/android_world/issues/314) 都报告了相同现象，
-维护者也在 #314 中说明相关实验链路存在已知稳定性问题。本版本在动作后等待 3 秒，并只在同一
+维护者也在 #314 中说明相关实验链路存在已知稳定性问题。本版本按正式配置在动作后等待 0.5 秒，并只在同一
 AndroidEnv 实例内进行有限的 a11y/transition 重试；只有非空、包含当前前台包或合法
 PermissionController 的树才能成为 observation。若树持续为空、陈旧或再次出现该异常，则抛出
 `A11yInfrastructureError`，禁用 UIAutomator 回退，不保存污染 observation，也不允许 DMS
@@ -330,5 +345,4 @@ OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 D
 - DMS memory 没有达到容量阈值，因此本次结果没有验证动态剪枝的端到端效果。
 - 远程模型、模拟器启动时序和 GUI 状态可能造成运行间波动，不能保证逐动作完全一致。
 - 7B mini benchmark 的成功率不能直接等同于论文 72B 在完整 AndroidWorld 上的结果。
-
 

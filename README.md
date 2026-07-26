@@ -43,13 +43,6 @@ DMS/
 └── requirements.txt          # Python 3.10 依赖版本
 ```
 
-`runs/<run_id>/figs/` 保存某一次实验自动生成的图；仓库根目录的 `figs/` 只保存经过审计、
-需要展示或写入报告的正式结果。`runs/`、模型权重、conda 环境、Android SDK、AVD 和日志等
-大型运行产物不提交到 Git。
-
-正式 Python 包名为 `dms`，上游 AndroidWorld 独立存放在 `third_party/android_world/`。
-目录重构只改变源码组织和启动路径，没有修改算法、Prompt、实验配置或已生成结果。
-
 ## 3. 实验环境
 (由于AndroidWorld对windows环境的适配不佳，存在大量问题，我将项目整体迁移到了Linux环境)  
 本地主机与 WSL：
@@ -289,9 +282,8 @@ OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 D
 
 当前结果仍有以下限制：
 
-- 只覆盖 5 个固定任务和固定 seed，样本量较小。
+- 只覆盖 5 个固定任务和固定 seed，样本量较小，可能受到任务选择的影响。
 - `RecipeAddSingleRecipe` 和 `BrowserDraw` 三种方法均未成功，任务覆盖不均衡。
-- DMS memory 没有达到容量阈值，因此本次结果没有验证动态剪枝的端到端效果。
 - 远程模型、模拟器启动时序和 GUI 状态可能造成运行间波动，不能保证逐动作完全一致。
 - 7B mini benchmark 的成功率不能直接等同于论文 72B 在完整 AndroidWorld 上的结果。
 

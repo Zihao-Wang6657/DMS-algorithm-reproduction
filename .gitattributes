@@ -1,0 +1,25 @@
+* text=auto
+
+# WSL and Linux entrypoints must retain LF line endings when the repository is
+# checked out or edited from Windows.
+*.sh text eol=lf
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.csv text eol=lf
+
+# Generated figures and runtime assets are binary.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.apk binary
+*.zip binary
+*.gz binary

@@ -4,8 +4,7 @@ import dataclasses
 import json
 import logging
 import os
-import shlex
-import subprocess
+import socket
 import time
 from datetime import datetime
 from pathlib import Path
@@ -15,179 +14,36 @@ from PIL import Image
 
 
 LOGGER = logging.getLogger(__name__)
-ACCESSIBILITY_FORWARDER_SERVICE = (
+ACCESSIBILITY_FLAGS_RECEIVER = (
     "com.google.androidenv.accessibilityforwarder/"
-    "com.google.androidenv.accessibilityforwarder.AccessibilityForwarder"
+    "com.google.androidenv.accessibilityforwarder.FlagsBroadcastReceiver"
 )
-ACCESSIBILITY_FORWARDER_PACKAGE = "com.google.androidenv.accessibilityforwarder"
 ACCESSIBILITY_SET_GRPC_ACTION = "accessibility_forwarder.intent.action.SET_GRPC"
+ACCESSIBILITY_DISABLE_TREE_ACTION = (
+    "accessibility_forwarder.intent.action.DISABLE_ACCESSIBILITY_TREE_LOGS"
+)
+PERMISSION_CONTROLLER_PACKAGES = frozenset(
+    {
+        "com.android.permissioncontroller",
+        "com.google.android.permissioncontroller",
+    }
+)
+A11Y_TRANSITION_ATTEMPTS = 6
+A11Y_TRANSITION_RETRY_SECONDS = 0.75
 
 
-def _strict_infrastructure_protocol() -> bool:
-    return os.environ.get("DMS_STRICT_INFRA_PROTOCOL", "").strip() == "1"
+class A11yInfrastructureError(RuntimeError):
+    """The forwarder did not provide a trustworthy accessibility observation."""
 
 
-def configure_windows_adb_stability(*, a11y_method: str | None = None) -> None:
-    """Prevent a client timeout from killing the shared Windows adb daemon."""
-    if os.name != "nt":
-        return
-
-    from android_env.components.adb_controller import AdbController
-
-    if not getattr(AdbController, "_dms_non_destructive_restart", False):
-
-        def _ensure_server(self: Any, timeout: float | None = None) -> None:
-            safe_timeout = max(10.0, float(timeout or 0.0))
-            command = self.command_prefix(include_device_name=False) + ["start-server"]
-            last_error: Exception | None = None
-            for attempt in range(3):
-                try:
-                    subprocess.check_output(
-                        command,
-                        stderr=subprocess.STDOUT,
-                        timeout=safe_timeout,
-                        env=self._os_env_vars,
-                    )
-                    time.sleep(1.0)
-                    return
-                except (
-                    subprocess.CalledProcessError,
-                    subprocess.TimeoutExpired,
-                ) as exc:
-                    last_error = exc
-                    if attempt < 2:
-                        time.sleep(1.0)
-            assert last_error is not None
-            raise last_error
-
-        AdbController._restart_server = _ensure_server
-        AdbController._dms_non_destructive_restart = True
-
-    from android_env.components.adb_call_parser import AdbCallParser
-
-    if not getattr(AdbCallParser, "_dms_async_a11y_broadcast", False):
-        original_send_broadcast = AdbCallParser._send_broadcast
-
-        def _send_a11y_broadcast_async(
-            self: Any,
-            request: Any,
-            timeout: float | None = None,
-        ) -> Any:
-            broadcast = request.send_broadcast
-            action_parts = shlex.split(broadcast.action)
-            if not action_parts or not action_parts[0].startswith(
-                "accessibility_forwarder.intent.action."
-            ):
-                return original_send_broadcast(self, request, timeout)
-            component_args = (
-                ["-n", broadcast.component] if broadcast.component else []
-            )
-            response, _ = self._execute_command(
-                [
-                    "shell",
-                    "am",
-                    "broadcast",
-                    "--async",
-                    "-a",
-                    action_parts[0],
-                    *action_parts[1:],
-                    *component_args,
-                ],
-                timeout=min(float(timeout or 10.0), 10.0),
-            )
-            return response
-
-        AdbCallParser._send_broadcast = _send_a11y_broadcast_async
-        AdbCallParser._dms_async_a11y_broadcast = True
-
-    from android_world.env.android_world_controller import AndroidWorldController
-    from android_world.env.android_world_controller import A11yMethod
-
-    if (
-        str(a11y_method or "").strip().lower() == "uiautomator"
-        and not getattr(AndroidWorldController, "_dms_uiautomator_mode", False)
-    ):
-        original_init = AndroidWorldController.__init__
-
-        def _init_with_uiautomator(
-            self: Any,
-            env: Any,
-            a11y_method: Any = A11yMethod.A11Y_FORWARDER_APP,
-            install_a11y_forwarding_app: bool = True,
-        ) -> None:
-            del a11y_method, install_a11y_forwarding_app
-            original_init(
-                self,
-                env,
-                a11y_method=A11yMethod.UIAUTOMATOR,
-                install_a11y_forwarding_app=False,
-            )
-
-        AndroidWorldController.__init__ = _init_with_uiautomator
-        AndroidWorldController._dms_uiautomator_mode = True
-
-    if not getattr(AndroidWorldController, "_dms_refresh_cleanup", False):
-        original_refresh = AndroidWorldController.refresh_env
-
-        def _refresh_without_logcat_leak(self: Any) -> None:
-            old_env = self.env
-            try:
-                old_env._coordinator._task_manager.stop()
-            except Exception as exc:  # pragma: no cover - environment dependent.
-                LOGGER.warning("failed to stop stale Android log stream: %s", exc)
-            original_refresh(self)
-
-        AndroidWorldController.refresh_env = _refresh_without_logcat_leak
-        AndroidWorldController._dms_refresh_cleanup = True
+def _strict_a11y_protocol() -> bool:
+    return os.environ.get("DMS_STRICT_A11Y_PROTOCOL", "").strip() == "1"
 
 
 def _load_adb_utils() -> Any:
     from android_world.env import adb_utils
 
     return adb_utils
-
-
-def _controller_adb_target(controller: Any) -> tuple[str, str]:
-    """Return the configured adb binary and emulator serial."""
-    config = controller.env._coordinator._simulator._config
-    adb_path = str(Path(config.adb_controller.adb_path).expanduser())
-    console_port = int(config.emulator_launcher.emulator_console_port)
-    return adb_path, f"emulator-{console_port}"
-
-
-def _run_adb_direct(
-    controller: Any,
-    *args: str,
-    timeout_sec: float = 15,
-) -> str:
-    """Run a best-effort adb client without restarting the global daemon."""
-    adb_path, serial = _controller_adb_target(controller)
-    completed = subprocess.run(
-        [adb_path, "-P", "5037", "-s", serial, *args],
-        check=True,
-        capture_output=True,
-        text=True,
-        timeout=timeout_sec,
-    )
-    return completed.stdout
-
-
-def _direct_uiautomator_dump(controller: Any, timeout_sec: float = 20) -> str:
-    _run_adb_direct(
-        controller,
-        "shell",
-        "uiautomator",
-        "dump",
-        "/sdcard/window_dump.xml",
-        timeout_sec=timeout_sec,
-    )
-    return _run_adb_direct(
-        controller,
-        "shell",
-        "cat",
-        "/sdcard/window_dump.xml",
-        timeout_sec=timeout_sec,
-    )
 
 
 def _bbox_to_list(bbox: Any) -> list[int] | None:
@@ -220,188 +76,111 @@ def serialize_ui_element(element: Any, index: int) -> dict[str, Any]:
 
 def _wake_android_device(controller: Any) -> None:
     """Best-effort wake/stay-on guard before collecting observations."""
+    try:
+        adb_utils = _load_adb_utils()
+    except Exception as exc:  # pragma: no cover - environment dependent.
+        LOGGER.warning("failed to load Android adb utilities: %s", exc)
+        return
+
     commands = (
-        ("shell", "input", "keyevent", "KEYCODE_WAKEUP"),
-        ("shell", "wm", "dismiss-keyguard"),
-        ("shell", "svc", "power", "stayon", "true"),
-        ("shell", "settings", "put", "system", "screen_off_timeout", "2147483647"),
+        "shell input keyevent KEYCODE_WAKEUP",
+        "shell wm dismiss-keyguard",
+        "shell svc power stayon true",
+        "shell settings put system screen_off_timeout 2147483647",
     )
     for command in commands:
         try:
-            _run_adb_direct(controller, *command, timeout_sec=10)
+            adb_utils.issue_generic_request(command, controller, timeout_sec=3)
         except Exception as exc:  # pragma: no cover - environment dependent.
             LOGGER.warning("failed Android wake guard command %r: %s", command, exc)
 
 
 def _disable_airplane_mode(controller: Any) -> None:
     """Best-effort restore of network-dependent emulator state before tasks."""
+    try:
+        adb_utils = _load_adb_utils()
+    except Exception as exc:  # pragma: no cover - environment dependent.
+        LOGGER.warning("failed to load Android adb utilities: %s", exc)
+        return
+
     commands = (
-        ("shell", "settings", "put", "global", "airplane_mode_on", "0"),
-        (
-            "shell",
-            "am",
-            "broadcast",
-            "--async",
-            "-a",
-            "android.intent.action.AIRPLANE_MODE",
-            "--ez",
-            "state",
-            "false",
-        ),
+        "shell settings put global airplane_mode_on 0",
+        "shell am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false",
     )
     for command in commands:
         try:
-            _run_adb_direct(controller, *command, timeout_sec=10)
+            adb_utils.issue_generic_request(command, controller, timeout_sec=3)
         except Exception as exc:  # pragma: no cover - environment dependent.
             LOGGER.warning("failed to disable airplane mode with %r: %s", command, exc)
 
 
-def _controller_grpc_port(controller: Any) -> int:
+def _controller_a11y_server_port(controller: Any) -> int | None:
+    """Return AndroidEnv's dynamic a11y port, never the emulator control port."""
+    wrapped_env = getattr(controller, "env", None)
+    visited: set[int] = set()
+    while wrapped_env is not None and id(wrapped_env) not in visited:
+        visited.add(id(wrapped_env))
+        get_port = getattr(wrapped_env, "get_port", None)
+        if callable(get_port):
+            try:
+                port = int(get_port())
+            except (TypeError, ValueError):
+                port = 0
+            if port > 0:
+                return port
+        wrapped_env = getattr(wrapped_env, "_env", None)
+    return None
+
+
+def _host_port_is_listening(port: int, *, timeout_seconds: float = 1.0) -> bool:
     try:
-        return int(
-            controller.env._coordinator._simulator._config.emulator_launcher.grpc_port
-        )
-    except Exception:
-        return 8554
+        with socket.create_connection(
+            ("127.0.0.1", port),
+            timeout=timeout_seconds,
+        ):
+            return True
+    except OSError:
+        return False
 
 
-def _ensure_accessibility_forwarder(
-    controller: Any,
-    *,
-    force_restart: bool = False,
-) -> None:
-    """Best-effort recovery for the AndroidWorld accessibility forwarder."""
-    grpc_port = _controller_grpc_port(controller)
-    commands: list[tuple[tuple[str, ...], int]] = []
-    if force_restart:
-        commands.append(
-            (("shell", "am", "force-stop", ACCESSIBILITY_FORWARDER_PACKAGE), 10)
-        )
-    commands.extend(
-        [
-            (
-                (
-                    "shell",
-                    "settings",
-                    "put",
-                    "secure",
-                    "enabled_accessibility_services",
-                    ACCESSIBILITY_FORWARDER_SERVICE,
-                ),
-                10,
-            ),
-            (
-                ("shell", "settings", "put", "secure", "accessibility_enabled", "1"),
-                10,
-            ),
-            (
-                (
-                    "shell",
-                    "am",
-                    "broadcast",
-                    "--async",
-                    "-a",
-                    ACCESSIBILITY_SET_GRPC_ACTION,
-                    "--ei",
-                    "port",
-                    str(grpc_port),
-                ),
-                15,
-            ),
-        ]
+def _disable_accessibility_forwarding(controller: Any) -> None:
+    """Stop device-side sends before AndroidEnv closes its host gRPC server."""
+    adb_utils = _load_adb_utils()
+    commands = (
+        (
+            f"shell am broadcast -a {ACCESSIBILITY_DISABLE_TREE_ACTION} "
+            f"-n {ACCESSIBILITY_FLAGS_RECEIVER}"
+        ),
+        (
+            f"shell am broadcast -a {ACCESSIBILITY_SET_GRPC_ACTION} "
+            f'--es host "10.0.2.2" --ei port 0 -n {ACCESSIBILITY_FLAGS_RECEIVER}'
+        ),
     )
-    for command, timeout_sec in commands:
-        try:
-            _run_adb_direct(controller, *command, timeout_sec=timeout_sec)
-        except Exception as exc:  # pragma: no cover - environment dependent.
-            LOGGER.warning(
-                "failed Android accessibility recovery command %r: %s",
-                command,
-                exc,
-            )
-
-
-def _uiautomator_fallback_elements(env: Any) -> list[Any]:
-    """Fallback to uiautomator when the a11y gRPC tree is empty."""
-    controller = getattr(env, "controller", None)
-    if controller is None:
-        return []
-    elements = []
-    for attempt in range(2):
-        try:
-            from android_world.env import representation_utils
-
-            xml = _direct_uiautomator_dump(controller, timeout_sec=20)
-            elements = representation_utils.xml_dump_to_ui_elements(xml)
-            break
-        except Exception as exc:  # pragma: no cover - environment dependent.
-            LOGGER.warning("failed to fallback to uiautomator UI dump: %s", exc)
-            if attempt == 0:
-                _ensure_accessibility_forwarder(controller, force_restart=True)
-                _refresh_android_env(env)
-                time.sleep(1.0)
-    if not elements:
-        return []
-    visible = [
-        element
-        for element in elements
-        if element.is_visible
-        and (
-            element.text
-            or element.content_description
-            or element.is_clickable
-            or element.is_editable
-        )
-    ]
-    if visible:
-        LOGGER.warning(
-            "a11y tree returned no UI elements; using %d uiautomator elements",
-            len(visible),
-        )
-    return visible
-
-
-def _refresh_android_env(env: Any) -> None:
-    controller = getattr(env, "controller", None)
-    refresh = getattr(controller, "refresh_env", None)
-    if callable(refresh):
-        refresh()
+    for command in commands:
+        adb_utils.issue_generic_request(command, controller, timeout_sec=5)
 
 
 def _reset_with_a11y_retries(
     env: Any,
     *,
     go_home: bool = True,
-    attempts: int = 3,
 ) -> Any:
-    last_error: Exception | None = None
-    for attempt in range(attempts):
-        controller = getattr(env, "controller", None)
-        if controller is not None:
-            _wake_android_device(controller)
-            _disable_airplane_mode(controller)
-            _ensure_accessibility_forwarder(controller, force_restart=attempt > 0)
-        try:
-            return env.reset(go_home=go_home)
-        except Exception as exc:
-            last_error = exc
-            if "Could not get a11y tree" not in str(exc) or attempt + 1 >= attempts:
-                raise
-            LOGGER.warning(
-                "reset failed to get a11y tree; refreshing Android env "
-                "before retry %d/%d",
-                attempt + 1,
-                attempts - 1,
-            )
-            _refresh_android_env(env)
-            if controller is not None:
-                _ensure_accessibility_forwarder(controller, force_restart=True)
-            time.sleep(1.0)
-    assert last_error is not None
-    raise last_error
+    controller = getattr(env, "controller", None)
+    if controller is not None:
+        _wake_android_device(controller)
+        _disable_airplane_mode(controller)
+    try:
+        return env.reset(go_home=go_home)
+    except Exception as exc:
+        if "Could not get a11y tree" in str(exc):
+            raise A11yInfrastructureError(
+                "Accessibility tree was unavailable during task reset; "
+                "the environment was not refreshed or replaced."
+            ) from exc
+        raise
 
 
-def _should_use_uiautomator_fallback(
+def _is_untrustworthy_a11y_observation(
     elements: list[Any],
     foreground_package: str,
 ) -> bool:
@@ -410,14 +189,78 @@ def _should_use_uiautomator_fallback(
     visible = [element for element in elements if element.is_visible]
     if not visible:
         return True
-    packages = {element.package_name for element in visible if element.package_name}
-    if packages and packages <= {"com.android.systemui"}:
-        return True
-    if foreground_package and foreground_package != "com.android.systemui":
-        return not any(
-            element.package_name == foreground_package for element in visible
+    packages = {
+        str(element.package_name)
+        for element in visible
+        if element.package_name
+    }
+    if not packages or foreground_package in packages:
+        return False
+    # Runtime permission dialogs legitimately belong to PermissionController
+    # while the target app remains the foreground activity.
+    if packages & PERMISSION_CONTROLLER_PACKAGES:
+        return False
+    # During app startup the forwarder can briefly return the previous app's
+    # tree, or only the SystemUI status/navigation bars, after the foreground
+    # activity has already changed.  Neither is useful evidence for the actor.
+    return True
+
+
+def _wait_for_trustworthy_a11y_state(
+    env: Any,
+    initial_state: Any,
+    *,
+    attempts: int = A11Y_TRANSITION_ATTEMPTS,
+    retry_seconds: float = A11Y_TRANSITION_RETRY_SECONDS,
+) -> tuple[Any, str]:
+    """Wait briefly for a forwarder tree that matches the current app.
+
+    This handles application launch splashes without refreshing AndroidEnv,
+    restarting the APK, or falling back to UIAutomator.  A persistent empty or
+    stale tree remains a fatal infrastructure error under the strict protocol.
+    """
+    if attempts < 1:
+        raise ValueError("attempts must be at least 1")
+
+    state = initial_state
+    last_activity = ""
+    last_packages: set[str] = set()
+    for attempt in range(attempts):
+        last_activity = env.foreground_activity_name
+        foreground_package = last_activity.split("/", maxsplit=1)[0]
+        elements = list(state.ui_elements)
+        last_packages = {
+            str(element.package_name)
+            for element in elements
+            if element.is_visible and element.package_name
+        }
+        if not _is_untrustworthy_a11y_observation(
+            elements,
+            foreground_package,
+        ):
+            return state, last_activity
+        if attempt + 1 >= attempts:
+            break
+        LOGGER.warning(
+            "a11y observation is empty or stale during an app transition; "
+            "retrying the same AndroidEnv instance (%d/%d)",
+            attempt + 1,
+            attempts - 1,
         )
-    return False
+        time.sleep(retry_seconds)
+        state = get_state_with_a11y_retries(
+            env,
+            wait_to_stabilize=False,
+            attempts=3,
+        )
+
+    raise A11yInfrastructureError(
+        "Accessibility observation remained empty or stale after "
+        f"{attempts} checks on the same AndroidEnv; "
+        f"foreground_activity={last_activity!r}, "
+        f"visible_packages={sorted(last_packages)!r}. "
+        "UIAutomator fallback is disabled."
+    )
 
 
 @dataclasses.dataclass(frozen=True)
@@ -454,37 +297,16 @@ class AndroidWorldObservationStore:
         ui_elements_path = step_dir / "ui_elements.json"
         metadata_path = step_dir / "observation.json"
 
+        if _strict_a11y_protocol():
+            state, foreground_activity = _wait_for_trustworthy_a11y_state(
+                env,
+                state,
+            )
+        else:
+            foreground_activity = env.foreground_activity_name
         Image.fromarray(state.pixels).save(screenshot_path)
-        foreground_activity = env.foreground_activity_name
         package_name = foreground_activity.split("/", maxsplit=1)[0]
         source_elements = list(state.ui_elements)
-        if _should_use_uiautomator_fallback(source_elements, package_name):
-            source_elements = _uiautomator_fallback_elements(env)
-            if not source_elements:
-                controller = getattr(env, "controller", None)
-                if controller is not None:
-                    _ensure_accessibility_forwarder(controller, force_restart=True)
-                    _refresh_android_env(env)
-                    _wake_android_device(controller)
-                try:
-                    state = env.get_state(wait_to_stabilize=True)
-                    Image.fromarray(state.pixels).save(screenshot_path)
-                    foreground_activity = env.foreground_activity_name
-                    package_name = foreground_activity.split("/", maxsplit=1)[0]
-                    source_elements = list(state.ui_elements)
-                    if _should_use_uiautomator_fallback(
-                        source_elements,
-                        package_name,
-                    ):
-                        source_elements = _uiautomator_fallback_elements(env)
-                except Exception as exc:  # pragma: no cover - environment dependent.
-                    LOGGER.warning("failed to recover empty UI observation: %s", exc)
-                    if _strict_infrastructure_protocol():
-                        raise
-        if not source_elements and _strict_infrastructure_protocol():
-            raise RuntimeError(
-                "Strict infrastructure protocol could not obtain a non-empty UI observation."
-            )
         ui_elements = [
             serialize_ui_element(element, index)
             for index, element in enumerate(source_elements)
@@ -520,27 +342,24 @@ def get_state_with_a11y_retries(
     attempts: int = 3,
 ) -> Any:
     last_error: Exception | None = None
-    controller = getattr(env, "controller", None)
     for attempt in range(attempts):
         try:
             return env.get_state(wait_to_stabilize=wait_to_stabilize)
         except Exception as exc:
             last_error = exc
             if "Could not get a11y tree" not in str(exc) or attempt + 1 >= attempts:
+                if "Could not get a11y tree" in str(exc):
+                    raise A11yInfrastructureError(
+                        "Accessibility tree remained unavailable; the same "
+                        "AndroidEnv instance was retained and the run must stop."
+                    ) from exc
                 raise
             LOGGER.warning(
-                "state capture failed to get a11y tree; refreshing Android env "
-                "before retry %d/%d",
+                "state capture failed to get a11y tree; retrying the same "
+                "AndroidEnv instance (%d/%d)",
                 attempt + 1,
                 attempts - 1,
             )
-            _refresh_android_env(env)
-            if controller is not None:
-                _wake_android_device(controller)
-                _ensure_accessibility_forwarder(
-                    controller,
-                    force_restart=attempt > 0,
-                )
             time.sleep(1.0)
     assert last_error is not None
     raise last_error
@@ -579,27 +398,62 @@ def reset_task_environment(env: Any, *, go_home: bool = True) -> Any:
     except Exception as exc:  # pragma: no cover - environment dependent.
         LOGGER.warning("failed to sanitize Android task start state: %s", exc)
 
-    for attempt in range(3):
+    return get_state_with_a11y_retries(
+        env,
+        wait_to_stabilize=True,
+        attempts=3,
+    )
+
+
+def verify_live_accessibility(env: Any) -> dict[str, Any]:
+    """Verify the exact dynamic endpoint and observation used by the run."""
+    controller = getattr(env, "controller", None)
+    if controller is None:
+        raise A11yInfrastructureError(
+            "AndroidWorld environment has no controller."
+        )
+    port = _controller_a11y_server_port(controller)
+    if port is None:
+        raise A11yInfrastructureError(
+            "AndroidEnv has no accessibility gRPC server port."
+        )
+    if port == 8554:
+        raise A11yInfrastructureError(
+            "Accessibility endpoint incorrectly equals emulator control port 8554."
+        )
+    if not _host_port_is_listening(port):
+        raise A11yInfrastructureError(
+            f"Accessibility gRPC server 127.0.0.1:{port} is not listening."
+        )
+    # The wrapper has only just broadcast the endpoint.  Let the service emit
+    # its first tree before the strict preflight starts consuming observations.
+    time.sleep(2.0)
+    state = get_state_with_a11y_retries(
+        env,
+        wait_to_stabilize=True,
+        attempts=3,
+    )
+    state, foreground_activity = _wait_for_trustworthy_a11y_state(
+        env,
+        state,
+    )
+    package_name = foreground_activity.split("/", maxsplit=1)[0]
+    elements = list(state.ui_elements)
+    return {
+        "a11y_ready": True,
+        "grpc_port": port,
+        "grpc_listener_ready": True,
+        "ui_element_count": len(elements),
+        "foreground_activity": foreground_activity,
+    }
+
+
+def close_androidworld_env(env: Any) -> None:
+    """Disable APK forwarding before closing its host-side gRPC owner."""
+    controller = getattr(env, "controller", None)
+    if controller is not None:
         try:
-            return get_state_with_a11y_retries(
-                env,
-                wait_to_stabilize=True,
-                attempts=3 - attempt,
-            )
+            _disable_accessibility_forwarding(controller)
         except Exception as exc:  # pragma: no cover - environment dependent.
-            if "Could not get a11y tree" not in str(exc) or attempt == 2:
-                LOGGER.warning("failed to capture sanitized Android state: %s", exc)
-                if _strict_infrastructure_protocol():
-                    raise
-                return state
-            LOGGER.warning(
-                "sanitized state capture failed to get a11y tree; "
-                "refreshing Android env before retry %d/2",
-                attempt + 1,
-            )
-            _refresh_android_env(env)
-            _wake_android_device(controller)
-            _disable_airplane_mode(controller)
-            _ensure_accessibility_forwarder(controller, force_restart=attempt > 0)
-            time.sleep(1.0)
-    return state
+            LOGGER.warning("failed to disable accessibility forwarding: %s", exc)
+    env.close()

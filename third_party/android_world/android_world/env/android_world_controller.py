@@ -217,6 +217,8 @@ class AndroidWorldController(base_wrapper.BaseWrapper):
     try:
       return self._get_a11y_forest()
     except RuntimeError:
+      if os.environ.get('DMS_STRICT_A11Y_PROTOCOL', '').strip() == '1':
+        raise
       print(
           'Could not get a11y tree. Reconnecting to Android, reinitializing'
           ' AndroidEnv, and restarting a11y forwarding.'

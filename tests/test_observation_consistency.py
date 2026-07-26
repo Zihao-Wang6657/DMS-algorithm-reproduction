@@ -4,6 +4,7 @@ import json
 import sys
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import Mock
 
 import numpy as np
 import pytest
@@ -14,12 +15,20 @@ sys.path.insert(0, str(WORKING_SPACE / "src"))
 sys.path.insert(0, str(WORKING_SPACE / "third_party" / "android_world"))
 
 from android_world.env import json_action  # noqa: E402
+from android_world.task_evals.information_retrieval import (  # noqa: E402
+    information_retrieval,
+)
+from android_world.task_evals.single import browser  # noqa: E402
 from dms.agent import (  # noqa: E402
     PALiteAgent,
     _history_for_prompt,
     _fallback_answer_from_complete,
     _normalize_start_app_action,
+    _shortcut_chrome_onboarding_action,
+    _shortcut_downloads_action,
+    _shortcut_open_app_action,
     _task_app_scope,
+    _task_requires_answer,
 )
 from env.androidworld_env import AndroidWorldObservationStore  # noqa: E402
 from android_world.utils import file_utils  # noqa: E402
@@ -251,6 +260,203 @@ def test_normalize_start_app_action_maps_file_manager_alias():
     assert action == {"type": "start_app", "package": "files"}
 
 
+@pytest.mark.parametrize(
+    "requested",
+    [
+        "com.android.filemanager",
+        "com.google.android.documentsui",
+        "DocumentsUI",
+    ],
+)
+def test_normalize_start_app_action_maps_files_alias_before_goal_scope_checks(
+    requested,
+):
+    action = _normalize_start_app_action(
+        action={"type": "start_app", "package": requested},
+        subtask_goal="Navigate to Downloads folder.",
+        task_app_names=["chrome"],
+    )
+
+    assert action == {"type": "start_app", "package": "files"}
+
+
+def test_browser_task_scope_includes_files_and_chrome():
+    task = browser.BrowserDraw({"browser_task_seed": 1033})
+
+    assert _task_app_scope(task) == ["files", "chrome"]
+
+
+def test_chrome_onboarding_shortcut_uses_exact_visible_button_text():
+    action = _shortcut_chrome_onboarding_action(
+        foreground_activity=(
+            "com.android.chrome/"
+            "org.chromium.chrome.browser.firstrun.FirstRunActivity"
+        ),
+        prompt_elements=[
+            {
+                "text": "Accept & continue",
+                "content_description": None,
+                "is_visible": True,
+                "is_clickable": True,
+            },
+            {
+                "text": "12:50",
+                "content_description": None,
+                "is_visible": True,
+                "is_clickable": False,
+            },
+        ],
+    )
+
+    assert action == {
+        "type": "tap",
+        "index": 0,
+        "expected_text": "Accept & continue",
+    }
+
+
+def test_open_app_shortcut_does_not_complete_chrome_first_run():
+    action = _shortcut_open_app_action(
+        subtask_goal="Open the Chrome app.",
+        task_app_names=["chrome"],
+        foreground_activity=(
+            "com.android.chrome/"
+            "org.chromium.chrome.browser.firstrun.FirstRunActivity"
+        ),
+    )
+
+    assert action is None
+
+
+def test_open_app_shortcut_does_not_complete_browserdraw_composite_goal():
+    action = _shortcut_open_app_action(
+        subtask_goal=(
+            "Open the file task.html in Downloads in the file manager; "
+            "when prompted open it with Chrome. Then create a drawing."
+        ),
+        task_app_names=["files", "chrome"],
+        foreground_activity="com.android.chrome/.Main",
+    )
+
+    assert action is None
+
+
+def test_downloads_shortcut_uses_unique_visible_documentsui_target():
+    action = _shortcut_downloads_action(
+        subtask_goal="Navigate to Downloads folder.",
+        foreground_activity=(
+            "com.google.android.documentsui/"
+            "com.android.documentsui.files.FilesActivity"
+        ),
+        prompt_elements=[
+            {
+                "text": "Images",
+                "content_description": None,
+                "is_visible": True,
+                "is_clickable": True,
+            },
+            {
+                "text": "Downloads",
+                "content_description": None,
+                "is_visible": True,
+                "is_clickable": True,
+            },
+        ],
+    )
+
+    assert action == {
+        "type": "tap",
+        "index": 1,
+        "expected_text": "Downloads",
+    }
+
+
+def test_downloads_shortcut_opens_files_outside_documentsui():
+    action = _shortcut_downloads_action(
+        subtask_goal="Navigate to Downloads folder.",
+        foreground_activity="com.android.chrome/.Main",
+        prompt_elements=[
+            {
+                "text": "Downloads",
+                "content_description": None,
+                "is_visible": True,
+                "is_clickable": True,
+            }
+        ],
+    )
+
+    assert action == {"type": "start_app", "package": "files"}
+
+
+def test_downloads_shortcut_waits_for_chrome_first_run_handling():
+    action = _shortcut_downloads_action(
+        subtask_goal="Navigate to Downloads folder.",
+        foreground_activity=(
+            "com.android.chrome/"
+            "org.chromium.chrome.browser.firstrun.FirstRunActivity"
+        ),
+        prompt_elements=[],
+    )
+
+    assert action is None
+
+
+def test_downloads_shortcut_does_not_complete_a_composite_file_subtask():
+    action = _shortcut_downloads_action(
+        subtask_goal="Navigate to Downloads and open the file task.html.",
+        foreground_activity=(
+            "com.google.android.documentsui/"
+            "com.android.documentsui.files.FilesActivity"
+        ),
+        prompt_elements=[
+            {
+                "text": None,
+                "content_description": "Files in Downloads",
+                "is_visible": True,
+                "is_clickable": False,
+            }
+        ],
+    )
+
+    assert action is None
+
+
+def test_downloads_shortcut_completes_when_documentsui_is_already_there():
+    action = _shortcut_downloads_action(
+        subtask_goal="Navigate to Downloads folder.",
+        foreground_activity=(
+            "com.google.android.documentsui/"
+            "com.android.documentsui.files.FilesActivity"
+        ),
+        prompt_elements=[
+            {
+                "text": None,
+                "content_description": "Files in Downloads",
+                "is_visible": True,
+                "is_clickable": False,
+            },
+            {
+                "text": "Downloads",
+                "content_description": None,
+                "is_visible": True,
+                "is_clickable": False,
+            },
+            {
+                "text": "Downloads",
+                "content_description": None,
+                "is_visible": True,
+                "is_clickable": False,
+            },
+        ],
+    )
+
+    assert action == {
+        "type": "complete",
+        "success": True,
+        "reason": "Downloads is already open.",
+    }
+
+
 def test_normalize_start_app_action_maps_simple_calendar_package_alias():
     action = _normalize_start_app_action(
         action={"type": "start_app", "package": "com.simple.calendar.pro"},
@@ -271,13 +477,48 @@ def test_normalize_start_app_action_handles_open_goal_without_app_suffix():
     assert action == {"type": "start_app", "package": "simple calendar pro"}
 
 
-def test_complete_reason_falls_back_to_answer_for_information_goal():
+def test_complete_reason_falls_back_to_answer_for_information_task():
+    task = Mock(spec=information_retrieval.InformationRetrieval)
     action = _fallback_answer_from_complete(
         action={"type": "complete", "success": True, "reason": "42"},
-        task_goal="How many tasks do I have due October 19 2023 in Tasks app? Express your answer as a single integer.",
+        task=task,
     )
 
     assert action == {"type": "answer", "text": "42"}
+
+
+def test_browserdraw_is_not_an_answer_task_despite_when_prompted():
+    task = browser.BrowserDraw({"browser_task_seed": 1033})
+
+    assert "when prompted" in task.goal
+    assert not _task_requires_answer(task)
+    assert (
+        _fallback_answer_from_complete(
+            action={
+                "type": "complete",
+                "success": True,
+                "reason": "Chrome is already open.",
+            },
+            task=task,
+        )
+        is None
+    )
+
+
+def test_failed_information_task_completion_is_not_converted_to_answer():
+    task = Mock(spec=information_retrieval.InformationRetrieval)
+
+    assert (
+        _fallback_answer_from_complete(
+            action={
+                "type": "complete",
+                "success": False,
+                "reason": "Cannot proceed.",
+            },
+            task=task,
+        )
+        is None
+    )
 
 
 def test_open_app_subtask_falls_back_to_start_app_on_invalid_tap(
@@ -440,51 +681,60 @@ def test_index_tap_allows_visible_non_clickable_elements(tmp_path, monkeypatch):
     }
 
 
-def test_engineering_variant_separates_control_turns_from_env_steps(tmp_path):
-    env = FakeEnv(_state(_element()))
-    agent = PALiteAgent(
-        model=ScriptedModel(["# invalid", "# still invalid"]),
-        run_dir=tmp_path,
-        post_action_wait_seconds=0,
-        engineering_optimization=True,
-        planner_max_cycles=2,
-        control_turn_limit=4,
+def test_tap_expected_text_relocates_a_mismatched_index():
+    elements = [
+        {
+            "text": "Accept & continue",
+            "content_description": None,
+            "is_visible": True,
+            "is_clickable": True,
+            "bounds": [100, 200, 500, 400],
+        },
+        {
+            "text": "12:50",
+            "content_description": None,
+            "is_visible": True,
+            "is_clickable": False,
+            "bounds": [10, 10, 100, 80],
+        },
+    ]
+
+    bound = PALiteAgent._bind_action_to_state(
+        {
+            "type": "tap",
+            "index": 1,
+            "expected_text": "Accept & continue",
+        },
+        elements,
     )
 
-    result = agent.run_task(
-        env=env,
-        task=SuccessAfterTwoActionsTask(complexity=0.1),
-        task_id="task",
-    )
-
-    assert result.steps == 0
-    assert result.event_count == 2
-    assert result.control_turns == 4
-    assert result.control_turn_limit_reached is True
-    assert env.executed_actions == []
+    assert bound == {"type": "tap", "x": 300, "y": 300}
 
 
-def test_engineering_variant_counts_only_execute_action_against_budget(
-    tmp_path, monkeypatch
-):
-    env = FakeEnv(_state(_element()))
-    monkeypatch.setattr("dms.agent.time.sleep", lambda seconds: None)
-    agent = PALiteAgent(
-        model=ScriptedModel(["tap(index=0)"]),
-        run_dir=tmp_path,
-        post_action_wait_seconds=0,
-        engineering_optimization=True,
-        planner_max_cycles=2,
-        control_turn_limit=4,
-    )
+def test_tap_expected_text_rejects_missing_or_ambiguous_target():
+    elements = [
+        {
+            "text": "No thanks",
+            "content_description": None,
+            "is_visible": True,
+            "is_clickable": True,
+            "bounds": [0, 0, 100, 100],
+        },
+        {
+            "text": "No thanks",
+            "content_description": None,
+            "is_visible": True,
+            "is_clickable": True,
+            "bounds": [100, 0, 200, 100],
+        },
+    ]
 
-    result = agent.run_task(
-        env=env,
-        task=FakeTask(complexity=0.1),
-        task_id="task",
-    )
-
-    assert result.steps == 1
-    assert result.event_count == 1
-    assert result.control_turns == 1
-    assert result.success is True
+    with pytest.raises(ValueError, match="one unique visible UI element"):
+        PALiteAgent._bind_action_to_state(
+            {
+                "type": "tap",
+                "index": 2,
+                "expected_text": "No thanks",
+            },
+            elements,
+        )

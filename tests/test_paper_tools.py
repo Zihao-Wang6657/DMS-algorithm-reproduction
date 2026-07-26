@@ -241,6 +241,15 @@ def test_pa_lite_plan_records_raw_text_and_parsed_json(tmp_path):
             {"type": "tap", "index": 3, "duration_ms": 900},
         ),
         (
+            'tap(index=3, expected_text="Accept & continue")',
+            "tap",
+            {
+                "type": "tap",
+                "index": 3,
+                "expected_text": "Accept & continue",
+            },
+        ),
+        (
             "input_text('hello', True)",
             "input_text",
             {"type": "input_text", "text": "hello", "clear": True},

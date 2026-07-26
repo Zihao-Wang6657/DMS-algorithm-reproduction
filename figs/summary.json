@@ -1,0 +1,800 @@
+{
+  "overall": {
+    "baseline_a": {
+      "method": "Baseline A",
+      "tasks": 25,
+      "strict_successes": 5,
+      "strict_success_rate": 0.2,
+      "total_tokens": 1689850,
+      "avg_tokens_per_task": 67594.0,
+      "total_steps": 347,
+      "avg_steps_per_task": 13.88,
+      "runtime_errors": 0,
+      "final_memory_size": 0
+    },
+    "baseline_b": {
+      "method": "Baseline B",
+      "tasks": 25,
+      "strict_successes": 9,
+      "strict_success_rate": 0.36,
+      "total_tokens": 2010278,
+      "avg_tokens_per_task": 80411.12,
+      "total_steps": 336,
+      "avg_steps_per_task": 13.44,
+      "runtime_errors": 0,
+      "final_memory_size": 25
+    },
+    "dms": {
+      "method": "DMS",
+      "tasks": 25,
+      "strict_successes": 13,
+      "strict_success_rate": 0.52,
+      "total_tokens": 1052997,
+      "avg_tokens_per_task": 42119.88,
+      "total_steps": 305,
+      "avg_steps_per_task": 12.2,
+      "runtime_errors": 0,
+      "final_memory_size": 12
+    }
+  },
+  "by_round": {
+    "baseline_a": [
+      {
+        "method": "Baseline A",
+        "round": 1,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 271957,
+        "output_tokens": 5009,
+        "total_tokens": 276966,
+        "avg_tokens_per_task": 55393.2,
+        "total_steps": 69,
+        "avg_steps_per_task": 13.8,
+        "runtime_errors": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 2,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 388744,
+        "output_tokens": 5623,
+        "total_tokens": 394367,
+        "avg_tokens_per_task": 78873.4,
+        "total_steps": 69,
+        "avg_steps_per_task": 13.8,
+        "runtime_errors": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 3,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 348093,
+        "output_tokens": 6545,
+        "total_tokens": 354638,
+        "avg_tokens_per_task": 70927.6,
+        "total_steps": 69,
+        "avg_steps_per_task": 13.8,
+        "runtime_errors": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 4,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 260651,
+        "output_tokens": 4875,
+        "total_tokens": 265526,
+        "avg_tokens_per_task": 53105.2,
+        "total_steps": 70,
+        "avg_steps_per_task": 14.0,
+        "runtime_errors": 0,
+        "end_memory_size": 0
+      },
+      {
+        "method": "Baseline A",
+        "round": 5,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 391221,
+        "output_tokens": 7132,
+        "total_tokens": 398353,
+        "avg_tokens_per_task": 79670.6,
+        "total_steps": 70,
+        "avg_steps_per_task": 14.0,
+        "runtime_errors": 0,
+        "end_memory_size": 0
+      }
+    ],
+    "baseline_b": [
+      {
+        "method": "Baseline B",
+        "round": 1,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 370785,
+        "output_tokens": 5414,
+        "total_tokens": 376199,
+        "avg_tokens_per_task": 75239.8,
+        "total_steps": 69,
+        "avg_steps_per_task": 13.8,
+        "runtime_errors": 0,
+        "end_memory_size": 5
+      },
+      {
+        "method": "Baseline B",
+        "round": 2,
+        "tasks": 5,
+        "strict_successes": 2,
+        "strict_success_rate": 0.4,
+        "input_tokens": 379199,
+        "output_tokens": 5938,
+        "total_tokens": 385137,
+        "avg_tokens_per_task": 77027.4,
+        "total_steps": 67,
+        "avg_steps_per_task": 13.4,
+        "runtime_errors": 0,
+        "end_memory_size": 10
+      },
+      {
+        "method": "Baseline B",
+        "round": 3,
+        "tasks": 5,
+        "strict_successes": 1,
+        "strict_success_rate": 0.2,
+        "input_tokens": 386884,
+        "output_tokens": 6081,
+        "total_tokens": 392965,
+        "avg_tokens_per_task": 78593.0,
+        "total_steps": 69,
+        "avg_steps_per_task": 13.8,
+        "runtime_errors": 0,
+        "end_memory_size": 15
+      },
+      {
+        "method": "Baseline B",
+        "round": 4,
+        "tasks": 5,
+        "strict_successes": 2,
+        "strict_success_rate": 0.4,
+        "input_tokens": 400826,
+        "output_tokens": 6623,
+        "total_tokens": 407449,
+        "avg_tokens_per_task": 81489.8,
+        "total_steps": 69,
+        "avg_steps_per_task": 13.8,
+        "runtime_errors": 0,
+        "end_memory_size": 20
+      },
+      {
+        "method": "Baseline B",
+        "round": 5,
+        "tasks": 5,
+        "strict_successes": 3,
+        "strict_success_rate": 0.6,
+        "input_tokens": 442203,
+        "output_tokens": 6325,
+        "total_tokens": 448528,
+        "avg_tokens_per_task": 89705.6,
+        "total_steps": 62,
+        "avg_steps_per_task": 12.4,
+        "runtime_errors": 0,
+        "end_memory_size": 25
+      }
+    ],
+    "dms": [
+      {
+        "method": "DMS",
+        "round": 1,
+        "tasks": 5,
+        "strict_successes": 2,
+        "strict_success_rate": 0.4,
+        "input_tokens": 234925,
+        "output_tokens": 3123,
+        "total_tokens": 238048,
+        "avg_tokens_per_task": 47609.6,
+        "total_steps": 64,
+        "avg_steps_per_task": 12.8,
+        "runtime_errors": 0,
+        "end_memory_size": 6
+      },
+      {
+        "method": "DMS",
+        "round": 2,
+        "tasks": 5,
+        "strict_successes": 2,
+        "strict_success_rate": 0.4,
+        "input_tokens": 237668,
+        "output_tokens": 3616,
+        "total_tokens": 241284,
+        "avg_tokens_per_task": 48256.8,
+        "total_steps": 63,
+        "avg_steps_per_task": 12.6,
+        "runtime_errors": 0,
+        "end_memory_size": 6
+      },
+      {
+        "method": "DMS",
+        "round": 3,
+        "tasks": 5,
+        "strict_successes": 3,
+        "strict_success_rate": 0.6,
+        "input_tokens": 250808,
+        "output_tokens": 3159,
+        "total_tokens": 253967,
+        "avg_tokens_per_task": 50793.4,
+        "total_steps": 61,
+        "avg_steps_per_task": 12.2,
+        "runtime_errors": 0,
+        "end_memory_size": 9
+      },
+      {
+        "method": "DMS",
+        "round": 4,
+        "tasks": 5,
+        "strict_successes": 3,
+        "strict_success_rate": 0.6,
+        "input_tokens": 136007,
+        "output_tokens": 1771,
+        "total_tokens": 137778,
+        "avg_tokens_per_task": 27555.6,
+        "total_steps": 58,
+        "avg_steps_per_task": 11.6,
+        "runtime_errors": 0,
+        "end_memory_size": 10
+      },
+      {
+        "method": "DMS",
+        "round": 5,
+        "tasks": 5,
+        "strict_successes": 3,
+        "strict_success_rate": 0.6,
+        "input_tokens": 179326,
+        "output_tokens": 2594,
+        "total_tokens": 181920,
+        "avg_tokens_per_task": 36384.0,
+        "total_steps": 59,
+        "avg_steps_per_task": 11.8,
+        "runtime_errors": 0,
+        "end_memory_size": 12
+      }
+    ]
+  },
+  "individual_task_success_by_round": [
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "ClockStopWatchRunning",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "ClockStopWatchRunning",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "ClockStopWatchRunning",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "ClockStopWatchRunning",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "CameraTakePhoto",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "BrowserDraw",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_a",
+      "method": "Baseline A",
+      "task_name": "ClockStopWatchRunning",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "ClockStopWatchRunning",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "ClockStopWatchRunning",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "ClockStopWatchRunning",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "ClockStopWatchRunning",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "CameraTakePhoto",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "BrowserDraw",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "baseline_b",
+      "method": "Baseline B",
+      "task_name": "ClockStopWatchRunning",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 1,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "ClockStopWatchRunning",
+      "round": 1,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 2,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "ClockStopWatchRunning",
+      "round": 2,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 3,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "ClockStopWatchRunning",
+      "round": 3,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 4,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "ClockStopWatchRunning",
+      "round": 4,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "AudioRecorderRecordAudio",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "RecipeAddSingleRecipe",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "CameraTakePhoto",
+      "round": 5,
+      "success": 1
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "BrowserDraw",
+      "round": 5,
+      "success": 0
+    },
+    {
+      "method_key": "dms",
+      "method": "DMS",
+      "task_name": "ClockStopWatchRunning",
+      "round": 5,
+      "success": 1
+    }
+  ]
+}

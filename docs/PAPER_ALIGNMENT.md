@@ -6,21 +6,18 @@ execution details for the DMS reproduction.
 ## Sources
 
 - Reproduction assignment:
-  `docs/references/project_requirements.pdf`
+  `算法复现工程：Darwinian Memory System (DMS).pdf`
 - Reference paper:
-  `docs/references/darwinian_memory_mi_2026.pdf`
-- AndroidWorld paper:
-  `docs/references/androidworld_rawles_2025.pdf`
+  `Darwinian Memory.pdf`
 - AndroidWorld local source:
-  `third_party/android_world`
+  `working_space/third_party/android_world`
 
 ## Baselines Required by the Assignment
 
 - Baseline A: pure zero-shot VLM with no memory mechanism.
 - Baseline B: traditional static memory, appending historical interaction
   trajectories in chronological order without pruning.
-- DMS: the PA-Lite backbone augmented with the dedicated Darwinian memory
-  backend.
+- DMS: deferred until baselines A/B are implemented and verified.
 
 ## Paper-Specified PA-Lite Structure
 
@@ -103,8 +100,7 @@ not add new capabilities.
 
 ## DMS Parameters From Appendix B
 
-These values are used by the DMS configuration and are not applied to either
-baseline:
+These are recorded for the later DMS milestone only:
 
 - Novelty bonus: `Vnew = 1.0`
 - Base protection period: `Tbase = 30.0`
@@ -126,9 +122,12 @@ AndroidWorld's own runtime convention:
 
 This is an AndroidWorld runtime limit, not a DMS algorithm parameter.
 
-## Implemented DMS Scope
+## Current Scope Guard
 
-The active backend in `src/dms/darwinian_memory.py` implements Survival
-Value scoring, dual-factor retrieval, Bayesian risk suppression, epsilon
-mutation with evolutionary replacement, and elbow-based dynamic pruning.
-Baseline A and Baseline B remain isolated from these mechanisms.
+Until Milestones 1-5 are complete:
+
+- No Survival Value implementation.
+- No pruning.
+- No dual-factor retrieval.
+- No Bayesian risk suppression.
+- No epsilon mutation or evolutionary replacement.

@@ -14,6 +14,8 @@ android_env==1.2.3
 dm_env==1.6
 fuzzywuzzy==0.18.0
 google-generativeai==0.8.6
+grpcio==1.71.0
+grpcio-status==1.71.0
 grpcio-tools==1.71.0
 protobuf==5.29.5
 immutabledict==2.0.0

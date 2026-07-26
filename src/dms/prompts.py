@@ -17,7 +17,6 @@ def planner_prompt(
     max_subtasks: int,
     memory_context_title: str = "Cross-task Memory Context",
     dms_mode: bool = False,
-    engineering_optimization: bool = False,
 ) -> str:
     memory_guidance = ""
     if dms_mode:
@@ -25,18 +24,6 @@ def planner_prompt(
 Use retrieved hierarchical memory, replay snippets, mutation fallback guidance,
 and pruning/risk diagnostics when they are available. Prefer plans that reuse
 validated memories and avoid trajectories flagged as risky or dominated.
-"""
-    optimization_guidance = ""
-    if engineering_optimization:
-        optimization_guidance = """
-**Robustness rules for the frozen 7B engineering variant:**
-* Treat Android permission dialogs and first-run onboarding as part of the visible
-  state. Plan a generic visible-UI action to resolve them before continuing.
-* A previous `unsupported_completion` means the last completion claim was not
-  supported by a new device action or changed state. Do not repeat that plan or
-  completion claim; choose a visibly different recovery strategy.
-* Do not declare the global goal complete merely because the intended action was
-  requested. Require visible state evidence from the screenshot/UI history.
 """
     return f"""**Inputs You Receive:**
 1. **User's Overall Goal.**
@@ -72,7 +59,6 @@ Focus on what to achieve, not how. Planning fewer steps at a time improves accur
 Unless the user goal explicitly requires another app, keep the plan within the task-scoped app list above.
 If you need to open an app, name one of those task-scoped apps whenever possible.
 {memory_guidance}
-{optimization_guidance}
 
 **Step Format:**
 Each step must be a functional goal.
@@ -108,7 +94,6 @@ def actor_prompt(
     step_history: list[dict[str, Any]],
     memory_context: str | None = None,
     allow_remember: bool = False,
-    engineering_optimization: bool = False,
 ) -> str:
     memory_block = ""
     if allow_remember or memory_context is not None:
@@ -122,22 +107,6 @@ def actor_prompt(
         if allow_remember
         else "The paper action `remember(information)` exists only for DMS and is disabled for Baseline A/B."
     )
-    optimization_rules = ""
-    if engineering_optimization:
-        optimization_rules = """
-## FROZEN 7B ROBUSTNESS RULES
-- If a visible Android permission dialog or first-run page blocks the scoped app,
-  interact with the visible generic system control (for example Allow, Continue,
-  or Skip) before attempting the app task. Never invent a task-specific bypass.
-- Call `complete(success=True, ...)` only when the current screenshot/UI or a
-  successful immediately preceding action provides concrete evidence that this
-  subtask is satisfied. An intended action is not proof of its effect.
-- If history contains `unsupported_completion`, do not repeat `complete` on the
-  unchanged state. Perform a different visible recovery action, or report
-  `complete(success=False, ...)` when no safe recovery exists.
-- Before emitting a tool call, check that its arguments are complete and that the
-  call fits on one line. Prefer the shortest valid literal call.
-"""
     return f"""You will be given a task to perform. After completing your reasoning, you should output:
 - Exactly one Python fenced code block (```python ... ```).
 - The code block must contain exactly one executable tool call and no other executable code.
@@ -176,7 +145,6 @@ You are FORBIDDEN from performing any action not **explicitly named** in the goa
 Check `Task History` before planning. You are **STRICTLY FORBIDDEN** from repeating a step that has already failed or produced no change.
 * **Constraint:** If `Action A` did not work previously, doing `Action A` again is prohibited.
 * **Pivot Requirement:** You MUST change your strategy or complete immediately.
-{optimization_rules}
 
 ### CRITICAL EXECUTION RULES (STRICT ADHERENCE REQUIRED)
 
@@ -191,6 +159,9 @@ Check `Task History` before planning. You are **STRICTLY FORBIDDEN** from repeat
      the current `ui_state` entry for the intended element. Before calling
      `tap(index=N)`, verify that the entry with `index=N` has text or
      content_description matching the intended target.
+   - **SAFE TEXT BINDING (runner extension):** For a labeled target, call
+     `tap(index=N, expected_text="exact visible text")`; a mismatched index is
+     relocated only when that text identifies one unique visible element.
    - **NO VISUAL INDEXING:** Never derive an index from screenshot position, icon
      order, visual counting, or a previous screen. Screenshot position may only
      be used to estimate x/y coordinates when the target is absent from

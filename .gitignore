@@ -33,14 +33,17 @@ logs/
 intermediate/
 tmp/
 
-# Android emulator images and app-state snapshots are several GiB and may
-# contain local application state. Keep only their reproducibility metadata.
-device_images/*
-!device_images/README.md
-!device_images/AndroidWorld_device_state_v3_manifest.json
+# Android emulator images, app-state snapshots, and the old Windows-era
+# device-state metadata are local-only.
+device_images/
 
 # Generated runtime outputs
 runs/
+
+# Legacy Windows-era experiment assets retained locally but not in Git
+artifacts/
+fig/
+protocols/
 
 # Generic generated artifacts
 *.log

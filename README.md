@@ -62,8 +62,8 @@ DMS/
 - AVD：`AndroidWorldAvd`。
 - ADB device：`emulator-5554`。
 - AndroidWorld gRPC：8554。
-- 模拟器以 headless 模式运行，启用 `-feature -Vulkan`，并使用 SwiftShader/llvmpipe
-  软件图形链路规避 Chrome GPU compositor 的 native crash。
+- 模拟器以 headless 模式运行，通过 `-feature -Vulkan` 显式禁用 Vulkan，并以 `-gpu off`
+  配合 SwiftShader/llvmpipe 软件图形链路规避 Chrome GPU compositor 的 native crash。
 - 主 observation 来源是 accessibility forwarder 与 screenshot；正式运行采用严格 a11y
   协议，实际 UIAutomator 回退或仅包含 SystemUI 的 observation 均视为基础设施污染。
 
@@ -112,7 +112,7 @@ bash scripts/run/run_selected5_all_methods.sh
 
 脚本默认使用 `datasets/mini_benchmark_probe5.yaml`，按顺序运行 Baseline A、Baseline B 和
 DMS，每种方法执行 5 轮，共完成 75 次计分运行。运行前会验证数据集恰好包含 5 个任务，
-并检查模型服务、ADB boot、accessibility forwarder、Vulkan feature、AndroidWorld 和 a11y。
+并检查模型服务、ADB boot、accessibility forwarder、`-feature -Vulkan` 禁用参数、AndroidWorld 和 a11y。
 三种方法全部成功结束后，脚本自动生成汇总、CSV、错误审计和 9 张正式图像，无需再执行单独
 的分析或绘图命令。
 
@@ -186,11 +186,16 @@ PermissionController 的树才能成为 observation。若树持续为空、陈�
 
 (3) **Chrome出现渲染失败问题，导致任务在开始时就失败，算法空转。** 旧版本在 Chrome 冷启动
 和绘图页面上出现过 `CompositorGpuTh`、`libmonochrome`/`SIGSEGV` 等 native crash；这会让
-BrowserDraw 和其他 Chrome 任务在算法尚未行动前就失败。本版本为 headless 模拟器的软件图形链路
-显式启用 Vulkan feature。保留 llvmpipe 软件渲染，同时以`-feature -Vulkan` 启动模拟器，
-在 Linux 中配合 `-gpu off` 避开不稳定的旧 compositor 路径。这里的 Vulkan feature 
-是模拟器的软件图形协议选择，并不依赖本地物理 GPU；若日志再次出现Chrome native crash，
-该次运行仍会按基础设施污染处理。
+BrowserDraw 和其他 Chrome 任务在算法尚未行动前就失败。Google Issue Tracker
+[#293852852](https://issuetracker.google.com/issues/293852852) 记录了模拟器中 Chrome 无法创建
+Vulkan surface、页面冻结并最终崩溃的问题；Android Emulator 官方故障排查文档的
+[Cannot open webpage correctly](https://developer.android.com/studio/run/emulator-troubleshooting#cannot-open-webpage)
+也说明 API 30 及以上版本的 Chrome 使用 Vulkan 渲染，在部分机器上可能存在兼容性问题。
+
+本版本保留 llvmpipe 软件渲染，并以 `-gpu off -feature -Vulkan` 启动 headless 模拟器。
+在 Emulator 的 `-feature <name|-name>` 语法中，第二个 `-Vulkan` 表示**禁用** Vulkan feature，
+不是启用 Vulkan；该配置用于绕开不稳定的 Vulkan compositor 路径，并不依赖本地物理 GPU。
+若日志再次出现 Chrome native crash，该次运行仍按基础设施污染处理。
 
 
 ### 6.2 五任务五轮正式实验

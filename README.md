@@ -19,8 +19,6 @@ Qwen2.5-VL-7B-Instruct 模型。实验重点是观察跨轮记忆能否提高任
 
 ```text
 DMS/
-├── README.md                 # 项目说明、运行方法、结果和限制
-├── pytest.ini                # 默认只收集本项目 tests/，排除 vendored AndroidWorld 测试
 ├── configs/                  # 三种方法、远程模型与 AndroidWorld 运行配置
 ├── datasets/                 # AndroidWorld 数据集与正式五任务清单
 ├── docs/                     # 机制对应、环境和实验协议说明
@@ -40,6 +38,8 @@ DMS/
 ├── third_party/
 │   └── android_world/        # 固定版本的上游 AndroidWorld 源码
 ├── tests/                    # 单元测试与集成测试
+├── README.md                 # 项目说明、运行方法、结果和限制
+├── pytest.ini                # 默认只收集本项目 tests/，排除 vendored AndroidWorld 测试
 └── requirements.txt          # Python 3.10 依赖版本
 ```
 

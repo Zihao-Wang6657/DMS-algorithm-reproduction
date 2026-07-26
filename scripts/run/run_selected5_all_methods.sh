@@ -7,7 +7,7 @@ WORKSPACE="$(cd "$SCRIPTS_DIR/.." && pwd)"
 
 DATASET="$WORKSPACE/datasets/mini_benchmark_probe5.yaml"
 CONFIG="$WORKSPACE/configs/eval_baselines.yaml"
-ROUNDS=1
+ROUNDS=5
 RUN_ROOT=""
 DRY_RUN=0
 
@@ -19,7 +19,7 @@ Usage:
   bash scripts/run/run_selected5_all_methods.sh [options]
 
 Options:
-  --rounds N         Number of rounds for each method (default: 1).
+  --rounds N         Number of rounds for each method (default: 5).
   --dataset PATH     YAML dataset containing exactly five tasks.
   --config PATH      Evaluation config (default: configs/eval_baselines.yaml).
   --run-root PATH    New output directory. It must not already contain files.
@@ -29,7 +29,8 @@ Options:
 With no options, the script runs:
   datasets/mini_benchmark_probe5.yaml
   Baseline A -> Baseline B -> DMS
-  one round per method
+  five rounds per method
+  complete analysis and all nine figures
 EOF
 }
 
@@ -119,6 +120,11 @@ if len(tasks) != 5:
     raise SystemExit(
         f"ERROR: selected-task dataset must contain exactly 5 tasks; found {len(tasks)}."
     )
+names = [str(task.get("name", "")).strip() for task in tasks]
+if any(not name for name in names):
+    raise SystemExit("ERROR: every selected task must have a non-empty name.")
+if len(set(names)) != len(names):
+    raise SystemExit("ERROR: selected-task dataset contains duplicate task names.")
 print("Validated five tasks:")
 for index, task in enumerate(tasks, start=1):
     print(f"  {index}. {task['name']} (seed={task.get('seed')})")
@@ -131,6 +137,9 @@ PY
     printf 'python -u -m dms.runner --method %q --config %q --dataset %q --rounds %q --run-dir %q\n' \
       "$method" "$CONFIG" "$DATASET" "$ROUNDS" "$RUN_ROOT/$short_name"
   done
+  printf 'python -u %q --run-root %q --output-dir %q --expected-rounds %q --expected-tasks-per-round 5\n' \
+    "$SCRIPTS_DIR/analysis/analyze_selected5_all_methods.py" \
+    "$RUN_ROOT" "$RUN_ROOT/figs" "$ROUNDS"
   exit 0
 fi
 
@@ -138,6 +147,7 @@ mkdir -p "$RUN_ROOT"
 exec > >(tee -a "$RUN_ROOT/launcher.stdout.log") 2>&1
 
 CURRENT_METHOD_FILE="$RUN_ROOT/current_method.txt"
+ANALYSIS_STATUS_FILE="$RUN_ROOT/analysis_status.txt"
 STREAM_PIDS=()
 RUNNER_PID=""
 
@@ -153,6 +163,7 @@ cleanup() {
 on_error() {
   status=$?
   printf 'failed\n' > "$CURRENT_METHOD_FILE"
+  printf 'analysis_failed\n' > "$ANALYSIS_STATUS_FILE"
   echo "ERROR: selected-five run failed with exit code $status."
   echo "RunRoot: $RUN_ROOT"
   cleanup
@@ -164,6 +175,7 @@ trap 'cleanup; exit 130' INT TERM
 
 export GPU_ID="${GPU_ID:-0}"
 source "$SCRIPTS_DIR/common/activate_env.sh"
+printf 'pending\n' > "$ANALYSIS_STATUS_FILE"
 
 python - "$DATASET" <<'PY'
 from pathlib import Path
@@ -177,6 +189,11 @@ if len(tasks) != 5:
     raise SystemExit(
         f"ERROR: selected-task dataset must contain exactly 5 tasks; found {len(tasks)}."
     )
+names = [str(task.get("name", "")).strip() for task in tasks]
+if any(not name for name in names):
+    raise SystemExit("ERROR: every selected task must have a non-empty name.")
+if len(set(names)) != len(names):
+    raise SystemExit("ERROR: selected-task dataset contains duplicate task names.")
 print("Selected tasks:")
 for index, task in enumerate(tasks, start=1):
     print(f"  {index}. {task['name']} (seed={task.get('seed')})")
@@ -188,6 +205,37 @@ curl --fail --silent --show-error \
   --max-time 10 \
   "http://127.0.0.1:8000/v1/models" >/dev/null
 echo "  model endpoint: ready"
+
+echo "Preflight: emulator, boot, forwarder, and Vulkan"
+boot_completed="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
+[[ "$boot_completed" == "1" ]] || {
+  echo "ERROR: emulator-5554 is not fully booted." >&2
+  printf 'failed\n' > "$CURRENT_METHOD_FILE"
+  printf 'analysis_failed\n' > "$ANALYSIS_STATUS_FILE"
+  exit 2
+}
+forwarder_pid="$(
+  adb -s emulator-5554 shell pidof \
+    com.google.androidenv.accessibilityforwarder 2>/dev/null |
+    tr -d '\r'
+)"
+[[ -n "$forwarder_pid" ]] || {
+  echo "ERROR: accessibility forwarder process is not running." >&2
+  printf 'failed\n' > "$CURRENT_METHOD_FILE"
+  printf 'analysis_failed\n' > "$ANALYSIS_STATUS_FILE"
+  exit 2
+}
+emulator_process="$(pgrep -af 'qemu-system.*-avd AndroidWorldAvd' || true)"
+grep -q -- '-feature -Vulkan' <<<"$emulator_process" || {
+  echo "ERROR: AndroidWorld emulator is not running with -feature -Vulkan." >&2
+  echo "Start it with: bash scripts/run/start_androidworld_emulator.sh" >&2
+  printf 'failed\n' > "$CURRENT_METHOD_FILE"
+  printf 'analysis_failed\n' > "$ANALYSIS_STATUS_FILE"
+  exit 2
+}
+echo "  boot: ready"
+echo "  forwarder pid: $forwarder_pid"
+echo "  Vulkan feature: enabled"
 
 echo "Preflight: AndroidWorld and accessibility"
 python -u "$SCRIPTS_DIR/monitor/check_androidworld_env.py"
@@ -297,6 +345,7 @@ for spec in "${METHOD_SPECS[@]}"; do
   if ((runner_status != 0)); then
     echo "ERROR: $short_name exited with code $runner_status."
     printf 'failed\n' > "$CURRENT_METHOD_FILE"
+    printf 'analysis_failed\n' > "$ANALYSIS_STATUS_FILE"
     exit "$runner_status"
   fi
 
@@ -318,12 +367,30 @@ print(
 PY
 done
 
+printf 'analysis\n' > "$CURRENT_METHOD_FILE"
+printf 'analysis_running\n' > "$ANALYSIS_STATUS_FILE"
+
+echo
+echo "================================================================"
+echo "Generating summary files and all nine figures"
+echo "Output: $RUN_ROOT/figs"
+echo "================================================================"
+
+python -u "$SCRIPTS_DIR/analysis/analyze_selected5_all_methods.py" \
+  --run-root "$RUN_ROOT" \
+  --output-dir "$RUN_ROOT/figs" \
+  --expected-rounds "$ROUNDS" \
+  --expected-tasks-per-round 5 \
+  > >(tee -a "$RUN_ROOT/analysis.stdout.log") 2>&1
+
+printf 'analysis_complete\n' > "$ANALYSIS_STATUS_FILE"
 printf 'complete\n' > "$CURRENT_METHOD_FILE"
 
 echo
 echo "================================================================"
 echo "All three methods completed."
 echo "RunRoot: $RUN_ROOT"
+echo "Figures: $RUN_ROOT/figs"
 echo "================================================================"
 
 python - "$RUN_ROOT" <<'PY'

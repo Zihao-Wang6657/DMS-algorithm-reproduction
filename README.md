@@ -135,34 +135,6 @@ bash scripts/run/run_selected5_all_methods.sh --dry-run
 
 如需快速检查调用链，可显式使用 `--rounds 1`；正式结果默认始终为 5 轮。
 
-完整目录结构如下：
-
-```text
-runs/selected5_3methods_<rounds>rounds_<timestamp>/
-├── launcher.stdout.log
-├── current_method.txt
-├── analysis_status.txt
-├── analysis.stdout.log
-├── baseline_a.stdout.log
-├── baseline_b.stdout.log
-├── dms.stdout.log
-├── baseline_a/
-├── baseline_b/
-├── dms/
-└── figs/
-    ├── summary.json
-    ├── summary.md
-    ├── round_metrics.csv
-    ├── task_results.csv
-    ├── dms_memory_timeline.csv
-    ├── task_error_audit.json
-    ├── success_rate_by_round.png
-    ├── avg_tokens_per_task_by_round.png
-    ├── avg_steps_per_task_by_round.png
-    ├── dms_memory_size_timeline.png
-    └── task_success_by_round/    # 五张单任务逐轮成功/失败图
-```
-
 终端会实时打印每个 step 的动作与结果，以及每个任务的 success、steps、tokens 和
 memory size。完整 observation、原始 JSONL、单任务轨迹、metrics 和 memory 审计仍保存在
 对应方法目录中。
@@ -225,10 +197,6 @@ Vulkan surface、页面冻结并最终崩溃的问题；Android Emulator 官方�
 不是启用 Vulkan；该配置用于绕开不稳定的 Vulkan compositor 路径，并不依赖本地物理 GPU。
 若日志再次出现 Chrome native crash，该次运行仍按基础设施污染处理。
 
-此外，每个正式实验都创建全新 RunRoot，不覆盖、不拼接，也不续接受污染的旧结果。
-
-最新 75 次正式运行没有记录 runtime error；日志审计未发现实际 UIAutomator 回退、
-新 forwarder 崩溃、Chrome native crash 或被保存的 systemui-only observation。
 
 ### 6.2 五任务五轮正式实验
 
@@ -263,28 +231,6 @@ runs/main_3methods_5tasks_5rounds_vulkan_20260726_004730
 DMS 在这个固定五任务 mini benchmark 上成功率最高。相较 Baseline A，DMS 平均单任务
 Token 少约 37.7%，Step 少约 12.1%；相较 Baseline B，Token 少约 47.6%，Step 少约
 9.2%。
-
-逐轮成功数：
-
-| 方法 | Round 1 | Round 2 | Round 3 | Round 4 | Round 5 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Baseline A | 1/5 | 1/5 | 1/5 | 1/5 | 1/5 |
-| Baseline B | 1/5 | 2/5 | 1/5 | 2/5 | 3/5 |
-| DMS | 2/5 | 2/5 | 3/5 | 3/5 | 3/5 |
-
-逐任务成功数：
-
-| 任务 | Baseline A | Baseline B | DMS |
-| --- | ---: | ---: | ---: |
-| `AudioRecorderRecordAudio` | 0/5 | 3/5 | 3/5 |
-| `RecipeAddSingleRecipe` | 0/5 | 0/5 | 0/5 |
-| `CameraTakePhoto` | 5/5 | 5/5 | 5/5 |
-| `BrowserDraw` | 0/5 | 0/5 | 0/5 |
-| `ClockStopWatchRunning` | 0/5 | 1/5 | 5/5 |
-
-DMS 的逐轮 memory size 为 `6 → 6 → 9 → 10 → 12`。由于 active memory 从未达到
-`min_capacity=24`，本次运行没有触发容量剪枝；这不能解释为剪枝失效。要观察与容量相关的
-增长—下降过程，需要扩大任务数量，或者使用单独标记为非正式的低容量诊断配置。
 
 #### 1. 三种算法的成功率随轮数变化
 
@@ -350,3 +296,4 @@ OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 D
 - DMS memory 没有达到容量阈值，因此本次结果没有验证动态剪枝的端到端效果。
 - 远程模型、模拟器启动时序和 GUI 状态可能造成运行间波动，不能保证逐动作完全一致。
 - 7B mini benchmark 的成功率不能直接等同于论文 72B 在完整 AndroidWorld 上的结果。
+

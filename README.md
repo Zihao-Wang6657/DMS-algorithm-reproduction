@@ -194,8 +194,6 @@ Vulkan surface、页面冻结并最终崩溃的问题；Android Emulator 官方�
 
 本版本保留 llvmpipe 软件渲染，并以 `-gpu off -feature -Vulkan` 启动 headless 模拟器。
 在 Emulator 的 `-feature <name|-name>` 语法中，第二个 `-Vulkan` 表示**禁用** Vulkan feature，
-不是启用 Vulkan；该配置用于绕开不稳定的 Vulkan compositor 路径，并不依赖本地物理 GPU。
-若日志再次出现 Chrome native crash，该次运行仍按基础设施污染处理。
 
 
 ### 6.2 五任务五轮正式实验
@@ -273,7 +271,7 @@ a11y 生命周期、Chrome/Files onboarding、动作目标校验、SSH 本地端
 OpenAI-compatible 客户端。这些适配对三种方法共同生效，不为 DMS 单独提供任务答案。
 
 为弥补 7B 模型在元素定位、任务类型判断和应用导航上的劣势，本版本加入了以下三项对三种
-方法完全一致的优化机制；它们不修改 AndroidWorld evaluator，也不向 DMS 注入任务答案：
+方法完全一致的优化机制(不修改 AndroidWorld evaluator，也不向 DMS 注入任务答案)：
 
 (1) **优化tap函数匹配机制，增加 expected_text目标文字参数**:tap函数原本依赖UI index进行匹配， 7B 容易在界面刷新后沿用旧 index，因此修改 Actor 使其同时给出索引和它看到的精确文字。<br>
 **处理：** 若 index 对应元素的 `text`/`content_description` 不匹配，则在当前 a11y tree 中寻找唯一可见的精确文字匹配，并把动作重绑定到该元素中心坐标。<br>
